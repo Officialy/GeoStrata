@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/granulite_cobble_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/granulite_cobble"
+    },
+    "type=top": {
+      "model": "geostrata:block/granulite_cobble_slab_top"
+    }
+  }
+}

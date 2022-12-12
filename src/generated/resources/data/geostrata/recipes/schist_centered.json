@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "geostrata:schist_round"
+    },
+    "S": {
+      "item": "geostrata:schist_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:schist_centered"
+  }
+}

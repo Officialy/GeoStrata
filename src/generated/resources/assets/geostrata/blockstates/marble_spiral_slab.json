@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/marble_spiral_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/marble_spiral"
+    },
+    "type=top": {
+      "model": "geostrata:block/marble_spiral_slab_top"
+    }
+  }
+}

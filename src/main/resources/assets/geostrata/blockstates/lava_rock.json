@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "height=0": {
+      "model": "geostrata:block/lava_rock"
+    },
+    "height=1": {
+      "model": "geostrata:block/lava_rock_1"
+    },
+	"height=2": {
+      "model": "geostrata:block/lava_rock_2"
+    },
+    "height=3": {
+      "model": "geostrata:block/lava_rock_3"
+    }
+  }
+}

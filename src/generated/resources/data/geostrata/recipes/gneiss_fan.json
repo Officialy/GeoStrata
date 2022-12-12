@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:gneiss_smooth"
+    },
+    "B": {
+      "item": "geostrata:gneiss_brick"
+    }
+  },
+  "pattern": [
+    "AAB",
+    "B B",
+    "BAA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:gneiss_fan"
+  }
+}

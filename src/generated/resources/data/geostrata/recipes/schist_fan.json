@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:schist_smooth"
+    },
+    "B": {
+      "item": "geostrata:schist_brick"
+    }
+  },
+  "pattern": [
+    "AAB",
+    "B B",
+    "BAA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:schist_fan"
+  }
+}

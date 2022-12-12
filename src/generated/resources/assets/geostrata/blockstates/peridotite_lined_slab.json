@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/peridotite_lined_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/peridotite_lined"
+    },
+    "type=top": {
+      "model": "geostrata:block/peridotite_lined_slab_top"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/sandstone_tile_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/sandstone_tile"
+    },
+    "type=top": {
+      "model": "geostrata:block/sandstone_tile_slab_top"
+    }
+  }
+}

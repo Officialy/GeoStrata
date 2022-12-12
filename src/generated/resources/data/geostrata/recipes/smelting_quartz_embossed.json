@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:quartz_embossed"
+  },
+  "result": "geostrata:quartz_smooth"
+}

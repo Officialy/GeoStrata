@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/pumice_cubed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/pumice_cubed"
+    },
+    "type=top": {
+      "model": "geostrata:block/pumice_cubed_slab_top"
+    }
+  }
+}

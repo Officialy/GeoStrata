@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/basalt_fan_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/basalt_fan"
+    },
+    "type=top": {
+      "model": "geostrata:block/basalt_fan_slab_top"
+    }
+  }
+}

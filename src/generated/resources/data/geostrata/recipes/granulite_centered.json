@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "geostrata:granulite_round"
+    },
+    "S": {
+      "item": "geostrata:granulite_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:granulite_centered"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/schist_engraved_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/schist_engraved"
+    },
+    "type=top": {
+      "model": "geostrata:block/schist_engraved_slab_top"
+    }
+  }
+}

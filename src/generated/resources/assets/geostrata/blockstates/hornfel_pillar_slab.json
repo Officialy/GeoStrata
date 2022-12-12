@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/hornfel_pillar_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/hornfel_pillar"
+    },
+    "type=top": {
+      "model": "geostrata:block/hornfel_pillar_slab_top"
+    }
+  }
+}

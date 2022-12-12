@@ -1,0 +1,8 @@
+{
+  "parent": "geostrata:block/tinted_inner_stair",
+  "textures": {
+    "bottom": "geostrata:block/opal_spiral",
+    "side": "geostrata:block/opal_spiral",
+    "top": "geostrata:block/opal_spiral"
+  }
+}

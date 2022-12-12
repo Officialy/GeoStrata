@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:granite_smooth"
+    },
+    "B": {
+      "item": "geostrata:granite_brick"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:granite_spiral"
+  }
+}

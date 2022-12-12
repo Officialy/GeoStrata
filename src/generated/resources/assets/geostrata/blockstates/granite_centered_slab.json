@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/granite_centered_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/granite_centered"
+    },
+    "type=top": {
+      "model": "geostrata:block/granite_centered_slab_top"
+    }
+  }
+}

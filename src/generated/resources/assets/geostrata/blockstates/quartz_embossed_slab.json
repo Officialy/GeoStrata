@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/quartz_embossed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/quartz_embossed"
+    },
+    "type=top": {
+      "model": "geostrata:block/quartz_embossed_slab_top"
+    }
+  }
+}

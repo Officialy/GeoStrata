@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/gneiss_cubed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/gneiss_cubed"
+    },
+    "type=top": {
+      "model": "geostrata:block/gneiss_cubed_slab_top"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:slate_smooth"
+    },
+    "B": {
+      "item": "geostrata:slate_brick"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:slate_spiral"
+  }
+}

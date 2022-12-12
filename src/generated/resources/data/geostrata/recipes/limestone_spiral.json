@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:limestone_smooth"
+    },
+    "B": {
+      "item": "geostrata:limestone_brick"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:limestone_spiral"
+  }
+}

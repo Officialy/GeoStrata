@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "geostrata:block/basalt_fan",
+    "side": "geostrata:block/basalt_fan",
+    "top": "geostrata:block/basalt_fan"
+  }
+}

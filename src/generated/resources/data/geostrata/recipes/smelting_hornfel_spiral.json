@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:hornfel_spiral"
+  },
+  "result": "geostrata:hornfel_smooth"
+}

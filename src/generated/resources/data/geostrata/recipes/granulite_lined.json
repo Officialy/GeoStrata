@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "geostrata:granulite_engraved"
+    },
+    "S": {
+      "item": "geostrata:granulite_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SES",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:granulite_lined"
+  }
+}

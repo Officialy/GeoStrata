@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:opal_pillar"
+  },
+  "result": "geostrata:opal_smooth"
+}

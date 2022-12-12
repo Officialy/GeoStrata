@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "geostrata:block/onyx_cubed",
+    "side": "geostrata:block/onyx_cubed",
+    "top": "geostrata:block/onyx_cubed"
+  }
+}

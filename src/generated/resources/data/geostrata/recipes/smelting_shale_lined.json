@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:shale_lined"
+  },
+  "result": "geostrata:shale_smooth"
+}

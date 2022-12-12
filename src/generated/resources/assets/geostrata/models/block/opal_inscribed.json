@@ -1,0 +1,6 @@
+{
+  "parent": "geostrata:block/tinted_block",
+  "textures": {
+    "all": "geostrata:block/opal_inscribed"
+  }
+}

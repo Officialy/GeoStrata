@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/opal_round_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/opal_round"
+    },
+    "type=top": {
+      "model": "geostrata:block/opal_round_slab_top"
+    }
+  }
+}

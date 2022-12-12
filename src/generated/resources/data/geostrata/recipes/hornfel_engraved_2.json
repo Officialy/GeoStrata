@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "geostrata:hornfel_brick"
+    },
+    "S": {
+      "item": "geostrata:hornfel_smooth"
+    }
+  },
+  "pattern": [
+    "BS",
+    "SB"
+  ],
+  "result": {
+    "count": 4,
+    "item": "geostrata:hornfel_engraved"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:onyx_smooth"
+    },
+    "B": {
+      "item": "geostrata:onyx_brick"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:onyx_spiral"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:sandstone_tile"
+  },
+  "result": "geostrata:sandstone_smooth"
+}

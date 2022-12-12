@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/limestone_fitted_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/limestone_fitted"
+    },
+    "type=top": {
+      "model": "geostrata:block/limestone_fitted_slab_top"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "geostrata:sandstone_brick"
+    },
+    "S": {
+      "item": "geostrata:sandstone_smooth"
+    }
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "geostrata:sandstone_engraved"
+  }
+}

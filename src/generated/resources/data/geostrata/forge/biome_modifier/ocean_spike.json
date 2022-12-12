@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_ocean",
+  "features": "geostrata:ocean_spike",
+  "step": "underground_decoration"
+}

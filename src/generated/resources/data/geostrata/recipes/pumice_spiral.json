@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:pumice_smooth"
+    },
+    "B": {
+      "item": "geostrata:pumice_brick"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:pumice_spiral"
+  }
+}

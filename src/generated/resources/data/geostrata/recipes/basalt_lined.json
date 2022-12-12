@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "geostrata:basalt_engraved"
+    },
+    "S": {
+      "item": "geostrata:basalt_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SES",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:basalt_lined"
+  }
+}

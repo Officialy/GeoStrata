@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geostrata:block/onyx_cobble",
+    "side": "geostrata:block/onyx_cobble",
+    "top": "geostrata:block/onyx_cobble"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/shale_smooth_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/shale_smooth"
+    },
+    "type=top": {
+      "model": "geostrata:block/shale_smooth_slab_top"
+    }
+  }
+}

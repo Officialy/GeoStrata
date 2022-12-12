@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "geostrata:gneiss_brick"
+    },
+    "S": {
+      "item": "geostrata:gneiss_smooth"
+    }
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "geostrata:gneiss_engraved"
+  }
+}

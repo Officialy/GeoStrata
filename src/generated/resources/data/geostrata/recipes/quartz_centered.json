@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "geostrata:quartz_round"
+    },
+    "S": {
+      "item": "geostrata:quartz_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:quartz_centered"
+  }
+}

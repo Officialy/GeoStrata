@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "geostrata:gneiss_round"
+    },
+    "S": {
+      "item": "geostrata:gneiss_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:gneiss_centered"
+  }
+}

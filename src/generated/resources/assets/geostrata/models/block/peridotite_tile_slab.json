@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geostrata:block/peridotite_tile",
+    "side": "geostrata:block/peridotite_tile",
+    "top": "geostrata:block/peridotite_tile"
+  }
+}

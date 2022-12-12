@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "geostrata:basalt_brick"
+    },
+    "S": {
+      "item": "geostrata:basalt_smooth"
+    }
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "geostrata:basalt_engraved"
+  }
+}

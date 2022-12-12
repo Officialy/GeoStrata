@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/marble_fan_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/marble_fan"
+    },
+    "type=top": {
+      "model": "geostrata:block/marble_fan_slab_top"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/basalt_round_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/basalt_round"
+    },
+    "type=top": {
+      "model": "geostrata:block/basalt_round_slab_top"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/quartz_etched_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/quartz_etched"
+    },
+    "type=top": {
+      "model": "geostrata:block/quartz_etched_slab_top"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "geostrata:block/slate_inscribed",
+    "side": "geostrata:block/slate_inscribed",
+    "top": "geostrata:block/slate_inscribed"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "geostrata:basalt_inscribed"
+  },
+  "result": "geostrata:basalt_smooth"
+}

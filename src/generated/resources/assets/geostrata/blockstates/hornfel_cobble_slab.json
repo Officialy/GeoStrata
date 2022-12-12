@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/hornfel_cobble_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/hornfel_cobble"
+    },
+    "type=top": {
+      "model": "geostrata:block/hornfel_cobble_slab_top"
+    }
+  }
+}

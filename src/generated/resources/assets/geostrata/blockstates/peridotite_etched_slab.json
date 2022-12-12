@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/peridotite_etched_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/peridotite_etched"
+    },
+    "type=top": {
+      "model": "geostrata:block/peridotite_etched_slab_top"
+    }
+  }
+}

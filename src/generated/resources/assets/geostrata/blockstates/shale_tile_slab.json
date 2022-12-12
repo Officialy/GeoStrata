@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/shale_tile_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/shale_tile"
+    },
+    "type=top": {
+      "model": "geostrata:block/shale_tile_slab_top"
+    }
+  }
+}

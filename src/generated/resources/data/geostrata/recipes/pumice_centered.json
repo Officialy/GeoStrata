@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "geostrata:pumice_round"
+    },
+    "S": {
+      "item": "geostrata:pumice_smooth"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "item": "geostrata:pumice_centered"
+  }
+}

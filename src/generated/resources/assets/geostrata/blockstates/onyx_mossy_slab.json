@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/onyx_mossy_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/onyx_mossy"
+    },
+    "type=top": {
+      "model": "geostrata:block/onyx_mossy_slab_top"
+    }
+  }
+}

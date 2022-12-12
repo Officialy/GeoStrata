@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/onyx_raised_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/onyx_raised"
+    },
+    "type=top": {
+      "model": "geostrata:block/onyx_raised_slab_top"
+    }
+  }
+}

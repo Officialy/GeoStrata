@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:quartz_smooth"
+    },
+    "B": {
+      "item": "geostrata:quartz_brick"
+    }
+  },
+  "pattern": [
+    "AAB",
+    "B B",
+    "BAA"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geostrata:quartz_fan"
+  }
+}

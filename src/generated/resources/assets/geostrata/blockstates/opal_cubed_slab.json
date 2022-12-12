@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/opal_cubed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/opal_cubed"
+    },
+    "type=top": {
+      "model": "geostrata:block/opal_cubed_slab_top"
+    }
+  }
+}

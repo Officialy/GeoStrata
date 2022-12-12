@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "geostrata:schist_brick"
+    },
+    "S": {
+      "item": "geostrata:schist_smooth"
+    }
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "geostrata:schist_engraved"
+  }
+}

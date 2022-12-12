@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/quartz_fan_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/quartz_fan"
+    },
+    "type=top": {
+      "model": "geostrata:block/quartz_fan_slab_top"
+    }
+  }
+}

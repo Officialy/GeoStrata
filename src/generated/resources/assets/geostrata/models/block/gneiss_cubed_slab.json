@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geostrata:block/gneiss_cubed",
+    "side": "geostrata:block/gneiss_cubed",
+    "top": "geostrata:block/gneiss_cubed"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "geostrata:gneiss_smooth"
+    },
+    "B": {
+      "item": "minecraft:vine"
+    }
+  },
+  "pattern": [
+    "AB",
+    "BA"
+  ],
+  "result": {
+    "count": 2,
+    "item": "geostrata:gneiss_mossy"
+  }
+}

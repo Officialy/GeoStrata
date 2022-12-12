@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/onyx_inscribed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/onyx_inscribed"
+    },
+    "type=top": {
+      "model": "geostrata:block/onyx_inscribed_slab_top"
+    }
+  }
+}

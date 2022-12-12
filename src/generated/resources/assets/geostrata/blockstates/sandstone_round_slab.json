@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/sandstone_round_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/sandstone_round"
+    },
+    "type=top": {
+      "model": "geostrata:block/sandstone_round_slab_top"
+    }
+  }
+}

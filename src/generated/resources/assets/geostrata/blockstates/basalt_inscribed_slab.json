@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geostrata:block/basalt_inscribed_slab"
+    },
+    "type=double": {
+      "model": "geostrata:block/basalt_inscribed"
+    },
+    "type=top": {
+      "model": "geostrata:block/basalt_inscribed_slab_top"
+    }
+  }
+}

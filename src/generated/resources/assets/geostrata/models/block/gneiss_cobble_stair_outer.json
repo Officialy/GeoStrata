@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "geostrata:block/gneiss_cobble",
+    "side": "geostrata:block/gneiss_cobble",
+    "top": "geostrata:block/gneiss_cobble"
+  }
+}
