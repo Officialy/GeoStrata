@@ -1,21 +1,37 @@
 package reika.geostrata.rendering;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.vehicle.Minecart;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import reika.dragonapi.instantiable.rendering.RotatedQuad;
+import reika.dragonapi.interfaces.IBlockRenderer;
 import reika.dragonapi.libraries.java.ReikaRandomHelper;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
 import reika.dragonapi.libraries.rendering.ReikaColorAPI;
-import reika.geostrata.block.entity.BlockEntityOceanSpike;
+import reika.geostrata.GeoStrata;
+import reika.geostrata.base.GeoBlock;
+import reika.geostrata.registry.GeoBlocks;
+import reika.rotarycraft.RotaryCraft;
 
-public class OceanSpikeRenderer implements BlockEntityRenderer<BlockEntityOceanSpike> {
+public class OceanSpikeRenderer implements IBlockRenderer {
 
     private static final RotatedQuad[][][] crystalShapes = new RotatedQuad[4][4][4];
 
@@ -33,9 +49,6 @@ public class OceanSpikeRenderer implements BlockEntityRenderer<BlockEntityOceanS
             }
         }
     }
-    public OceanSpikeRenderer(BlockEntityRendererProvider.Context context) {
-
-    }
 
     public static RotatedQuad getCrystalShape(int x, int y, int z) {
         int i = ((x % crystalShapes.length) + crystalShapes.length) % crystalShapes.length;
@@ -45,22 +58,13 @@ public class OceanSpikeRenderer implements BlockEntityRenderer<BlockEntityOceanS
     }
 
     @Override
-    public void render(BlockEntityOceanSpike blockEntity, float p_112308_, PoseStack stack, MultiBufferSource bufferSource, int p_112311_, int p_112312_) {
-        BlockPos pos = blockEntity.getBlockPos();
-        BlockGetter level = blockEntity.getLevel();
-        BlockState state = level.getBlockState(pos);
-
+    public void renderBlock(BlockState state, BlockPos pos, BlockAndTintGetter level, PoseStack stack, VertexConsumer vertexConsumer) {
         RotatedQuad r1 = getCrystalShape(pos.getX(), pos.getY(), pos.getZ());
         RotatedQuad r2 = getCrystalShape(pos.getX(), pos.getY() + 1, pos.getZ());
 
-        float u = 1;//todo ico.getMinU();
-        float v = 1;//todo ico.getMinV();
-        float du = 2;//todo ico.getMaxU();
-        float dv = 2;//todo ico.getMaxV();
-
         int n = 0;
-            while (level.getBlockState(new BlockPos(pos.getX(), pos.getY() + 1 + n, pos.getZ())).getBlock() == state.getBlock())
-                n++;
+        while (level.getBlockState(new BlockPos(pos.getX(), pos.getY() + 1 + n, pos.getZ())).getBlock() == state.getBlock())
+            n++;
 
         float r10x = (float) r1.getPosX(0);
         float r11x = (float) r1.getPosX(1);
@@ -104,51 +108,57 @@ public class OceanSpikeRenderer implements BlockEntityRenderer<BlockEntityOceanS
         }
 
         stack.pushPose();
-//        stack.translate(pos.getX(), pos.getY(), pos.getZ());
         stack.translate(0.5f, 0, 0.5f);
-
-//        stack.translate(-pos.getX(), -pos.getY(), -pos.getZ());
         Matrix4f matrix = stack.last().pose();
         stack.popPose();
 
-        VertexConsumer v5 = bufferSource.getBuffer(GeoRenderTypes.SPIKE);
-
         int color = (ReikaColorAPI.GStoHex(Math.max(32 + (int) (16 * Math.sin((pos.getX() + pos.getY() * 8 + pos.getZ() * 2) / 8D)), 255 - 6 * ReikaMathLibrary.intpow2(n + 1, 2))));
+        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(new ResourceLocation(GeoStrata.MODID, "textures/block/deco/0.png")); //todo texture
+//        GeoStrata.LOGGER.info(sprite);
+        float u = sprite.getU0();
+        float v = sprite.getV0();
+        float du = sprite.getU1();
+        float dv = sprite.getV1();
 
-        v5.vertex(matrix, r10x, 0, r10z).uv(u, v).endVertex();
-        v5.vertex(matrix, r11x, 0, r11z).uv(du, v).endVertex();
-        v5.vertex(matrix, r12x, 0, r12z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r13x, 0, r13z).uv(u, dv).endVertex();
+        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix, r23x, 1, r23z).uv(u, dv).endVertex();
-        v5.vertex(matrix, r22x, 1, r22z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r21x, 1, r21z).uv(du, v).endVertex();
-        v5.vertex(matrix, r20x, 1, r20z).uv(u, v).endVertex();
+        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix, r20x, 1, r20z).uv(u, dv).endVertex();
-        v5.vertex(matrix, r21x, 1, r21z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r11x, 0, r11z).uv(du, v).endVertex();
-        v5.vertex(matrix, r10x, 0, r10z).uv(u, v).endVertex();
+        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix, r13x, 0, r13z).uv(u, v).endVertex();
-        v5.vertex(matrix, r12x, 0, r12z).uv(du, v).endVertex();
-        v5.vertex(matrix, r22x, 1, r22z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r23x, 1, r23z).uv(u, dv).endVertex();
+        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix, r21x, 1, r21z).uv(u, dv).endVertex();
-        v5.vertex(matrix, r22x, 1, r22z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r12x, 0, r12z).uv(du, v).endVertex();
-        v5.vertex(matrix, r11x, 0, r11z).uv(u, v).endVertex();
+        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix, r10x, 0, r10z).uv(u, v).endVertex();
-        v5.vertex(matrix, r13x, 0, r13z).uv(du, v).endVertex();
-        v5.vertex(matrix, r23x, 1, r23z).uv(du, dv).endVertex();
-        v5.vertex(matrix, r20x, 1, r20z).uv(u, dv).endVertex();
+        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
 
-        v5.vertex(matrix,0, 0, 0).uv(u, dv).endVertex();
-        v5.vertex(matrix,0, 0, 0).uv(u, dv).endVertex();
-        v5.vertex(matrix,0, 0, 0).uv(u, dv).endVertex();
-        v5.vertex(matrix,0, 0, 0).uv(u, dv).endVertex();
+        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+    }
+
+    @Override
+    public boolean shouldRender(BlockState blockState, BlockAndTintGetter world, BlockPos pos, @Nullable RenderType renderType) {
+        return blockState.getBlock() == GeoBlocks.OCEAN_SPIKE.get();
     }
 
 }

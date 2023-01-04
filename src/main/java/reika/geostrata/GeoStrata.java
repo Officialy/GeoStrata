@@ -9,6 +9,7 @@
  ******************************************************************************/
 package reika.geostrata;
 
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -26,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import reika.dragonapi.ModList;
 import reika.dragonapi.auxiliary.trackers.DonatorController;
 import reika.dragonapi.base.DragonAPIMod;
+import reika.dragonapi.instantiable.rendering.ReikaRenderDispatcher;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.geostrata.registry.*;
 import reika.geostrata.rendering.OceanSpikeRenderer;
@@ -106,7 +108,7 @@ public class GeoStrata extends DragonAPIMod {
     }
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(GeoBlockEntities.OCEAN_SPIKE.get(), OceanSpikeRenderer::new);
+
     }
 
     @Override
@@ -125,6 +127,8 @@ public class GeoStrata extends DragonAPIMod {
 
     public void clientSetup(final FMLClientSetupEvent event) {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), e -> true);
+        ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {

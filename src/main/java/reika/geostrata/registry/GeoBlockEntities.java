@@ -6,7 +6,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
-import reika.geostrata.block.entity.BlockEntityOceanSpike;
 import reika.geostrata.block.entity.BlockEntityVent;
 import reika.geostrata.block.entity.BlockRFCrystal;
 import reika.geostrata.block.entity.BlockRFCrystalSeed;
@@ -24,8 +23,6 @@ public class GeoBlockEntities {
     public static final RegistryObject<BlockEntityType<BlockEntityVent>> FIRE_VENT = BLOCK_ENTITIES.register("fire_vent", () -> BlockEntityType.Builder.of((level, pos) -> new BlockEntityVent(GeoBlockEntities.FIRE_VENT.get(), VentType.FIRE, level, pos), GeoBlocks.FIRE_VENT.get()).build(null));
     public static final RegistryObject<BlockEntityType<BlockEntityVent>> ENDER_VENT = BLOCK_ENTITIES.register("ender_vent", () -> BlockEntityType.Builder.of((level, pos) -> new BlockEntityVent(GeoBlockEntities.ENDER_VENT.get(), VentType.ENDER, level, pos), GeoBlocks.ENDER_VENT.get()).build(null));
     public static final RegistryObject<BlockEntityType<BlockEntityVent>> WATER_VENT = BLOCK_ENTITIES.register("water_vent", () -> BlockEntityType.Builder.of((level, pos) -> new BlockEntityVent(GeoBlockEntities.WATER_VENT.get(), VentType.WATER, level, pos), GeoBlocks.WATER_VENT.get()).build(null));
-
-    public static final RegistryObject<BlockEntityType<BlockEntityOceanSpike>> OCEAN_SPIKE = BLOCK_ENTITIES.register("ocean_spike", () -> BlockEntityType.Builder.of(BlockEntityOceanSpike::new, GeoBlocks.OCEAN_SPIKE.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<BlockRFCrystalSeed.TileRFCrystal>> RF_CRYSTAL_SEED = BLOCK_ENTITIES.register("rf_crystal_seed", () -> BlockEntityType.Builder.of(BlockRFCrystalSeed.TileRFCrystal::new, GeoBlocks.RF_CRYSTAL_SEED.get()).build(null));
     public static final RegistryObject<BlockEntityType<BlockRFCrystal.TileRFCrystalAux>> RF_CRYSTAL = BLOCK_ENTITIES.register("rf_crystal", () -> BlockEntityType.Builder.of(BlockRFCrystal.TileRFCrystalAux::new, GeoBlocks.RF_CRYSTAL.get()).build(null));

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class GeoBlockStateProvider extends BlockStateProvider {
     public GeoBlockStateProvider(final DataGenerator gen, final ExistingFileHelper exFileHelper) {
-        super(gen, GeoStrata.MODID, exFileHelper);
+        super(gen.getPackOutput(), GeoStrata.MODID, exFileHelper);
     }
 
     @Override

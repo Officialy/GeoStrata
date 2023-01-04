@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 public class GeoItemModelProvider extends ItemModelProvider {
 
     public GeoItemModelProvider(final DataGenerator generator, final ExistingFileHelper existingFileHelper) {
-        super(generator, GeoStrata.MODID, existingFileHelper);
+        super(generator.getPackOutput(), GeoStrata.MODID, existingFileHelper);
     }
 
     /**

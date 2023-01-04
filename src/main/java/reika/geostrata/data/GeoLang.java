@@ -7,7 +7,7 @@ import reika.geostrata.registry.GeoBlocks;
 
 public class GeoLang extends LanguageProvider {
     public GeoLang(DataGenerator gen, String locale) {
-        super(gen, GeoStrata.MODID, locale);
+        super(gen.getPackOutput(), GeoStrata.MODID, locale);
     }
 
     @Override

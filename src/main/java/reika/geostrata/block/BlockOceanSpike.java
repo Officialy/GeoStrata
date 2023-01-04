@@ -12,22 +12,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import reika.dragonapi.instantiable.rendering.RotatedQuad;
-import reika.geostrata.GeoStrata;
-import reika.geostrata.block.entity.BlockEntityOceanSpike;
 import reika.geostrata.rendering.OceanSpikeRenderer;
 
-import java.util.stream.Stream;
-
-public class BlockOceanSpike extends Block implements EntityBlock, SimpleWaterloggedBlock {
+public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock {
 
     public BlockOceanSpike(Properties p_49795_) {
         super(p_49795_);
@@ -117,9 +111,4 @@ public class BlockOceanSpike extends Block implements EntityBlock, SimpleWaterlo
         return super.updateShape(p_153739_, p_153740_, p_153741_, p_153742_, p_153743_, p_153744_);
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new BlockEntityOceanSpike(p_153215_, p_153216_);
-    }
 }
