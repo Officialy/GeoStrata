@@ -22,7 +22,7 @@
 //
 //    }
 //
-//    @Override
+//  /*  @Override
 //    public void renderInventoryBlock(Block block) {
 //        Tesselator tess = Tesselator.getInstance();
 //        BufferBuilder v5 = tess.getBuilder();
@@ -126,7 +126,7 @@
 //        tess.end();
 //        RenderSystem.disableBlend();
 //    }
-//
+//*/
 //    @Override
 //    public boolean renderWorldBlock(BlockGetter world, int x, int y, int z, Block block, int modelId, RenderBlocks rb) {
 //        super.renderWorldBlock(world, x, y, z, block, modelId, rb);

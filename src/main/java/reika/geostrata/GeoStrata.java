@@ -162,7 +162,7 @@ public class GeoStrata extends DragonAPIMod {
 //			for (int k = 0; k < RockShapes.shapeList.length; k++) {
 //				ItemStack is = RockTypes.rockList[i].getItem(RockShapes.shapeList[k]);
 //				InterModComms.sendTo("ForgeMicroblock", "microMaterial", is);
-//				InterModComms.sendTo(ModList.BCTRANSPORT.modLabel, "add-facade", is);
+//				InterModComms.sendTo(ModList.BCTRANSPORT.modid, "add-facade", is);
 //			}
 //		}
 //
