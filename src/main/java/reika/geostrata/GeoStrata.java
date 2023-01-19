@@ -10,6 +10,7 @@
 package reika.geostrata;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -127,7 +128,7 @@ public class GeoStrata extends DragonAPIMod {
 
     public void clientSetup(final FMLClientSetupEvent event) {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), e -> true);
+        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
         ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
     }
 

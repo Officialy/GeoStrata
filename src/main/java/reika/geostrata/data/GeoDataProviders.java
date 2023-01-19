@@ -18,14 +18,13 @@ public class GeoDataProviders {
         DataGenerator dataGenerator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        if (event.includeClient()) {
-            dataGenerator.addProvider(true, new GeoBlockStateProvider(dataGenerator, existingFileHelper));
-            dataGenerator.addProvider(true, new GeoItemModelProvider(dataGenerator, existingFileHelper));
-            dataGenerator.addProvider(true, new GeoLang(dataGenerator, "en_us"));
-//            dataGenerator.addProvider(true, new GeoLootTableProvider(dataGenerator));
-            dataGenerator.addProvider(true, new GeoRecipeProvider(dataGenerator.getPackOutput()));
+        dataGenerator.addProvider(true, new GeoBlockStateProvider(dataGenerator, existingFileHelper));
+        dataGenerator.addProvider(true, new GeoItemModelProvider(dataGenerator, existingFileHelper));
+        dataGenerator.addProvider(true, new GeoLang(dataGenerator, "en_us"));
+        dataGenerator.addProvider(true, new GeoLootTableProvider(dataGenerator.getPackOutput()));
+        dataGenerator.addProvider(true, new GeoRecipeProvider(dataGenerator.getPackOutput()));
 //            dataGenerator.addProvider(new GeoBiomeModifierDataGen(dataGenerator, existingFileHelper));
-        }
+
     }
 
     protected static String name(Block block) {

@@ -945,9 +945,9 @@
   "block.geostrata.slate_tile_stair": "Slate Tile Stairs",
   "block.geostrata.slate_tin_ore": "Slate Tin Ore",
   "block.geostrata.void_opals": "Void Opal",
-  "itemgroup.geostrata": "GeoStrata",
-  "itemgroup.geostrata_ores": "GeoStrata Ores",
-  "itemgroup.geostrata_slabs": "GeoStrata Slabs",
-  "itemgroup.geostrata_stairs": "GeoStrata Stairs",
-  "itemgroup.geostrata_stone": "GeoStrata Stones"
+  "tab.geostrata": "GeoStrata",
+  "tab.geostrata_ores": "GeoStrata Ores",
+  "tab.geostrata_slabs": "GeoStrata Slabs",
+  "tab.geostrata_stairs": "GeoStrata Stairs",
+  "tab.geostrata_stone": "GeoStrata Stones"
 }

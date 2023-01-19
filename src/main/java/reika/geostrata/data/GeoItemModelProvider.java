@@ -31,6 +31,7 @@ public class GeoItemModelProvider extends ItemModelProvider {
         withExistingParent("obsidian_bricks", modLoc("block/obsidian_bricks"));
         withExistingParent("redstone_bricks", modLoc("block/redstone_bricks"));
 
+        withExistingParent("lavarock_item_3", modLoc("block/deco/0"));
         withExistingParent("lavarock_item_1", modLoc("block/lava_rock_1"));
         withExistingParent("lavarock_item_2", modLoc("block/lava_rock_2"));
         withExistingParent("lavarock_item_3", modLoc("block/lava_rock_3"));
@@ -48,9 +49,9 @@ public class GeoItemModelProvider extends ItemModelProvider {
                 withExistingParent(registryObject.getDescriptionId().replaceAll("block.geostrata.", ""),
                         modLoc("block/" + registryObject.getDescriptionId().replaceAll("block.geostrata.", ""))));
 
-//            GeoBlocks.oreMapping.forEach((registryObject, types) -> {
-//                withExistingParent(registryObject.get().toString(), modLoc("block/" + ForgeRegistries.BLOCKS.getHolder(registryObject.get()))); //modLoc("block/" + registryObject.getRegistryName()));
-//            });
+        GeoBlocks.oreMapping.forEach((registryObject, types) ->
+                withExistingParent(registryObject.getDescriptionId().replaceAll("block.geostrata.", ""),
+                        modLoc("block/ore/" + registryObject.getDescriptionId().replaceAll("block.geostrata.", ""))));
     }
 
 }

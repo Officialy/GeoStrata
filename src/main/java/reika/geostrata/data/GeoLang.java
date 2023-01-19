@@ -12,11 +12,11 @@ public class GeoLang extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add("itemgroup.geostrata", "GeoStrata");
-        add("itemgroup.geostrata_stone", "GeoStrata Stones");
-        add("itemgroup.geostrata_stairs", "GeoStrata Stairs");
-        add("itemgroup.geostrata_slabs", "GeoStrata Slabs");
-        add("itemgroup.geostrata_ores", "GeoStrata Ores");
+        add("tab.geostrata", "GeoStrata");
+        add("tab.geostrata_stone", "GeoStrata Stones");
+        add("tab.geostrata_stairs", "GeoStrata Stairs");
+        add("tab.geostrata_slabs", "GeoStrata Slabs");
+        add("tab.geostrata_ores", "GeoStrata Ores");
         addBlock(GeoBlocks.GLOWSTONE_BRICKS, "Glowstone Bricks");
         addBlock(GeoBlocks.LUMINOUS_CRYSTAL, "Glow Crystal");
         addBlock(GeoBlocks.LAPIS_BRICKS, "Lapis Bricks");

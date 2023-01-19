@@ -32,6 +32,11 @@ public class GeoBlockStateProvider extends BlockStateProvider {
         simpleBlock(GeoBlocks.LAPIS_BRICKS.get());
         simpleBlock(GeoBlocks.OBSIDIAN_BRICKS.get());
         simpleBlock(GeoBlocks.REDSTONE_BRICKS.get());
+
+//     todo png's for all possible ores, yeah...
+//      var noOpalOreMapping = GeoBlocks.oreMapping.entrySet().stream().filter(entry -> !entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//        noOpalOreMapping.forEach((block, pair) -> simpleBlock(block));
+
         var noOpalMapping = GeoBlocks.blockMapping.entrySet().stream().filter(entry -> !entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         noOpalMapping.forEach((block, pair) -> simpleBlock(block));
 

@@ -39,8 +39,8 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
             GeoStrata.LOGGER.error("Invalid rock generator type '" + GeoOptions.ROCKGEN.getString() + "'! Defaulting to " + GeoOptions.ROCKGEN.getDefaultString());
         }
         generators.add(type.getGenerator());
-        Collections.sort(generators, genSorter);
-        GeoStrata.LOGGER.info("Adding rock generator " + type.getGenerator().getClass().getSimpleName());
+        generators.sort(genSorter);
+//        GeoStrata.LOGGER.info("Adding rock generator " + type.getGenerator().getClass().getSimpleName());
     }
 
     public RockGenerator() {
@@ -53,7 +53,7 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     public void registerProfilingSubgenerator(RockTypes r, RockGenerationPatterns.RockGenerationPattern p, Object generator) {
-        GeoStrata.LOGGER.info("Adding rock generator " + generator.getClass().getSimpleName() + " for " + r.name());
+//        GeoStrata.LOGGER.info("Adding rock generator " + generator.getClass().getSimpleName() + " for " + r.name());
         parents[r.ordinal()].pattern = p;
         WorldgenProfiler.registerGeneratorAsSubGenerator(parents[r.ordinal()], generator);
     }
@@ -130,7 +130,7 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
 
         @Override
         public int compare(RockGenerationPatterns.RockGenerationPattern o1, RockGenerationPatterns.RockGenerationPattern o2) {
-            return o1.getOrderingIndex() == o2.getOrderingIndex() ? 0 : (o1.getOrderingIndex() > o2.getOrderingIndex() ? 1 : -1);
+            return Integer.compare(o1.getOrderingIndex(), o2.getOrderingIndex());
         }
 
     }
