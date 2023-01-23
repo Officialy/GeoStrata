@@ -52,7 +52,7 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 	public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 15.15, 16);
 
 	public BlockLavaRock() {
-		super(BlockBehaviour.Properties.copy(Blocks.STONE).lightLevel((p_50886_) -> 14).noOcclusion());
+		super(BlockBehaviour.Properties.of(Material.STONE).lightLevel((p_50886_) -> 14).noOcclusion());
 		this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0));
 	}
 
@@ -102,10 +102,10 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 		return RenderShape.MODEL;
 	}
 
-	@Override
-	public boolean canBeReplaced(BlockState target, BlockPlaceContext context) {
-		return target.getBlock() == this || target.getBlock() == Blocks.STONE || target.canBeReplaced(context);// todo check || target.isReplaceableOreGen(world, pos, Blocks.STONE);
-	}
+//	@Override
+//	public boolean canBeReplaced(BlockState target, BlockPlaceContext context) {
+//		return target.getBlock() == this || target.getBlock() == Blocks.STONE || target.canBeReplaced(context);// todo check || target.isReplaceableOreGen(world, pos, Blocks.STONE);
+//	}
 
 	@Override
 	public SourceType getSourceType(BlockGetter getter, BlockPos pos) {
