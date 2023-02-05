@@ -45,8 +45,9 @@ public class GeoBlocks {
     public static final RegistryObject<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
     public static final RegistryObject<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
     public static final RegistryObject<Block> WATER_VENT = register("water_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
-    public static final RegistryObject<Block> LAVAROCK = registerBlock("lava_rock", BlockLavaRock::new, BlockItemLavaRock::new);
-    //Lava rock blockitem registering
+    public static final RegistryObject<Block> LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRock::new);
+    //Lava rock BlockItem registering
+    public static final RegistryObject<Item> LAVAROCK_ITEM_0 = ITEMS.register("lava_rock_item_0", () -> new BlockItemLavaRock.BlockItemLavaRock0(GeoBlocks.LAVAROCK.get()));
     public static final RegistryObject<Item> LAVAROCK_ITEM_1 = ITEMS.register("lava_rock_item_1", () -> new BlockItemLavaRock.BlockItemLavaRock1(GeoBlocks.LAVAROCK.get()));
     public static final RegistryObject<Item> LAVAROCK_ITEM_2 = ITEMS.register("lava_rock_item_2", () -> new BlockItemLavaRock.BlockItemLavaRock2(GeoBlocks.LAVAROCK.get()));
     public static final RegistryObject<Item> LAVAROCK_ITEM_3 = ITEMS.register("lava_rock_item_3", () -> new BlockItemLavaRock.BlockItemLavaRock3(GeoBlocks.LAVAROCK.get()));

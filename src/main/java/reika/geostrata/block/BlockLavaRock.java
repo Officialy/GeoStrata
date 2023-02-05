@@ -43,13 +43,13 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 
 	public static final IntegerProperty BLOCK_HEIGHT_STATE = IntegerProperty.create("height", 0, 3);
 
-	public static final VoxelShape AABB = Block.box(0, 0, 0, 16, 14.75, 16);
+	public static final VoxelShape AABB = Block.box(0, 0, 0, 16, 14.20, 16);
 
-	public static final VoxelShape AABB1 = Block.box(0, 0, 0, 16, 14.85, 16);
+	public static final VoxelShape AABB1 = Block.box(0, 0, 0, 16, 14.55, 16);
 
 	public static final VoxelShape AABB2 = Block.box(0, 0, 0, 16, 15, 16);
 
-	public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 15.15, 16);
+	public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
 	public BlockLavaRock() {
 		super(BlockBehaviour.Properties.of(Material.STONE).lightLevel((p_50886_) -> 14).noOcclusion());

@@ -1,14 +1,10 @@
 package reika.geostrata.item;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import reika.geostrata.GeoStrata;
 import reika.geostrata.block.BlockLavaRock;
 
 public class BlockItemLavaRock extends BlockItem {
@@ -21,7 +17,18 @@ public class BlockItemLavaRock extends BlockItem {
     protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
         return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 0);
     }
+    public static class BlockItemLavaRock0 extends BlockItem {
 
+        public BlockItemLavaRock0(Block p_40565_) {
+            super(p_40565_, new Properties());
+        }
+
+        @Nullable
+        @Override
+        protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
+            return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 0);
+        }
+    }
     public static class BlockItemLavaRock1 extends BlockItem {
 
         public BlockItemLavaRock1(Block p_40565_) {

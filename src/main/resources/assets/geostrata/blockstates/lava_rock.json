@@ -1,7 +1,7 @@
 {
   "variants": {
     "height=0": {
-      "model": "geostrata:block/lava_rock"
+      "model": "geostrata:block/lava_rock_0"
     },
     "height=1": {
       "model": "geostrata:block/lava_rock_1"
