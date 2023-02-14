@@ -3,8 +3,8 @@
   "textures": {
     "particle": "block/stone",
     "top": "geostrata:block/semilava/3",
-    "side": "geostrata:block/semilava/0",
-    "bottom": "geostrata:block/semilava/0"
+    "side": "geostrata:block/semilava/3",
+    "bottom": "geostrata:block/semilava/3"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

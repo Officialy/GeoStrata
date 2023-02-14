@@ -10,6 +10,7 @@
 package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -33,9 +35,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import reika.dragonapi.libraries.level.ReikaBlockHelper;
+import reika.dragonapi.libraries.level.ReikaWorldHelper;
+import reika.geostrata.GeoStrata;
+import reika.geostrata.registry.GeoBlocks;
 import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
+import reika.rotarycraft.registry.RotaryBlocks;
 
 import java.util.List;
 
@@ -115,6 +123,46 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 	@Override
 	public boolean isActive(BlockGetter getter, BlockPos pos) {
 		return true;
+	}
+	@Override
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, BlockPos p_60513_, boolean p_60514_) {
+		super.neighborChanged(state, level, pos, p_60512_, p_60513_, p_60514_);
+		onPlace(state, level, pos, state, false);
+	}
+
+	@Override
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState p_60569_, boolean p_60570_) {
+//	todo	if (LavaRockGenerator.instance.doingLavaRockGen || !ReikaWorldHelper.isChunkPastCompletelyFinishedGenerating(world, x >> 4, z >> 4))
+//			return;
+		int height = state.getValue(BLOCK_HEIGHT_STATE);
+		for (int i = 0; i < 6; i++) {
+			Direction dir = Direction.values()[i];
+			int dx = pos.getX()+dir.getStepX();
+			int dy = pos.getY()+dir.getStepY();
+			int dz = pos.getZ()+dir.getStepZ();
+			if (world.hasChunksAt(dx, dy, dz, dx, dy, dz)) {
+				Material mat2 = ReikaWorldHelper.getMaterial(world, new BlockPos(dx, dy, dz));
+				if (ReikaBlockHelper.matchMaterialsLoosely(Material.WATER, mat2)) {
+					int chance = 3+3*height*height; // 1 in: 3, 6, 15, 30
+					boolean obsidian = world.random.nextInt(chance) == 0;
+					world.setBlock(pos, obsidian ? Blocks.OBSIDIAN.defaultBlockState() : (height <= 1 ? Blocks.COBBLESTONE.defaultBlockState() : Blocks.STONE.defaultBlockState()), 3);
+				}
+				else {
+
+				}
+			}
+		}
+		ReikaWorldHelper.temperatureEnvironment(world, pos, this.getEffectiveTemperature(height));
+	}
+
+	@Override
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+		return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
+			case 0 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get());
+			case 1 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_1.get());
+			case 2 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_2.get());
+			default -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_3.get());
+		};
 	}
 
 	private int getEffectiveTemperature(int blockHeight) { //0 is lava

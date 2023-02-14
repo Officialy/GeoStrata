@@ -40,17 +40,42 @@ public class GeoEvents {
 
         public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
 
-            RockShapes.filteredShapeList.forEach(rockShapes -> event.getBlockColors().register((state, access, pos, tintIndex) -> GeoStrata.getOpalPositionColor(pos), RockTypes.OPAL.getID(rockShapes)));
+            RockShapes.filteredShapeList.forEach(rockShapes -> event.getBlockColors().register((state, access, pos, tintIndex) -> {
+                if(pos != null){
+                    return GeoStrata.getOpalPositionColor(pos);
+                }
+                return 0;
+            }, RockTypes.OPAL.getID(rockShapes)));
             var opalSlabMapping = GeoBlocks.slabMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             var opalStairMapping = GeoBlocks.stairMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             var opalOreMapping = GeoBlocks.oreMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
 
-            opalSlabMapping.forEach((slabBlock, e) -> event.getBlockColors().register((state, access, pos, tintIndex) -> GeoStrata.getOpalPositionColor(pos), slabBlock));
-            opalStairMapping.forEach((stairBlock, e) -> event.getBlockColors().register((state, access, pos, tintIndex) -> GeoStrata.getOpalPositionColor(pos), stairBlock));
-            opalOreMapping.forEach((stairBlock, e) -> event.getBlockColors().register((state, access, pos, tintIndex) -> GeoStrata.getOpalPositionColor(pos), stairBlock));
+            opalSlabMapping.forEach((slabBlock, e) -> event.register((state, access, pos, tintIndex) -> {
+                if(pos != null){
+                    return GeoStrata.getOpalPositionColor(pos);
+                }
+                return 0;
+            },  slabBlock));
+            opalStairMapping.forEach((stairBlock, e) -> event.register((state, access, pos, tintIndex) -> {
+                if(pos != null){
+                    return GeoStrata.getOpalPositionColor(pos);
+                }
+                return 0;
+            },  stairBlock));
+            opalOreMapping.forEach((oreBlock, e) -> event.register((state, access, pos, tintIndex) -> {
+                if(pos != null){
+                    return GeoStrata.getOpalPositionColor(pos);
+                }
+                return 0;
+            },  oreBlock));
 
-            event.getBlockColors().register((state, access, pos, tintIndex) -> BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX)), GeoBlocks.LUMINOUS_CRYSTAL.get());
+            event.register((state, access, pos, tintIndex) -> {
+                if(pos != null){
+                    return BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX));
+                }
+                return 0;
+            }, GeoBlocks.LUMINOUS_CRYSTAL.get());
         }
 
         public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
