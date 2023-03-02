@@ -237,7 +237,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
 
     /*
     @Override
-    @OnlyIn(Dist.CLIENT)
+
     public int colorMultiplier(BlockGetter iba, BlockPos pos) {
         return this.getColor(iba.getBlockMetadata(pos), pos);
     }
