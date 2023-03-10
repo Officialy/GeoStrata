@@ -31,12 +31,16 @@ public class GeoPlacedFeatures {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> LAVA_ROCK_FEATURE = FEATURES.register("lava_rock", LavaRockGeneratorRedesign::new);
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> VENT_FEATURE = FEATURES.register("vent", VentGenerator::new);
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> GEO_ROCK_FEATURE = FEATURES.register("geo_rock", RockGenerator::new);
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> RF_CRYSTAL_FEATURE = FEATURES.register("rf_crystal", RFCrystalGenerator::new);
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GLOWING_VINE_FEATURE = FEATURES.register("glowing_vine", GlowingVineGenerator::new);
 
     public static PlacedFeature OCEAN_SPIKE;
     public static PlacedFeature GLOW_CRYSTAL;
     public static PlacedFeature LAVA_ROCK;
     public static PlacedFeature VENT;
     public static PlacedFeature GEO_ROCK;
+    public static PlacedFeature RF_CRYSTAL;
+    public static PlacedFeature GLOWING_VINE;
 
     public static void registerConfiguredFeatures() {
         NoneFeatureConfiguration none = new NoneFeatureConfiguration();
@@ -46,24 +50,12 @@ public class GeoPlacedFeatures {
         LAVA_ROCK = registerPlacedFeature("lava_rock", new ConfiguredFeature<>(LAVA_ROCK_FEATURE.get(), none));
         VENT = registerPlacedFeature("vent", new ConfiguredFeature<>(VENT_FEATURE.get(), none));
         GEO_ROCK = registerPlacedFeature("geo_rock", new ConfiguredFeature<>(GEO_ROCK_FEATURE.get(), none));
+        RF_CRYSTAL = registerPlacedFeature("rf_crystal", new ConfiguredFeature<>(RF_CRYSTAL_FEATURE.get(), none));
+        GLOWING_VINE = registerPlacedFeature("glowing_vine", new ConfiguredFeature<>(GLOWING_VINE_FEATURE.get(), none));
     }
 
     private static <C extends FeatureConfiguration, F extends Feature<C>> PlacedFeature registerPlacedFeature(String registryName, ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
         return new PlacedFeature(Holder.direct(feature), List.copyOf(List.of(placementModifiers)));
     }
 
-/*    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void registerBiomeFeatures(BiomeLoadingEvent event) {
-        *//*switch (event.getCategory()) {
-            case OCEAN ->
-                    event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, OCEAN_SPIKE);
-            case THEEND, NETHER -> event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, VENT);
-            default -> {
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, GLOW_CRYSTAL);
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, LAVA_ROCK);
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, VENT);
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, GEO_ROCK);
-            }
-        }*//*
-    }*/
 }

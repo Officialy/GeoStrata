@@ -50,7 +50,7 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
             ChunkAccess c = world.getChunk(chunkX, chunkZ);
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    for (int y = 1; y <= 14; y++) {
+                    for (int y = -58; y <= 14; y++) {
                         Block b = c.getBlockState(new BlockPos(x, y, z)).getBlock();
 //                        GeoStrata.LOGGER.info(new BlockPos(x, y, z));
                         if (b/*.isReplaceableOreGen(world, x + chunkX * 16, y, z + chunkZ * 16,*/ == Blocks.STONE || b == Blocks.DEEPSLATE || b == GeoBlocks.LAVAROCK.get()) {
@@ -72,6 +72,12 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
         if (at == GeoBlocks.LAVAROCK.get()) {
             return;
         }
+        if (c.getBlockState(pos.below()).getBlock() == GeoBlocks.LAVAROCK.get()) {
+            c.setBlockState(pos.below(), c.getBlockState(pos.below()).setValue(BlockLavaRock.CONNECTED_STATE, true), false);
+        }
+        if (c.getBlockState(pos.above()).getBlock() == GeoBlocks.LAVAROCK.get()) {
+            c.setBlockState(pos.above(), c.getBlockState(pos.above()).setValue(BlockLavaRock.CONNECTED_STATE, true), false);
+        }
         c.setBlockState(pos, GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, height), false);
 //        for (int i = 1; i < height; i++) { //todo see what this does lol
 //            c.setBlockState(pos.above(i), GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 2), false);
@@ -86,7 +92,7 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
                 if (dy >= 0 && dx >= 0 && dz >= 0 && dx < 16 && dz < 16) {
                     Block b = c.getBlockState(new BlockPos(dx, dy, dz)).getBlock();
                     if (b/*.isReplaceableOreGen(c.getLevel(), x+c.getPos().x*16, y, z+c.getPos().z*16,*/ == Blocks.STONE || b == Blocks.DEEPSLATE || b == GeoBlocks.LAVAROCK.get()) {
-                        ReikaJavaLibrary.pConsole("Placing at "+ new BlockPos(dx, dy, dz));
+//                        ReikaJavaLibrary.pConsole("Placing at "+ new BlockPos(dx, dy, dz));
                         this.placeBlock(c, new BlockPos(dx, dy, dz), height+this.getSizeStep(c, dx, dy, dz), b);
                     }
                 }

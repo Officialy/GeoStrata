@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -150,7 +151,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
                             int dy = y + dir.getStepY();
                             int dz = z + dir.getStepZ();
 //                            GeoStrata.LOGGER.info(isValidSide(world, new BlockPos(dx, dy, dz), surface));
-                            if (world.getBlockState(new BlockPos(dx, dy, dz)).isAir() && isValidSide(world, new BlockPos(dx, dy, dz), surface)) {
+                            if (world.getBlockState(new BlockPos(dx, dy, dz)).isAir() && isAcceptableNeighbour(world, new BlockPos(dx, dy, dz).relative(dir), surface)) {
                                 place(world, new BlockPos(dx, dy, dz), surface);
                                 ReikaSoundHelper.playBreakSound(world, pos.getX(), pos.getY(), pos.getZ(), this, 1, 1);
                                 ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.ordinal(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
@@ -163,13 +164,13 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
                 Direction fill = null;
                 ArrayList<Direction> li = ReikaDirectionHelper.getRandomOrderedDirections(true);
                 for (Direction dir : li) {
-                    if (!this.hasSide(dir) && isValidSide(world, pos, dir)) {
+                    if (!this.hasSide(dir) && isAcceptableNeighbour(world, pos.relative(dir), dir)) {
                         fill = dir;
                         break;
                     }
                 }
                 if (fill != null) {
-                    this.addVine(world, pos, fill);
+//                    this.addVine(world, pos, fill);
                     ReikaSoundHelper.playBreakSound(world, pos.getX(), pos.getY(), pos.getZ(), this, 1, 1);
                     ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.ordinal(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
                 }
@@ -177,27 +178,21 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
         }
     }
 
-    public boolean place(Level world, BlockPos pos, Direction side) {
-        if (side == null)
-            side = tryFindValidSide(world, pos);
-        if (side == null)
-            return false;
-        if (isValidSide(world, pos, side)) {
-            world.setBlock(pos, GeoBlocks.GLOWING_VINES.get().defaultBlockState(), 3);
-            addVine(world, pos, side);
-            return true;
+    public static boolean place(WorldGenLevel world, BlockPos pos, Direction side) {
+        if (side != null && side != Direction.DOWN) {
+            world.setBlock(pos, GeoBlocks.GLOWING_VINES.get().defaultBlockState().setValue(getPropertyForFace(side), Boolean.valueOf(true)), 2);
         }
-        return false;
-    }
-
-    private static Direction tryFindValidSide(Level world, BlockPos pos) {
-        for (int i = 0; i < 6; i++) {
-            Direction dir = Direction.values()[i];
-            if (isValidSide(world, pos, dir)) {
-                return dir;
+        if (!world.isEmptyBlock(pos)) {
+            return false;
+        } else {
+            for (Direction direction : Direction.values()) {
+                if (direction != Direction.DOWN && VineBlock.isAcceptableNeighbour(world, pos.relative(direction), direction)) {
+                    world.setBlock(pos, GeoBlocks.GLOWING_VINES.get().defaultBlockState().setValue(getPropertyForFace(direction), Boolean.valueOf(true)), 2);
+                    return true;
+                }
             }
         }
-        return null;
+        return false;
     }
 
     @Override
@@ -258,14 +253,6 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     }
      */
 
-    public boolean addVine(Level world, BlockPos pos, Direction side) {
-        if (PROPERTY_BY_DIRECTION.keySet().add(side)) {
-            world.sendBlockUpdated(pos, this.defaultBlockState(), this.defaultBlockState(), 3);
-            return true;
-        }
-        return false;
-    }
-
     public void updateAndDropSides(Level world, BlockPos pos) {
         if (world.isClientSide())
             return;
@@ -273,7 +260,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
         boolean flag = false;
         while (it.hasNext()) {
             Direction dir = it.next();
-            if (this.isValidSide(world, pos, dir)) {
+            if (isAcceptableNeighbour(world, pos.relative(dir), dir)) {
 
             } else {
                 it.remove();
@@ -286,29 +273,6 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
         }
     }
 
-    private static boolean isValidSide(Level world, BlockPos pos, Direction dir) {
-        int dx = pos.getX() + dir.getStepX();
-        int dy = pos.getY() + dir.getStepY();
-        int dz = pos.getZ() + dir.getStepZ();
-        return canSupportAtFace(world, new BlockPos(dx, dy, dz), dir.getOpposite());
-    }
-
-    private static boolean canSupportAtFace(BlockGetter p_57888_, BlockPos p_57889_, Direction p_57890_) {
-        if (p_57890_ == Direction.DOWN) {
-            return false;
-        } else {
-            BlockPos blockpos = p_57889_.relative(p_57890_);
-            if (isAcceptableNeighbour(p_57888_, blockpos, p_57890_)) {
-                return true;
-            } else if (p_57890_.getAxis() == Direction.Axis.Y) {
-                return false;
-            } else {
-                BooleanProperty booleanproperty = PROPERTY_BY_DIRECTION.get(p_57890_);
-                BlockState blockstate = p_57888_.getBlockState(p_57889_.above());
-                return blockstate.is(GeoBlocks.GLOWING_VINES.get()) && blockstate.getValue(booleanproperty);
-            }
-        }
-    }
     public boolean hasSide(int side) {
         return this.hasSide(Direction.values()[side]);
     }

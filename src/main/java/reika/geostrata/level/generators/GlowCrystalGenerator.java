@@ -107,8 +107,9 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
         if (air * 100 / size < 25 || stone * 100 / size < 25) {
             return false;
         }
+        int color = rand.nextInt(4);
         for (BlockPos c : li) {
-            this.setBlock(world, c, GeoBlocks.LUMINOUS_CRYSTAL.get().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, rand.nextInt(4)));
+            this.setBlock(world, c, GeoBlocks.LUMINOUS_CRYSTAL.get().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, color));
         }
 
         return true;

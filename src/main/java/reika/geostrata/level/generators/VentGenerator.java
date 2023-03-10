@@ -24,8 +24,8 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
 
     private static final int PER_CHUNK = getVentAttemptsPerChunk(); //calls per chunk; vast majority fail
 
-    private final WeightedRandom<VentGen> ventTypes = new WeightedRandom();
-    private final WeightedRandom<VentGen> ventTypesNether = new WeightedRandom();
+    private final WeightedRandom<VentGen> ventTypes = new WeightedRandom<>();
+    private final WeightedRandom<VentGen> ventTypesNether = new WeightedRandom<>();
 
     public VentGenerator() {
         super(NoneFeatureConfiguration.CODEC);

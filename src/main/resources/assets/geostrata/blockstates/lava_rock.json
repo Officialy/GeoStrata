@@ -1,16 +1,28 @@
 {
   "variants": {
-    "height=0": {
+    "connected=false,height=0": {
       "model": "geostrata:block/lava_rock_0"
     },
-    "height=1": {
+    "connected=false,height=1": {
       "model": "geostrata:block/lava_rock_1"
     },
-	"height=2": {
+	"connected=false,height=2": {
       "model": "geostrata:block/lava_rock_2"
     },
-    "height=3": {
+    "connected=false,height=3": {
       "model": "geostrata:block/lava_rock_3"
+    },
+    "connected=true,height=0": {
+      "model": "geostrata:block/lava_rock_0_full_height"
+    },
+    "connected=true,height=1": {
+      "model": "geostrata:block/lava_rock_1_full_height"
+    },
+    "connected=true,height=2": {
+      "model": "geostrata:block/lava_rock_2_full_height"
+    },
+    "connected=true,height=3": {
+      "model": "geostrata:block/lava_rock_3_full_height"
     }
   }
 }

@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import reika.dragonapi.instantiable.math.noise.Simplex3DGenerator;
 import reika.geostrata.api.RockGenerationPatterns;
@@ -60,7 +61,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
             return false;
         if (!GeoOptions.OVERGEN.getState() && b instanceof GeoBlock)
             return false;
-        return true;//todo b.isReplaceableOreGen(world, x, y, z, Blocks.STONE);
+        return world.getBlockState(new BlockPos(x,y,z)).getBlock() == Blocks.STONE || world.getBlockState(new BlockPos(x,y,z)).getBlock() == Blocks.DEEPSLATE;//todo b.isReplaceableOreGen(world, x, y, z, Blocks.STONE);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
         private RockEntry(LevelAccessor world, RockTypes geo) {
             noise = new Simplex3DGenerator(geo.name().hashCode());
             noiseThreshold = 0.5/geo.rarity; //was 0.5 then 0.75 in all cases
-            noiseFrequency = 1/8D; //was 1/64 then 1/16
+            noiseFrequency = 1/4D; //was 1/64 then 1/16 then 1/8 now 1/4
             noise.setFrequency(noiseFrequency);
             blockID = geo.getID(RockShapes.SMOOTH).defaultBlockState();
         }

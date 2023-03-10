@@ -83,7 +83,7 @@ public class DecoGenerator extends Feature<NoneFeatureConfiguration> {
         private boolean isValidLocation(LevelAccessor world, BlockPos pos) {
             ResourceKey<Biome> b = world.getBiome(pos).unwrapKey().get();
             return switch (this) {
-                case OCEANSPIKE, OCEANSPIKES -> ReikaBiomeHelper.isOcean(world, b) && ReikaWorldHelper.getDepthFromBelow(world, pos.below(), Fluids.WATER) > 2;
+                case OCEANSPIKE, OCEANSPIKES -> ReikaBiomeHelper.isOcean(world, b) && ReikaWorldHelper.getDepthFromBelow(world, pos.below(), Fluids.WATER) > 2 && world.getBlockState(pos.below()) == Blocks.GRAVEL.defaultBlockState() && world.getBlockState(pos.below()) != Blocks.KELP.defaultBlockState();
             };
         }
 
