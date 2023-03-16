@@ -5,34 +5,35 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import reika.geostrata.block.BlockLavaRock;
+import reika.geostrata.block.BlockGlowCrystal;
 
-public class BlockItemLavaRock extends BlockItem {
-    public BlockItemLavaRock(Block p_40565_) {
+public class BlockItemGlowCrystal extends BlockItem {
+    public BlockItemGlowCrystal(Block p_40565_) {
         super(p_40565_, new Properties());
     }
 
     @Nullable
     @Override
     protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
-        return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 0);
+        return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 0);
     }
-    public static class BlockItemLavaRock1 extends BlockItem {
 
-        public BlockItemLavaRock1(Block p_40565_) {
+    public static class BlockItemGlowCrystal1 extends BlockItem {
+
+        public BlockItemGlowCrystal1(Block p_40565_) {
             super(p_40565_, new Properties());
         }
 
         @Nullable
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
-            return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 1);
+            return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 1);
         }
     }
 
-    public static class BlockItemLavaRock2 extends BlockItem {
+    public static class BlockItemGlowCrystal2 extends BlockItem {
 
-        public BlockItemLavaRock2(Block p_40565_) {
+        public BlockItemGlowCrystal2(Block p_40565_) {
             super(p_40565_, new Properties());
         }
 
@@ -40,20 +41,20 @@ public class BlockItemLavaRock extends BlockItem {
         @Nullable
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
-            return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 2);
+            return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 2);
         }
     }
 
-    public static class BlockItemLavaRock3 extends BlockItem {
+    public static class BlockItemGlowCrystal3 extends BlockItem {
 
-        public BlockItemLavaRock3(Block p_40565_) {
+        public BlockItemGlowCrystal3(Block p_40565_) {
             super(p_40565_, new Properties());
         }
 
         @Nullable
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
-            return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 3);
+            return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 3);
         }
     }
 

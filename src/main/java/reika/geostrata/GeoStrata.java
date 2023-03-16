@@ -22,6 +22,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,7 @@ import reika.dragonapi.auxiliary.trackers.DonatorController;
 import reika.dragonapi.base.DragonAPIMod;
 import reika.dragonapi.instantiable.rendering.ReikaRenderDispatcher;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
+import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.registry.*;
 import reika.geostrata.rendering.OceanSpikeRenderer;
 import reika.geostrata.level.GeoPlacedFeatures;
@@ -70,6 +73,10 @@ public class GeoStrata extends DragonAPIMod {
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         instance = this;
+        config = new GeoConfig(instance, GeoOptions.optionList, null);
+        config.loadSubfolderedConfigFile();
+        config.initProps();
+
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
@@ -77,17 +84,12 @@ public class GeoStrata extends DragonAPIMod {
 //             Client setup
             bus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
             bus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
-            bus.addListener(GeoStrata::registerEntityRenderers);
         });
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
 //             Server setup
             MinecraftForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
             MinecraftForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
         });
-
-        config = new GeoConfig(instance, GeoOptions.optionList, null);
-        config.loadSubfolderedConfigFile();
-        config.initProps();
 
         GeoBlocks.initialise(bus);
         GeoBlocks.ITEMS.register(bus);
@@ -103,13 +105,8 @@ public class GeoStrata extends DragonAPIMod {
 
         GeoPlacedFeatures.FEATURES.register(bus);
 
-
         this.basicSetup();
         this.finishTiming();
-    }
-
-    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-
     }
 
     @Override
@@ -136,8 +133,8 @@ public class GeoStrata extends DragonAPIMod {
         this.startTiming(LoadProfiler.LoadPhase.LOAD);
         GeoPlacedFeatures.registerConfiguredFeatures();
         DonatorController.instance.registerMod(this, DonatorController.reikaURL);
-//        event.enqueueWork(GeoGen::registerWorldGen);
-//		if (ModList.THERMALEXPANSION.isLoaded()) {
+
+        //		if (ModList.THERMALEXPANSION.isLoaded()) {
 //			for (int i = 0; i < RockTypes.rockList.length; i++) {
 //				RockTypes r = RockTypes.rockList[i];
 //				ItemStack smooth = r.getItem(RockShapes.SMOOTH);
@@ -166,7 +163,7 @@ public class GeoStrata extends DragonAPIMod {
 //				InterModComms.sendTo(ModList.BCTRANSPORT.modid, "add-facade", is);
 //			}
 //		}
-//
+
         if (ModList.ROTARYCRAFT.isLoaded()) {
             for (int i = 0; i < RockTypes.rockList.length; i++) {
                 RockTypes rock = RockTypes.rockList[i];
@@ -204,8 +201,9 @@ public class GeoStrata extends DragonAPIMod {
 //				ReikaRecipeHelper.addSmelting(RockTypes.QUARTZ.getItem(RockShapes.SMOOTH), burned, 0.05F);
 //			}
 //		}
+        //todo chisel compat
         if (ModList.CHISEL.isLoaded() && ReikaJavaLibrary.doesClassExist("com.cricketcraft.chisel.api.carving.ICarvingGroup")) {
-//			GeoChisel.loadChiselCompat();
+			GeoChisel.loadChiselCompat();
         }
         this.finishTiming();
     }

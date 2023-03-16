@@ -20,11 +20,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.tuple.Pair;
+import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
 import reika.geostrata.block.*;
 import reika.geostrata.block.entity.BlockRFCrystal;
 import reika.geostrata.block.entity.BlockRFCrystalSeed;
+import reika.geostrata.item.BlockItemGlowCrystal;
 import reika.geostrata.item.BlockItemLavaRock;
 
 import java.util.HashMap;
@@ -45,16 +47,39 @@ public class GeoBlocks {
     public static final RegistryObject<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
     public static final RegistryObject<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
     public static final RegistryObject<Block> WATER_VENT = register("water_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
-    public static final RegistryObject<Block> LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRock::new);
+
+    public static RegistryObject<Block> LAVAROCK;
+
     //Lava rock BlockItem registering
-    public static final RegistryObject<Item> LAVAROCK_ITEM_0 = ITEMS.register("lava_rock_item_0", () -> new BlockItemLavaRock.BlockItemLavaRock0(GeoBlocks.LAVAROCK.get()));
-    public static final RegistryObject<Item> LAVAROCK_ITEM_1 = ITEMS.register("lava_rock_item_1", () -> new BlockItemLavaRock.BlockItemLavaRock1(GeoBlocks.LAVAROCK.get()));
-    public static final RegistryObject<Item> LAVAROCK_ITEM_2 = ITEMS.register("lava_rock_item_2", () -> new BlockItemLavaRock.BlockItemLavaRock2(GeoBlocks.LAVAROCK.get()));
-    public static final RegistryObject<Item> LAVAROCK_ITEM_3 = ITEMS.register("lava_rock_item_3", () -> new BlockItemLavaRock.BlockItemLavaRock3(GeoBlocks.LAVAROCK.get()));
+    public static RegistryObject<Item> LAVAROCK_ITEM_0 = ITEMS.register("lava_rock_item_0", () -> new BlockItemLavaRock(GeoBlocks.LAVAROCK.get()));
 
-    public static final RegistryObject<Block> LUMINOUS_CRYSTAL = register("luminous_crystal", BlockGlowCrystal::new, false, false, false);
+    public static RegistryObject<Item> LAVAROCK_ITEM_1 = ITEMS.register("lava_rock_item_1", () -> new BlockItemLavaRock.BlockItemLavaRock1(GeoBlocks.LAVAROCK.get()));
 
-    public static final RegistryObject<Block> GLOWING_VINES = register( "glowing_vines", BlockGlowingVines::new, false, false, false);
+    public static RegistryObject<Item> LAVAROCK_ITEM_2 = ITEMS.register("lava_rock_item_2", () -> new BlockItemLavaRock.BlockItemLavaRock2(GeoBlocks.LAVAROCK.get()));
+
+    public static RegistryObject<Item> LAVAROCK_ITEM_3 = ITEMS.register("lava_rock_item_3", () -> new BlockItemLavaRock.BlockItemLavaRock3(GeoBlocks.LAVAROCK.get()));
+
+    static {
+//todo cleaner, maybe use if I make it a standard block and use random ticks instead? Though it wont be like 1.7.10 if i cant get the timer to constantly tick
+//      for (VentType type : VentType.values()) {
+//            register(type.name().toLowerCase() + "_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), type), false, false, false);
+//        }
+
+        if (ModList.ROTARYCRAFT.isLoaded()) {
+            LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRockRoC::new);
+        } else {
+            LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRock::new);
+        }
+    }
+
+    public static final RegistryObject<Block> LUMINOUS_CRYSTAL = BLOCKS.register("luminous_crystal", BlockGlowCrystal::new);
+
+    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_0 = ITEMS.register("luminous_crystal_item_0", () -> new BlockItemGlowCrystal(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_1 = ITEMS.register("luminous_crystal_item_1", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal1(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_2 = ITEMS.register("luminous_crystal_item_2", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal2(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_3 = ITEMS.register("luminous_crystal_item_3", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal3(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+
+    public static final RegistryObject<Block> GLOWING_VINES = register("glowing_vines", BlockGlowingVines::new, false, false, false);
     //public static final RegistryObject<Block> RFCRYSTAL     = register("Flux Crystals",       BlockRFCrystal);
     //public static final RegistryObject<Block> RFCRYSTALSEED = register("Flux Crystal Seed",   BlockRFCrystalSeed);
     public static final RegistryObject<Block> VOID_OPALS = register("void_opals", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(7F)), false, false, false);

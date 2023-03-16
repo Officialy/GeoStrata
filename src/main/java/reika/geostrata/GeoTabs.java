@@ -46,7 +46,10 @@ public class GeoTabs {
                 output.accept(new ItemStack(GeoBlocks.FIRE_VENT.get()));
                 output.accept(new ItemStack(GeoBlocks.ENDER_VENT.get()));
                 output.accept(new ItemStack(GeoBlocks.OCEAN_SPIKE.get()));
-                output.accept(new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+                output.accept(new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get()));
+                output.accept(new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get()));
+                output.accept(new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get()));
+                output.accept(new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get()));
                 output.accept(new ItemStack(GeoBlocks.GLOWING_VINES.get()));
                 output.accept(new ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get()));
                 output.accept(new ItemStack(GeoBlocks.LAVAROCK_ITEM_1.get()));

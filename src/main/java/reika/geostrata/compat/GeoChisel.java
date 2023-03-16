@@ -10,10 +10,15 @@
 package reika.geostrata.compat;
 
 
+import net.minecraft.world.level.block.Block;
+import reika.geostrata.GeoStrata;
+import reika.geostrata.registry.RockShapes;
+import reika.geostrata.registry.RockTypes;
+
 public class GeoChisel {
-/*
+
 	public static void loadChiselCompat() {
-		ICarvingRegistry chisel = CarvingUtils.getChiselRegistry();
+		/*ICarvingRegistry chisel = CarvingUtils.getChiselRegistry();
 		if (chisel == null) {
 			GeoStrata.LOGGER.error("Could not load Chisel Integration: Chisel's API registries are null!");
 		}
@@ -34,7 +39,7 @@ public class GeoChisel {
 					cv.addVariation(s.name, meta, bk, meta);
 				}
 			}
-		}
+		}*/
 	}
-*/
+
 }

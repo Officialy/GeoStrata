@@ -22,7 +22,7 @@
       "model": "geostrata:block/lava_rock_2_full_height"
     },
     "connected=true,height=3": {
-      "model": "geostrata:block/lava_rock_3_full_height"
+      "model": "geostrata:block/lava_rock_3"
     }
   }
 }

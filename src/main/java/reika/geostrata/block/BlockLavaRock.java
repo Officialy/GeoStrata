@@ -48,7 +48,7 @@ import reika.rotarycraft.registry.RotaryBlocks;
 
 import java.util.List;
 
-public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
+public class BlockLavaRock extends Block {
 
     public static final IntegerProperty BLOCK_HEIGHT_STATE = IntegerProperty.create("height", 0, 3);
     public static final BooleanProperty CONNECTED_STATE = BooleanProperty.create("connected");
@@ -74,7 +74,7 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collisionContext) {
-        if (getter.getBlockState(pos.above()).getBlock() == this) {
+        if (getter.getBlockState(pos.above()).getMaterial().isSolid()) {
             return AABB3;
         } else return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
             default -> AABB;
@@ -83,7 +83,6 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
             case 3 -> AABB3;
         };
     }
-
     @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity e) {
         if (e instanceof ItemEntity || e instanceof ExperienceOrb || e instanceof Projectile)
@@ -119,16 +118,6 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
 //	}
 
     @Override
-    public SourceType getSourceType(BlockGetter getter, BlockPos pos) {
-        return SourceType.LAVA;
-    }
-
-    @Override
-    public boolean isActive(BlockGetter getter, BlockPos pos) {
-        return true;
-    }
-
-    @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, BlockPos p_60513_, boolean p_60514_) {
         super.neighborChanged(state, level, pos, p_60512_, p_60513_, p_60514_);
         onPlace(state, level, pos, state, false);
@@ -138,8 +127,10 @@ public class BlockLavaRock extends Block implements EnvironmentalHeatSource {
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState p_60569_, boolean p_60570_) {
 //	todo	if (LavaRockGenerator.instance.doingLavaRockGen || !ReikaWorldHelper.isChunkPastCompletelyFinishedGenerating(world, x >> 4, z >> 4))
 //			return;
-        if (world.getBlockState(pos.below()).getBlock() == this) {
-            world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CONNECTED_STATE, true), 3);
+        if (world.getBlockState(pos.above()).getMaterial().isSolid()) {
+            world.setBlock(pos, world.getBlockState(pos).setValue(CONNECTED_STATE, true), 3);
+        }else if (world.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState() || world.getBlockState(pos.above()) == Blocks.CAVE_AIR.defaultBlockState() || !world.getBlockState(pos.above()).getMaterial().isSolid()) {
+            world.setBlock(pos, world.getBlockState(pos).setValue(CONNECTED_STATE, false), 3);
         }
 
         int height = state.getValue(BLOCK_HEIGHT_STATE);

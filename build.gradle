@@ -47,7 +47,7 @@ dependencies {
 
     //You'll need these on your local maven, to do this build DragonAPI first and push to maven local, then the same for rotarycraft
     implementation fg.deobf("reika.dragonapi:DragonAPI:0.0.1a")
-    implementation fg.deobf("reika.rotarycraft:Rotarycraft:0.0.1a")
+    implementation fg.deobf("reika.rotarycraft:RotaryCraft:0.0.1a")
 
     // implementation fg.deobf("curse.maven:flux-248020:4095070")
 //    implementation fg.deobf("curse.maven:stripper-250603:3921630")
@@ -67,6 +67,8 @@ jar {
         ])
     }
 }
+
+jar.finalizedBy('reobfJar')
 
 publishing {
     publications {

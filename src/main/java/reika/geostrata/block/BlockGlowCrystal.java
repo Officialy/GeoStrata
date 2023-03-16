@@ -12,6 +12,7 @@ package reika.geostrata.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -23,10 +24,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.HitResult;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
 import reika.dragonapi.libraries.rendering.ReikaColorAPI;
+import reika.geostrata.registry.GeoBlocks;
 
 //@Strippable(value={"com.carpentersblocks.api.IWrappableBlock"})
 public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappableBlock {
@@ -65,7 +68,15 @@ public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappa
         double d = System.currentTimeMillis() / 200D;
         return getColor(pos.getX() + d, pos.getY() + d, pos.getZ() + d, i);
     }
-
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+        return switch (state.getValue(COLOR_INDEX)) {
+            case 0 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
+            case 1 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get());
+            case 2 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get());
+            default -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get());
+        };
+    }
     public static int getColor(double x, double y, double z, int i) {
         ImmutablePair<Integer, Integer> hueRange = hueRanges[i];
         double n0 = hueNoise.getValue(x / 8D, z / 8D);
