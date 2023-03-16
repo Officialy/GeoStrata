@@ -1,6 +1,5 @@
 package reika.geostrata.block;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -21,16 +20,14 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import reika.dragonapi.ModList;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
 import reika.dragonapi.libraries.registry.ReikaItemHelper;
 import reika.dragonapi.libraries.registry.ReikaParticleHelper;
-import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
 import reika.geostrata.block.entity.BlockEntityVent;
+import reika.geostrata.block.entity.BlockEntityVentRoC;
 import reika.geostrata.registry.GeoBlockEntities;
-import reika.geostrata.registry.GeoBlocks;
-
-import java.util.Random;
 
 public class BlockVent extends Block implements EntityBlock {
 
@@ -140,7 +137,9 @@ public class BlockVent extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null : ((level1, pPos, pState1, pBlockEntity) -> ((BlockEntityVent) pBlockEntity).updateEntity(level1, pPos));
+        return level.isClientSide() ? null : ((level1, pPos, pState1, pBlockEntity) -> {
+                ((BlockEntityVent) pBlockEntity).updateEntity(level1, pPos);
+        });
     }
 
     @Override

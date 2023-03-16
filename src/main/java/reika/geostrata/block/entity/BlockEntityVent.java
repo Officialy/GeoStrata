@@ -9,8 +9,6 @@
  ******************************************************************************/
 package reika.geostrata.block.entity;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -21,27 +19,21 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AbstractFurnaceBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import reika.dragonapi.DragonAPI;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
-import reika.dragonapi.libraries.registry.ReikaParticleHelper;
-import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
-import reika.geostrata.block.BlockVent;
 import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
+
 import java.util.List;
 import java.util.Random;
 
-public class BlockEntityVent extends BlockEntity implements /*MinerBlock, */EnvironmentalHeatSource {
+public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
 
     public static final Random rand = new Random();
     private VentType ventType;
@@ -191,32 +183,10 @@ public class BlockEntityVent extends BlockEntity implements /*MinerBlock, */Envi
     }
 
     private boolean isBlocking(Level world, BlockPos pos) {
-        return world.getBlockState(pos).canOcclude();
+        return world.getBlockState(pos).getMaterial().isSolid();
     }
 
     public VentType getVentType() {
         return ventType;
-    }
-
-    @Override
-    public SourceType getSourceType(BlockGetter getter, BlockPos pos) {
-        var te = (BlockEntityVent) getter.getBlockEntity(pos);
-
-        return switch (te.getVentType()) {
-            case FIRE -> SourceType.FIRE;
-            case LAVA, PYRO -> SourceType.LAVA;
-            case WATER -> SourceType.WATER;
-            case CRYO -> SourceType.ICY;
-            default -> null;
-        };
-    }
-
-    @Override
-    public boolean isActive(BlockGetter getter, BlockPos pos) {
-        var te = (BlockEntityVent) getter.getBlockEntity(pos);
-        if (te != null) {
-            return te.isActive();
-        }
-        return false;
     }
 }
