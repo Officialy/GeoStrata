@@ -32,24 +32,25 @@ import java.util.Set;
 public enum RockTypes {
     //Generic makeup: Igneous 0-24; Metamorphic 16-40; Sedimentary 40+;
 
-    //NAME------BST-HARD----LO--HI------RARE----HARVESTABILITY------GPR COLOR
-    GRANITE(75, 10, -16, 48, 1, Tiers.IRON, 0xC4825E), //Near lava?
-    BASALT(40, 5, 48, 128, 1, Tiers.STONE, 0x252525), //Near lava
-    MARBLE(55, 2.5F, -16, 32, 1, Tiers.STONE, 0xB4B4BC), //??
-    LIMESTONE(18, 1, 48, 256, 1, Tiers.WOOD, 0xD0C4B3), //Near water bodies
-    SHALE(6, 1, 48, 64, 1, Tiers.WOOD, 0x676970), //Near water
-    SANDSTONE(12, 2, 48, 256, 1, Tiers.WOOD, 0xD0AE90), //Near sand
-    PUMICE(25, 5, -60, 16, 0.6F, Tiers.WOOD, 0xD6D4CB), //Near water & lava
-    SLATE(40, 5, 32, 48, 1, Tiers.STONE, 0x484B53), //Can shale gen
-    GNEISS(40, 7.5F, -16, 32, 0.8F, Tiers.IRON, 0x7A7B79), //Can granite gen
-    PERIDOTITE(40, 5, -60, 24, 0.6F, Tiers.STONE, 0x485A4E), //Near lava?
-    QUARTZ(50, 4, -60, 64, 0.5F, Tiers.STONE, 0xCCD5DC), //??
-    GRANULITE(40, 5, 16, 32, 0.7F, Tiers.STONE, 0xC1BF9E), //?
-    HORNFEL(75, 10, -60, 64, 0.8F, Tiers.IRON, 0x7B7E87), //snow biomes?
-    MIGMATITE(40, 5, -60, 16, 0.6F, Tiers.STONE, 0xA09F94), //near lava?
-    SCHIST(40, 7.5F, 16, 48, 0.8F, Tiers.STONE, 0x3C3C44),
-    ONYX(50, 6F, -60, 24, 1F, Tiers.IRON, 0x111111), //Near lava
-    OPAL(30, 3F, 16, 60, 0.125F, Tiers.STONE, 0xffddff);
+    //NAME(BLAST_RESISTANCE, HARDNESS, LOWEST Y POS, HIGHEST Y POS, RARITY, TOOL_TIER, GPR_COLOR
+
+    GRANITE(8, 8, -60, 80, 0.8F, Tiers.IRON, 0xC4825E),
+    BASALT(7, 7, 0, 16, 0.6F, Tiers.STONE, 0x252525),
+    MARBLE(5, 5, -30, 60, 0.5F, Tiers.STONE, 0xB4B4BC),
+    LIMESTONE(3, 4, -30, 75, 0.7F, Tiers.WOOD, 0xD0C4B3),
+    SHALE(2, 2, -60, 75, 0.6F, Tiers.WOOD, 0x676970),
+    SANDSTONE(4, 4, -60, 75, 0.7F, Tiers.WOOD, 0xD0AE90),
+    PUMICE(1, 1, -60, 319, 0.2F, Tiers.WOOD, 0xD6D4CB),
+    SLATE(5, 5, -30, 80, 0.5F, Tiers.STONE, 0x484B53),
+    GNEISS(7, 7, -60, 100, 0.6F, Tiers.IRON, 0x7A7B79),
+    PERIDOTITE(7, 7, -60, 80, 0.4F, Tiers.STONE, 0x485A4E),
+    QUARTZ(7, 7, -30, 75, 0.6F, Tiers.STONE, 0xCCD5DC),
+    GRANULITE(8, 8, -60, 100, 0.5F, Tiers.STONE, 0xC1BF9E),
+    HORNFEL(8, 8, -60, 90, 0.5F, Tiers.IRON, 0x7B7E87),
+    MIGMATITE(7, 7, -60, 100, 0.5F, Tiers.STONE, 0xA09F94),
+    SCHIST(5, 5, -60, 100, 0.6F, Tiers.STONE, 0x3C3C44),
+    ONYX(8, 8, -60, 24, 0.3F, Tiers.IRON, 0x111111),
+    OPAL(5, 5, 16, 60, 0.2F, Tiers.STONE, 0xffddff);
 
     public static final RockTypes[] rockList = RockTypes.values();
     public final float blockHardness;

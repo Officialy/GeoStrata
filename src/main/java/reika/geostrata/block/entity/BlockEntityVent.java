@@ -36,7 +36,7 @@ import java.util.Random;
 public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
 
     public static final Random rand = new Random();
-    private VentType ventType;
+    private final VentType ventType;
     private boolean plugged;
     public int activeTimer = 0;
 
@@ -79,7 +79,7 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
                         AABB box = this.getEffectBox();
                         List<LivingEntity> li = level.getEntitiesOfClass(LivingEntity.class, box);
                         for (LivingEntity e : li) {
-                            e.hurt(ventType.getDamageSrc(), ventType.damage);
+                            e.hurt(ventType.getDamageSrc(e), ventType.damage);
                             if (ventType == VentType.FIRE || ventType == VentType.LAVA || ventType == VentType.PYRO)
                                 e.setSecondsOnFire(ventType.damage);
                         }

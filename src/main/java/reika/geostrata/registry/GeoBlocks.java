@@ -98,6 +98,17 @@ public class GeoBlocks {
     public static HashMap<SlabBlock, Pair<RockTypes, RockShapes>> slabMapping = new HashMap<>();
     public static HashMap<DropExperienceBlock, Pair<RockTypes, OreTypes>> oreMapping = new HashMap<>();
 
+    /**
+     * This class contains static HashMaps used for mapping different types of blocks to their corresponding rock types and shapes.
+     * The 'oreMapping' HashMap maps DropExperienceBlocks to their corresponding rock type and ore type.
+     * The 'connectedBlockMapping' HashMap maps BlockConnectedRocks to their corresponding rock type and shape (connected or connected2).
+     * The 'blockMapping' HashMap maps Blocks with a specific RockShape to their corresponding rock type and shape.
+     * The 'stairMapping' HashMap maps StairBlocks with a specific RockShape to their corresponding rock type and shape.
+     * The 'slabMapping' HashMap maps SlabBlocks with a specific RockShape to their corresponding rock type and shape.
+     * The 'initialise' method initializes these HashMaps and registers them with the event bus.
+     *
+     * @param bus The event bus to register the HashMaps with.
+     */
     public static void initialise(final IEventBus bus) {
         for (int i = 0; i < RockTypes.rockList.length; i++) {
             OreTypes o = OreTypes.oreList[i];
@@ -122,11 +133,20 @@ public class GeoBlocks {
         return registerBlock(name, blockFactory, block -> new BlockItem(block, new Item.Properties()));//.tab(ore ? GeoStrata.TAB_GEO_ORES : stair ? GeoStrata.TAB_GEO_STAIRS : slab ? GeoStrata.TAB_GEO_SLABS : GeoStrata.TAB_GEO)));
     }
 
+
+    /**
+     * Registers a block with the given name, block factory, and block item factory.
+     * 
+     * @param name The name of the block to register.
+     * @param blockFactory A supplier for creating instances of the block.
+     * @param itemFactory An IBlockItemFactory for creating instances of the block item.
+     * @return A RegistryObject for the registered block.
+     */
     private static <BLOCK extends Block> RegistryObject<BLOCK> registerBlock(final String name, final Supplier<BLOCK> blockFactory, final IBlockItemFactory<BLOCK> itemFactory) {
         final RegistryObject<BLOCK> block = BLOCKS.register(name, blockFactory);
-
+    
         ITEMS.register(name, () -> itemFactory.create(block.get()));
-
+    
         return block;
     }
 

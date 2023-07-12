@@ -70,7 +70,7 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
             if (random.nextBoolean()) {
                 posY *= random.nextFloat();
             }
-            if (this.canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
+            if (canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
                 VentType v = this.getVentTypeFor(world, posX, posY, posZ, random);
                 BlockState id = GeoBlocks.STEAM_VENT.get().defaultBlockState(); //todo vent type
                 world.setBlock(new BlockPos(posX, posY, posZ), id, 3);

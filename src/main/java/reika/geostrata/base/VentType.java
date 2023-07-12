@@ -162,7 +162,7 @@ public enum VentType implements StringRepresentable {
         switch (this) {
             case WATER:
                 if (e instanceof EnderMan) {
-                    e.hurt(DamageSource.DROWN, 1);
+                    e.hurt(e.damageSources().drown(), 1);
                     e.randomTeleport(1, 1, 1, true);
                 } else {
                     e.clearFire();
@@ -207,9 +207,7 @@ public enum VentType implements StringRepresentable {
     }
 
     private int getHorizontalAoERange() {
-        return switch (this) {
-            default -> 6;
-        };
+        return 6;
     }
 
     public void doAoE(Level world, BlockPos pos, Random rand) {
@@ -218,7 +216,7 @@ public enum VentType implements StringRepresentable {
             return;
         }
         switch (this) {
-            case WATER:
+            case WATER -> {
                 if (rand.nextInt(20) == 0) {
                     int rx = ReikaRandomHelper.getRandomPlusMinus(pos.getX(), r);
                     int ry = ReikaRandomHelper.getRandomPlusMinus(pos.getY(), 1);
@@ -231,8 +229,8 @@ public enum VentType implements StringRepresentable {
 //                  todo      BlockTickEvent.fire(b, world, rx, ry, rz, world.random, UpdateFlags.getForcedUnstoppableTick() + UpdateFlags.NATURAL.flag);
                     }
                 }
-                break;
-            case PYRO: {
+            }
+            case PYRO -> {
                 if (rand.nextInt(10) == 0) {
                     int rx = ReikaRandomHelper.getRandomPlusMinus(pos.getX(), r);
                     int ry = ReikaRandomHelper.getRandomPlusMinus(pos.getY(), 1);
@@ -245,8 +243,7 @@ public enum VentType implements StringRepresentable {
                     }
                 }
             }
-            break;
-            case CRYO: {
+            case CRYO -> {
                 if (rand.nextInt(20) == 0) {
                     int rx = ReikaRandomHelper.getRandomPlusMinus(pos.getX(), r);
                     int ry = ReikaRandomHelper.getRandomPlusMinus(pos.getY(), 1);
@@ -262,9 +259,8 @@ public enum VentType implements StringRepresentable {
                     }
                 }
             }
-            break;
-            default:
-                break;
+            default -> {
+            }
         }
     }
 
@@ -279,12 +275,11 @@ public enum VentType implements StringRepresentable {
         };
     }
 
-    public DamageSource getDamageSrc() {
+    public DamageSource getDamageSrc(LivingEntity e) {
         return switch (this) {
-            case STEAM, FIRE -> DamageSource.IN_FIRE;
-            case LAVA, PYRO -> DamageSource.LAVA;
-            case CRYO -> DamageSource.GENERIC;
-            default -> null;
+            case STEAM, FIRE -> e.damageSources().inFire();
+            case LAVA, PYRO -> e.damageSources().lava();
+            default ->  e.damageSources().generic();
         };
     }
 

@@ -162,7 +162,7 @@ public class BlockVent extends Block implements EntityBlock {
         if (EnchantmentHelper.getEnchantments(player.getMainHandItem()).equals(Enchantments.SILK_TOUCH)) {
             player.awardStat(Stats.BLOCK_MINED.get(this), 1);
             player.causeFoodExhaustion(0.025F);
-            ReikaItemHelper.dropItem((Level) world, new BlockPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), new ItemStack(this, 1));
+            ReikaItemHelper.dropItem((Level) world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, 1));
         }
         return false;
     }

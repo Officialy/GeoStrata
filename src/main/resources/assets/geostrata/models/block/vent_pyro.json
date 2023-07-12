@@ -1,10 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "particle": "block/stone",
+    "particle": "block/netherrack",
     "top": "geostrata:block/vent/pyro_top",
-    "side": "block/stone",
-    "bottom": "block/stone"
+    "side": "block/netherrack",
+    "bottom": "block/netherrack"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

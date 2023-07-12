@@ -22,8 +22,8 @@ public class BlockConnectedRock extends Block {
 
     private final ArrayList<Integer> allDirs = new ArrayList<>();
 
-    private SimpleTexture[][] edges = new SimpleTexture[10][RockTypes.rockList.length];
-    private SimpleTexture[][] sections = new SimpleTexture[10][RockTypes.rockList.length];
+    private final SimpleTexture[][] edges = new SimpleTexture[10][RockTypes.rockList.length];
+    private final SimpleTexture[][] sections = new SimpleTexture[10][RockTypes.rockList.length];
 
     public BlockConnectedRock(Properties properties) {
         super(properties);

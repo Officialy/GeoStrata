@@ -29,12 +29,12 @@ public enum GeoOptions implements BooleanConfig, IntegerConfig, DecimalConfig, S
     RFACTIVATE("Flux Crystal Requires Activation", false),
     OVERGEN("Rock Can Generate Into Other Rock", true);
 
-    private String label;
+    private final String label;
     private boolean defaultState;
     private int defaultValue;
     private float defaultFloat;
     private String defaultString;
-    private Class type;
+    private final Class type;
 
     public static final GeoOptions[] optionList = GeoOptions.values();
 

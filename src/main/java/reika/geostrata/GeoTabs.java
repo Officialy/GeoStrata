@@ -34,7 +34,7 @@ public class GeoTabs {
     @SubscribeEvent
     public static void creativeTabRegistry(CreativeModeTabEvent.Register event) {
         GEOSTRATA = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "geostrata"), (builder -> {
-            builder.icon(() -> GeoBlocks.RF_CRYSTAL.get().asItem().getDefaultInstance()).displayItems((features, output, hasPermission) -> {
+            builder.icon(() -> GeoBlocks.RF_CRYSTAL.get().asItem().getDefaultInstance()).displayItems((features, output) -> {
                 output.accept(new ItemStack(GeoBlocks.RF_CRYSTAL_SEED.get()));
                 output.accept(new ItemStack(GeoBlocks.CRYO_VENT.get()));
                 output.accept(new ItemStack(GeoBlocks.STEAM_VENT.get()));
@@ -64,7 +64,7 @@ public class GeoTabs {
         }));
 
         STONES = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "stones"), (builder -> {
-            builder.icon(() -> new ItemStack((Block) GeoBlocks.blockMapping.keySet().toArray()[1])).displayItems((features, output, hasPermission) -> {
+            builder.icon(() -> new ItemStack((Block) GeoBlocks.blockMapping.keySet().toArray()[1])).displayItems((features, output) -> {
                 GeoBlocks.blockMapping.keySet().stream().toList().stream().sorted(Comparator.comparing((Block block) -> block.getName().toString())).forEach(block -> {
                     output.accept(new ItemStack(block));
                 });
@@ -72,7 +72,7 @@ public class GeoTabs {
         }));
 
         STAIRS = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "stairs"), (builder -> {
-            builder.icon(() -> new ItemStack((Block) GeoBlocks.stairMapping.keySet().toArray()[1])).displayItems((features, output, hasPermission) -> {
+            builder.icon(() -> new ItemStack((Block) GeoBlocks.stairMapping.keySet().toArray()[1])).displayItems((features, output) -> {
                 GeoBlocks.stairMapping.keySet().stream().toList().stream().sorted(Comparator.comparing((Block block) -> block.getName().toString())).forEach(block -> {
                     output.accept(new ItemStack(block));
                 });
@@ -80,7 +80,7 @@ public class GeoTabs {
         }));
 
         SLABS = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "slabs"), (builder -> {
-            builder.icon(() -> new ItemStack((Block) GeoBlocks.slabMapping.keySet().toArray()[1])).displayItems((features, output, hasPermission) -> {
+            builder.icon(() -> new ItemStack((Block) GeoBlocks.slabMapping.keySet().toArray()[1])).displayItems((features, output) -> {
                 GeoBlocks.slabMapping.keySet().stream().toList().stream().sorted(Comparator.comparing((Block block) -> block.getName().toString())).forEach(block -> {
                     output.accept(new ItemStack(block));
                 });
@@ -88,7 +88,7 @@ public class GeoTabs {
         }));
 
         ORES = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "ores"), (builder -> {
-            builder.icon(() -> OreTypes.oreBlocks.get(5).asItem().getDefaultInstance()).displayItems((features, output, hasPermission) -> {
+            builder.icon(() -> OreTypes.oreBlocks.get(5).asItem().getDefaultInstance()).displayItems((features, output) -> {
                 for (DropExperienceBlock ore : OreTypes.oreBlocks) {
                     output.accept(new ItemStack(ore));
                 }

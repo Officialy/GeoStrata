@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 version = '0.0.1a'
@@ -11,7 +11,7 @@ archivesBaseName = 'GeoStrata'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: '1.19.3'
+    mappings channel: 'parchment', version: "2023.07.02-1.20.1"
     
     runs {
         client {
@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.3-44.1.23'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.0.45'
 
     //You'll need these on your local maven, to do this build DragonAPI first and push to maven local, then the same for rotarycraft
     implementation fg.deobf("reika.dragonapi:DragonAPI:0.0.1a")

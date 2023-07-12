@@ -15,15 +15,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +33,6 @@ import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.registry.*;
 import reika.geostrata.rendering.OceanSpikeRenderer;
 import reika.geostrata.level.GeoPlacedFeatures;
-import reika.rotarycraft.api.RecipeInterface;
 
 import java.awt.*;
 import java.io.File;
@@ -125,7 +121,7 @@ public class GeoStrata extends DragonAPIMod {
 
     public void clientSetup(final FMLClientSetupEvent event) {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
+//        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
         ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
     }
 
@@ -169,8 +165,8 @@ public class GeoStrata extends DragonAPIMod {
                 RockTypes rock = RockTypes.rockList[i];
                 ItemStack smooth = rock.getItem(RockShapes.SMOOTH);
                 ItemStack cobble = rock.getItem(RockShapes.COBBLE);
-                RecipeInterface.grinder.addAPIRecipe(smooth, cobble);
-                RecipeInterface.grinder.addAPIRecipe(cobble, new ItemStack(Blocks.GRAVEL));
+//                RecipeInterface.grinder.addAPIRecipe(smooth, cobble);
+//                RecipeInterface.grinder.addAPIRecipe(cobble, new ItemStack(Blocks.GRAVEL));
 
                 for (int k = 0; k < RockShapes.shapeList.length; k++) {
                     RockShapes shape = RockShapes.shapeList[k];

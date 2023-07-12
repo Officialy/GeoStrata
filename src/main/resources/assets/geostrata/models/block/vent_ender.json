@@ -1,10 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "particle": "block/stone",
+    "particle": "block/end_stone",
     "top": "geostrata:block/vent/ender_top",
-    "side": "block/stone",
-    "bottom": "block/stone"
+    "side": "block/end_stone",
+    "bottom": "block/end_stone"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

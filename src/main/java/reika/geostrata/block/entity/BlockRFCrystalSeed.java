@@ -80,7 +80,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         ItemStack is = new ItemStack(this);
         if (GeoOptions.RFACTIVATE.getState()) {
-            BlockEntity te = builder.getLevel().getBlockEntity(new BlockPos(builder.getParameter(LootContextParams.ORIGIN)));
+            BlockEntity te = builder.getLevel().getBlockEntity(new BlockPos((int) builder.getParameter(LootContextParams.ORIGIN).x, (int) builder.getParameter(LootContextParams.ORIGIN).y, (int) builder.getParameter(LootContextParams.ORIGIN).z));
             if (te instanceof TileRFCrystal && ((TileRFCrystal) te).isActivated) {
                 is.getOrCreateTag().putBoolean("activated", true);
             }

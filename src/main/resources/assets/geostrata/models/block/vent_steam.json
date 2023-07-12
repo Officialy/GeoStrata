@@ -2,7 +2,7 @@
   "parent": "block/block",
   "textures": {
     "particle": "block/stone",
-    "top": "geostrata:block/vent/steam_top",
+    "top": "geostrata:block/vent/steam_vent",
     "side": "block/stone",
     "bottom": "block/stone"
   },

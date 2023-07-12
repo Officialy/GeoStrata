@@ -95,7 +95,7 @@ public class GeoEvents {
     }
 
     public static void smokeVentAir(LivingDamageEvent evt) {
-        if (evt.getSource() == DamageSource.IN_WALL) {
+        if (evt.getSource() == evt.getEntity().damageSources().inWall()) {
             long last = evt.getEntity().serializeNBT().getLong(BlockVent.SMOKE_VENT_TAG);
             if (evt.getEntity().level.getGameTime() - last <= 8) {
                 evt.setResult(Event.Result.ALLOW);
@@ -104,7 +104,7 @@ public class GeoEvents {
     }
 
     public static void spikyFall(LivingFallEvent evt) {
-        BlockPos c = new BlockPos(evt.getEntity().position()).offset(0, -1, 0);
+        BlockPos c = new BlockPos((int) evt.getEntity().position().x, (int) evt.getEntity().position().y, (int) evt.getEntity().position().z).offset(0, -1, 0);
         Block b = evt.getEntity().level.getBlockState(c).getBlock();
 //        if (b == GeoBlocks.CRYSTAL_SPIKE.get())
 //            evt.setDistance(evt.getDistance() * 1.5F);

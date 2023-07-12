@@ -98,7 +98,7 @@ public class BlockLavaRock extends Block {
             }
         }
         if (doEffect) {
-            e.hurt(blockHeight == 0 ? DamageSource.LAVA : DamageSource.IN_FIRE, 3 - blockHeight);
+            e.hurt(blockHeight == 0 ? e.damageSources().lava() : e.damageSources().inFire(), 3 - blockHeight);
             if (blockHeight == 0) { //lava is 15
                 e.setSecondsOnFire(8);
             } else if (blockHeight == 1) {

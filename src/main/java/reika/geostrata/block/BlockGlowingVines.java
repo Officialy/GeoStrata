@@ -203,7 +203,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     @Override
     public void onNeighborChange(BlockState state, LevelReader world, BlockPos pos, BlockPos neighbor) {
         this.updateAndDropSides((Level) world, pos);
-        if (this.PROPERTY_BY_DIRECTION.isEmpty()) {
+        if (PROPERTY_BY_DIRECTION.isEmpty()) {
             ((Level) world).setBlock(pos, Blocks.AIR.defaultBlockState(), 3); //todo check cast
         }
     }
@@ -215,17 +215,17 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
 
     @Override
     public void shearAll(Level world, BlockPos pos, Player ep) {
-        ReikaItemHelper.dropItem(world, pos.offset(0.5, 0.5, 0.5), new ItemStack(this, PROPERTY_BY_DIRECTION.size()));
+        ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, PROPERTY_BY_DIRECTION.size()));
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
 
     @Override
     public void shearSide(Level world, BlockPos pos, Direction dir, Player ep) {
-        if (this.PROPERTY_BY_DIRECTION.keySet().contains(dir)) {
-            this.PROPERTY_BY_DIRECTION.remove(dir);
+        if (PROPERTY_BY_DIRECTION.containsKey(dir)) {
+            PROPERTY_BY_DIRECTION.remove(dir);
             world.sendBlockUpdated(pos, this.defaultBlockState(), this.defaultBlockState(), 3);
-            ReikaItemHelper.dropItem(world, pos.offset(0.5, 0.5, 0.5), new ItemStack(this));
-            if (this.PROPERTY_BY_DIRECTION.isEmpty())
+            ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this));
+            if (PROPERTY_BY_DIRECTION.isEmpty())
                 world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         }
     }
@@ -264,7 +264,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
 
             } else {
                 it.remove();
-                ReikaItemHelper.dropItem(world, pos.offset(0.5, 0.5, 0.5), new ItemStack(GeoBlocks.GLOWING_VINES.get()));
+                ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(GeoBlocks.GLOWING_VINES.get()));
                 flag = true;
             }
         }
@@ -278,7 +278,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     }
 
     public boolean hasSide(Direction dir) {
-        return PROPERTY_BY_DIRECTION.keySet().contains(dir);
+        return PROPERTY_BY_DIRECTION.containsKey(dir);
     }
 
 
