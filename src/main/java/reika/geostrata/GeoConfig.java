@@ -12,7 +12,8 @@ import java.util.ArrayList;
 public class GeoConfig extends ControlledConfig {
 
     private static final ArrayList<String> entries = ReikaJavaLibrary.getEnumEntriesWithoutInitializing(RockTypes.class);
-    private final DataElement<Integer>[] rockBands = new DataElement[entries.size()];
+    @SuppressWarnings("unchecked")
+    private final DataElement<Integer>[] rockBands = (DataElement<Integer>[]) new DataElement<?>[entries.size()];
 
     public GeoConfig(DragonAPIMod mod, ConfigList[] option, IDRegistry[] id) {
         super(mod, option, id);

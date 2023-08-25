@@ -13,7 +13,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -38,15 +39,15 @@ public class GeoBlocks {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GeoStrata.MODID);
 
     //    public static final RegistryObject<Block> DECO          = register("deco_blocks",    () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(5)));
-    public static final RegistryObject<Block> STEAM_VENT = register("steam_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.STEAM), false, false, false);
-    public static final RegistryObject<Block> PYRO_VENT = register("pyro_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.PYRO), false, false, false);
-    public static final RegistryObject<Block> CRYO_VENT = register("cryo_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.CRYO), false, false, false);
-    public static final RegistryObject<Block> GAS_VENT = register("gas_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.GAS), false, false, false);
-    public static final RegistryObject<Block> LAVA_VENT = register("lava_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.LAVA), false, false, false);
-    public static final RegistryObject<Block> SMOKE_VENT = register("smoke_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.SMOKE), false, false, false);
-    public static final RegistryObject<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
-    public static final RegistryObject<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
-    public static final RegistryObject<Block> WATER_VENT = register("water_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
+    public static final RegistryObject<Block> STEAM_VENT = register("steam_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.STEAM), false, false, false);
+    public static final RegistryObject<Block> PYRO_VENT = register("pyro_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.PYRO), false, false, false);
+    public static final RegistryObject<Block> CRYO_VENT = register("cryo_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.CRYO), false, false, false);
+    public static final RegistryObject<Block> GAS_VENT = register("gas_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.GAS), false, false, false);
+    public static final RegistryObject<Block> LAVA_VENT = register("lava_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.LAVA), false, false, false);
+    public static final RegistryObject<Block> SMOKE_VENT = register("smoke_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.SMOKE), false, false, false);
+    public static final RegistryObject<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
+    public static final RegistryObject<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
+    public static final RegistryObject<Block> WATER_VENT = register("water_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
 
     public static RegistryObject<Block> LAVAROCK;
 
@@ -62,7 +63,7 @@ public class GeoBlocks {
     static {
 //todo cleaner, maybe use if I make it a standard block and use random ticks instead? Though it wont be like 1.7.10 if i cant get the timer to constantly tick
 //      for (VentType type : VentType.values()) {
-//            register(type.name().toLowerCase() + "_vent", () -> new BlockVent(BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 3F), type), false, false, false);
+//            register(type.name().toLowerCase() + "_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), type), false, false, false);
 //        }
 
         if (ModList.ROTARYCRAFT.isLoaded()) {
@@ -82,13 +83,13 @@ public class GeoBlocks {
     public static final RegistryObject<Block> GLOWING_VINES = register("glowing_vines", BlockGlowingVines::new, false, false, false);
     //public static final RegistryObject<Block> RFCRYSTAL     = register("Flux Crystals",       BlockRFCrystal);
     //public static final RegistryObject<Block> RFCRYSTALSEED = register("Flux Crystal Seed",   BlockRFCrystalSeed);
-    public static final RegistryObject<Block> VOID_OPALS = register("void_opals", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(7F)), false, false, false);
-    public static final RegistryObject<Block> OBSIDIAN_BRICKS = register("obsidian_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(60, 1200)), false, false, false);
-    public static final RegistryObject<Block> GLOWSTONE_BRICKS = register("glowstone_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(1F)), false, false, false);
-    public static final RegistryObject<Block> REDSTONE_BRICKS = register("redstone_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(5.5F).sound(SoundType.METAL)), false, false, false);
-    public static final RegistryObject<Block> LAPIS_BRICKS = register("lapis_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3.5F)), false, false, false);
-    public static final RegistryObject<Block> EMERALD_BRICKS = register("emerald_bricks", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(6F)), false, false, false);
-    public static final RegistryObject<Block> OCEAN_SPIKE = register("ocean_spike", () -> new BlockOceanSpike(BlockBehaviour.Properties.of(Material.STONE).strength(6F).noOcclusion()), false, false, false);
+    public static final RegistryObject<Block> VOID_OPALS = register("void_opals", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(7F)), false, false, false);
+    public static final RegistryObject<Block> OBSIDIAN_BRICKS = register("obsidian_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(60, 1200)), false, false, false);
+    public static final RegistryObject<Block> GLOWSTONE_BRICKS = register("glowstone_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1F)), false, false, false);
+    public static final RegistryObject<Block> REDSTONE_BRICKS = register("redstone_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(5.5F).sound(SoundType.METAL)), false, false, false);
+    public static final RegistryObject<Block> LAPIS_BRICKS = register("lapis_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(3.5F)), false, false, false);
+    public static final RegistryObject<Block> EMERALD_BRICKS = register("emerald_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(6F)), false, false, false);
+    public static final RegistryObject<Block> OCEAN_SPIKE = register("ocean_spike", () -> new BlockOceanSpike(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(6F).noOcclusion()), false, false, false);
     public static final RegistryObject<Block> RF_CRYSTAL_SEED = register("rf_crystal_seed", BlockRFCrystalSeed::new, false, false, false);
     public static final RegistryObject<Block> RF_CRYSTAL = register("rf_crystal", BlockRFCrystal::new, false, false, false);
 
@@ -113,7 +114,7 @@ public class GeoBlocks {
         for (int i = 0; i < RockTypes.rockList.length; i++) {
             OreTypes o = OreTypes.oreList[i];
             RockTypes r = RockTypes.rockList[i];
-            GameData.unfreezeData();
+            GameData.unfreezeData(); //todo find out why i need this & get rid of it
 
             oreMapping.put(o.registerOreBlock(r), Pair.of(r, o));
 

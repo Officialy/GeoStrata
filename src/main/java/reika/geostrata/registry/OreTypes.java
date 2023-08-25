@@ -3,7 +3,8 @@ package reika.geostrata.registry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -51,7 +52,7 @@ public enum OreTypes {
     public static List<DropExperienceBlock> oreBlocks = new ArrayList<>();
 
     public DropExperienceBlock registerOreBlock(RockTypes r) {
-        DropExperienceBlock ore = new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+        DropExperienceBlock ore = new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
         String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_ore";
         GeoBlocks.register(name, () -> ore, true, false, false);
         oreBlocks.add(ore);

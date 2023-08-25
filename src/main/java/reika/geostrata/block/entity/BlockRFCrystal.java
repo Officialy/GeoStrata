@@ -21,9 +21,10 @@ import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -48,7 +49,7 @@ import java.util.Random;
 public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock {//,IWailaDataProvider, IMoveCheck, ILaputaImmobile {
 
     public BlockRFCrystal() {
-        super(Properties.of(Material.GLASS).sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
+        super(Properties.of().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
     }
 
     @Nullable

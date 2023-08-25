@@ -13,7 +13,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import reika.dragonapi.libraries.level.ReikaBlockHelper;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.geostrata.block.BlockGlowCrystal;
@@ -181,7 +182,7 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
                 at.isReplaceableOreGen(world, pos, Blocks.GRAVEL) || at.isReplaceableOreGen(world, pos, Blocks.ICE) ||
                 at.isReplaceableOreGen(world, pos, Blocks.SNOW) ||*/ at == GeoBlocks.LUMINOUS_CRYSTAL.get().defaultBlockState() ||
                 ReikaWorldHelper.softBlocks(world, new BlockPos(pos)) || ReikaBlockHelper.isLeaf(world, new BlockPos(pos)) ||
-                /*at.canBeReplacedByLeaves(world, pos) || */ at.getMaterial() == Material.PLANT) {
+                /*at.canBeReplacedByLeaves(world, pos) || */ at.getMapColor(world, pos) == MapColor.PLANT) {
 
             world.setBlock(new BlockPos(pos), b, 3);
             world.sendBlockUpdated(pos, at, at, 3);

@@ -2,6 +2,7 @@ package reika.geostrata.base;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.StringRepresentable;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import reika.dragonapi.instantiable.Interpolation;
+import reika.dragonapi.instantiable.event.BlockTickEvent;
 import reika.dragonapi.libraries.ReikaAABBHelper;
 import reika.dragonapi.libraries.ReikaEntityHelper;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
@@ -169,7 +171,7 @@ public enum VentType implements StringRepresentable {
                 }
                 break;
             case SMOKE:
-                e.serializeNBT().putLong(BlockVent.SMOKE_VENT_TAG, e.level.getGameTime());
+                e.serializeNBT().putLong(BlockVent.SMOKE_VENT_TAG, e.level().getGameTime());
                 break;
             case GAS:
                 e.addEffect(new MobEffectInstance(MobEffects.POISON, 20 + BlockEntityVent.rand.nextInt(200), BlockEntityVent.rand.nextInt(4) == 0 ? 1 : 0));
@@ -185,16 +187,16 @@ public enum VentType implements StringRepresentable {
                     double ry = ReikaRandomHelper.getRandomPlusMinus(oy, 1);
                     double rz = ReikaRandomHelper.getRandomPlusMinus(oz, 6);
                     e.teleportTo(rx, ry, rz); //setpositionandupdate
-                    for (VoxelShape voxelshape : e.level.getBlockCollisions(e, e.getBoundingBox())) {
+                    for (VoxelShape voxelshape : e.level().getBlockCollisions(e, e.getBoundingBox())) {
                         if (!voxelshape.isEmpty()) {
-                            flag = e.level.containsAnyLiquid(e.getBoundingBox());
+                            flag = e.level().containsAnyLiquid(e.getBoundingBox());
                         }
                     }
                     tries++;
                 }
                 if (!flag) {
 //                    ReikaSoundHelper.playSoundFromServer(e.getLevel(), e.getX(), e.getX(), e.getZ(), SoundEvents.ENDERMAN_TELEPORT.getLocation(), 1, 1, true);
-                    e.getLevel().playSound(null, ox, oy, oz, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    e.level().playSound(null, ox, oy, oz, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
                 break;
             case PYRO:
@@ -221,13 +223,13 @@ public enum VentType implements StringRepresentable {
                     int rx = ReikaRandomHelper.getRandomPlusMinus(pos.getX(), r);
                     int ry = ReikaRandomHelper.getRandomPlusMinus(pos.getY(), 1);
                     int rz = ReikaRandomHelper.getRandomPlusMinus(pos.getZ(), r);
-                    Block b = world.getBlockState(new BlockPos(rx, ry, rz)).getBlock();
-                    if (b == Blocks.FARMLAND) {
+                    BlockState b = world.getBlockState(new BlockPos(rx, ry, rz));
+                    if (b.getBlock() == Blocks.FARMLAND) {
                         world.setBlock(new BlockPos(rx, ry, rz), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 7), 3);
                     }
                     if (rand.nextInt(3) == 0) {
-//                  todo      BlockTickEvent.fire(b, world, rx, ry, rz, world.random, UpdateFlags.getForcedUnstoppableTick() + UpdateFlags.NATURAL.flag);
-                    }
+                        BlockTickEvent.fire(b, (ServerLevel) world, new BlockPos(rx, ry, rz), world.random, BlockTickEvent.UpdateFlags.getForcedUnstoppableTick() + BlockTickEvent.UpdateFlags.NATURAL.flag);
+                    } //todo serverlevel casting, bad!!
                 }
             }
             case PYRO -> {

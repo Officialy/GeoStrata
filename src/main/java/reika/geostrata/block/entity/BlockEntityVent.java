@@ -183,7 +183,7 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
     }
 
     private boolean isBlocking(Level world, BlockPos pos) {
-        return world.getBlockState(pos).getMaterial().isSolid();
+        return world.getBlockState(pos).isSolid();
     }
 
     public VentType getVentType() {

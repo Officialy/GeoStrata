@@ -17,6 +17,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.IForgeShearable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+
 
 import java.util.*;
 
@@ -53,7 +54,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     //private final SimplexNoiseGenerator hueNoise2 = new SimplexNoiseGenerator(-System.currentTimeMillis());
 
     public BlockGlowingVines() {
-        super(BlockBehaviour.Properties.of(Material.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollission());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollission());
     }
 
     @Override

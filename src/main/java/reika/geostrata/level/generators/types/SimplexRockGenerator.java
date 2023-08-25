@@ -27,9 +27,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
         if (gen != null) {
             world.getServer().getWorldData().worldGenOptions().seed();
         }
-        if (true) {
-            gen = new RockEntry(world, geo);
-        }
+        gen = new RockEntry(world, geo);
         return gen;
     }
 
@@ -82,7 +80,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
         private RockEntry(LevelAccessor world, RockTypes geo) {
             noise = new Simplex3DGenerator(geo.name().hashCode());
             noiseThreshold = 0.5/geo.rarity; //was 0.5 then 0.75 in all cases
-            noiseFrequency = 1/4D; //was 1/64 then 1/16 then 1/8 now 1/4
+            noiseFrequency = 1/8D; //was 1/64 then 1/16 then 1/8
             noise.setFrequency(noiseFrequency);
             blockID = geo.getID(RockShapes.SMOOTH).defaultBlockState();
         }

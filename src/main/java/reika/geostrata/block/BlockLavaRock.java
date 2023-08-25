@@ -11,8 +11,6 @@ package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -20,12 +18,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -34,19 +29,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import reika.dragonapi.libraries.level.ReikaBlockHelper;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
-import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
-import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
-import reika.rotarycraft.registry.RotaryBlocks;
-
-import java.util.List;
 
 public class BlockLavaRock extends Block {
 
@@ -62,7 +50,7 @@ public class BlockLavaRock extends Block {
     public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
     public BlockLavaRock() {
-        super(BlockBehaviour.Properties.of(Material.STONE).lightLevel((p_50886_) -> 14));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
         this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0).setValue(CONNECTED_STATE, false));
     }
 
@@ -74,7 +62,7 @@ public class BlockLavaRock extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collisionContext) {
-        if (getter.getBlockState(pos.above()).getMaterial().isSolid()) {
+        if (getter.getBlockState(pos.above()).isSolid()) {
             return AABB3;
         } else return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
             default -> AABB;
@@ -127,9 +115,9 @@ public class BlockLavaRock extends Block {
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState p_60569_, boolean p_60570_) {
 //	todo	if (LavaRockGenerator.instance.doingLavaRockGen || !ReikaWorldHelper.isChunkPastCompletelyFinishedGenerating(world, x >> 4, z >> 4))
 //			return;
-        if (world.getBlockState(pos.above()).getMaterial().isSolid()) {
+        if (world.getBlockState(pos.above()).isSolid()) {
             world.setBlock(pos, world.getBlockState(pos).setValue(CONNECTED_STATE, true), 3);
-        }else if (world.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState() || world.getBlockState(pos.above()) == Blocks.CAVE_AIR.defaultBlockState() || !world.getBlockState(pos.above()).getMaterial().isSolid()) {
+        }else if (world.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState() || world.getBlockState(pos.above()) == Blocks.CAVE_AIR.defaultBlockState() || !world.getBlockState(pos.above()).isSolid()) {
             world.setBlock(pos, world.getBlockState(pos).setValue(CONNECTED_STATE, false), 3);
         }
 
@@ -140,14 +128,14 @@ public class BlockLavaRock extends Block {
             int dy = pos.getY() + dir.getStepY();
             int dz = pos.getZ() + dir.getStepZ();
             if (world.hasChunksAt(dx, dy, dz, dx, dy, dz)) {
-                Material mat2 = ReikaWorldHelper.getMaterial(world, new BlockPos(dx, dy, dz));
-                if (ReikaBlockHelper.matchMaterialsLoosely(Material.WATER, mat2)) {
+//                Material mat2 = ReikaWorldHelper.getMaterial(world, new BlockPos(dx, dy, dz));
+//                if (ReikaBlockHelper.matchMaterialsLoosely(MapColor.WATER, mat2)) {
                     int chance = 3 + 3 * height * height; // 1 in: 3, 6, 15, 30
                     boolean obsidian = world.random.nextInt(chance) == 0;
                     world.setBlock(pos, obsidian ? Blocks.OBSIDIAN.defaultBlockState() : (height <= 1 ? Blocks.COBBLESTONE.defaultBlockState() : Blocks.STONE.defaultBlockState()), 3);
-                } else {
+//                } else {
 
-                }
+//                }
             }
         }
         ReikaWorldHelper.temperatureEnvironment(world, pos, this.getEffectiveTemperature(height));

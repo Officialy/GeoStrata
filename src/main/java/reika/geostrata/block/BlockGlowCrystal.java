@@ -23,7 +23,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.HitResult;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
@@ -45,7 +46,7 @@ public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappa
     private final SimplexNoiseGenerator hueNoiseMix = new SimplexNoiseGenerator(2 * System.currentTimeMillis());
 
     public BlockGlowCrystal() {
-        super(BlockBehaviour.Properties.of(Material.AMETHYST).strength(0.8F, 5).friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion().isValidSpawn((blockState, getter, pos, entityType) -> false));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(0.8F, 5).friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion().isValidSpawn((blockState, getter, pos, entityType) -> false));
         this.registerDefaultState(this.stateDefinition.any().setValue(COLOR_INDEX, 0));
         hueRanges[0] = new ImmutablePair<>(205, 25); //180 (cyan) - 230 (blue)
         hueRanges[1] = new ImmutablePair<>(25, 25); //0 (red) to 50 (yellow w bit of red)

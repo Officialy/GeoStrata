@@ -15,7 +15,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import reika.dragonapi.exception.RegistrationException;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.GeoBlock;
@@ -93,7 +94,7 @@ public enum RockShapes {
             throw new RegistrationException(GeoStrata.getInstance(), "Block type for " + r + " " + this + " was created twice!");
         } else {
             try {
-                var b = new GeoBlock(BlockBehaviour.Properties.of(Material.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+                var b = new GeoBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
                 var name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT);
                 GeoBlocks.register(name, () -> b, false, false, false);
                 map.put(r, b);
@@ -116,7 +117,7 @@ public enum RockShapes {
             throw new RegistrationException(GeoStrata.getInstance(), "ConnectedBlock type for " + r + " " + this + " was created twice!");
         }
         try {
-            BlockConnectedRock b = new BlockConnectedRock(BlockBehaviour.Properties.of(Material.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            BlockConnectedRock b = new BlockConnectedRock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_connected";
             GeoBlocks.register(name, () -> b, false, true, false);
             //todo Register the one probe info
@@ -137,7 +138,7 @@ public enum RockShapes {
             throw new RegistrationException(GeoStrata.getInstance(), "SlabBlock type for " + r + " " + this + " was created twice!");
         }
         try {
-            SlabBlock b = new SlabBlock(BlockBehaviour.Properties.of(Material.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            SlabBlock b = new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_slab";
             GeoBlocks.register(name, () -> b, false, false, true);
             //todo Register the one probe info
@@ -158,7 +159,7 @@ public enum RockShapes {
             throw new RegistrationException(GeoStrata.getInstance(), "StairBlock type for " + r + " " + this + " was created twice!");
         }
         try {
-            StairBlock b = new GeoStairBlock(() -> r.getID(s).defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            StairBlock b = new GeoStairBlock(() -> r.getID(s).defaultBlockState(), BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_stair";
             GeoBlocks.register(name, () -> b, false, true, false);
             //todo Register the one probe info

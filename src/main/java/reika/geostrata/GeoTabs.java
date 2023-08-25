@@ -7,9 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,8 +30,8 @@ public class GeoTabs {
     public static CreativeModeTab ORES;// = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 4).title(Component.translatable("itemGroup.ores")).icon(() -> GeoBlocks.oreMapping.get(2).getKey().getItem(RockShapes.SMOOTH)).build();
 
     @SubscribeEvent
-    public static void creativeTabRegistry(CreativeModeTabEvent.Register event) {
-        GEOSTRATA = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "geostrata"), (builder -> {
+    public static void creativeTabRegistry(BuildCreativeModeTabContentsEvent event) {
+   /*     GEOSTRATA = event.registerCreativeModeTab(new ResourceLocation(GeoStrata.MODID, "geostrata"), (builder -> {
             builder.icon(() -> GeoBlocks.RF_CRYSTAL.get().asItem().getDefaultInstance()).displayItems((features, output) -> {
                 output.accept(new ItemStack(GeoBlocks.RF_CRYSTAL_SEED.get()));
                 output.accept(new ItemStack(GeoBlocks.CRYO_VENT.get()));
@@ -93,6 +91,6 @@ public class GeoTabs {
                     output.accept(new ItemStack(ore));
                 }
             }).title(Component.translatable("tab.geostrata_ores"));
-        }));
+        }));*/
     }
 }

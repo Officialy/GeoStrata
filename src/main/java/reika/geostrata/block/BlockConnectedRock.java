@@ -7,7 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
+
 import reika.dragonapi.libraries.java.ReikaStringParser;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.RockShapes;

@@ -1,14 +1,12 @@
 package reika.geostrata.level.generators;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.material.Material;
-import reika.dragonapi.libraries.java.ReikaJavaLibrary;
+import net.minecraft.world.level.material.MapColor;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.GeoOptions;
@@ -50,6 +48,6 @@ public class RFCrystalGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     public static boolean canGenerateAt(WorldGenLevel world, int x, int y, int z) {
-        return world.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.REDSTONE_ORE && ReikaWorldHelper.checkForAdjMaterial(world, new BlockPos(x, y, z), Material.AIR) == null;
+        return world.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.REDSTONE_ORE && ReikaWorldHelper.checkForAdjMaterial(world, x, y, z, MapColor.NONE) == null;
     }
 }

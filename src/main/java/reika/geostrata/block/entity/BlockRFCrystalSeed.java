@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -77,7 +77,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         ItemStack is = new ItemStack(this);
         if (GeoOptions.RFACTIVATE.getState()) {
             BlockEntity te = builder.getLevel().getBlockEntity(new BlockPos((int) builder.getParameter(LootContextParams.ORIGIN).x, (int) builder.getParameter(LootContextParams.ORIGIN).y, (int) builder.getParameter(LootContextParams.ORIGIN).z));

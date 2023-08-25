@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.material.Material;
+
 import reika.dragonapi.ModList;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.dragonapi.libraries.level.ReikaBlockHelper;

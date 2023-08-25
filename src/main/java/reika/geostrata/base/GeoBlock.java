@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.MaterialColor;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.RockShapes;
 import reika.geostrata.registry.RockTypes;

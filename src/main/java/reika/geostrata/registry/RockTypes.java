@@ -18,7 +18,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.ForgeRegistries;
 import reika.dragonapi.libraries.java.ReikaStringParser;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
@@ -117,27 +118,16 @@ public enum RockTypes {
     }
 
     public boolean canGenerateAtXZ(LevelAccessor world, int x, int z, RandomSource r) {
-        switch(this) {
-            case BASALT:
-            case GRANITE:
-            case GNEISS:
-            case PUMICE:
-            case MIGMATITE:
-            case ONYX:
-            case SANDSTONE:
-            case LIMESTONE:
+        switch (this) {
+            case BASALT, GRANITE, GNEISS, PUMICE, MIGMATITE, ONYX, SANDSTONE, LIMESTONE -> {
                 return true;
-            case GRANULITE:
-            case SCHIST:
-            case OPAL:
-            case QUARTZ:
-            case MARBLE:
-            case PERIDOTITE:
-                break;
-            case HORNFEL:
+            }
+            case GRANULITE, SCHIST, OPAL, QUARTZ, MARBLE, PERIDOTITE -> {
+            }
+            case HORNFEL -> {
                 return world.getBiome(new BlockPos(x, 0, z)).value().coldEnoughToSnow(new BlockPos(x, 0, z));//getEnableSnow();
-            case SHALE:
-            case SLATE:
+            }
+            case SHALE, SLATE -> {
                 /*if (BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(x, z), Type.SANDY))
                     return false;
                 if (BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(x, z), Type.DRY))
@@ -145,6 +135,7 @@ public enum RockTypes {
                 if (BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(x, z), Type.SAVANNA))
                     return false;*/
                 return true;
+            }
         }
         return true;
     }
@@ -154,27 +145,15 @@ public enum RockTypes {
             return false;
         if (y < minY)
             return false;
-        switch(this) {
-            case BASALT:
-            case HORNFEL:
-            case LIMESTONE:
-            case SHALE:
-            case SLATE:
-            case SANDSTONE:
-            case PUMICE:
-            case MIGMATITE:
-            case GRANITE:
-            case GRANULITE:
-            case SCHIST:
-            case OPAL:
-            case QUARTZ:
-            case PERIDOTITE:
-            case MARBLE:
-                break;
-            case GNEISS:
+        switch (this) {
+            case BASALT, HORNFEL, LIMESTONE, SHALE, SLATE, SANDSTONE, PUMICE, MIGMATITE, GRANITE, GRANULITE, SCHIST, OPAL, QUARTZ, PERIDOTITE, MARBLE -> {
+            }
+            case GNEISS -> {
                 return true;
-            case ONYX:
-                return ReikaWorldHelper.checkForAdjMaterial(world, new BlockPos(x, y, z), Material.LAVA) != null;
+            }
+            case ONYX -> {
+                return ReikaWorldHelper.checkForAdjMaterial(world, new BlockPos(x, y, z), MapColor.FIRE) != null; //todo lava
+            }
         }
         return true;
     }
@@ -184,29 +163,21 @@ public enum RockTypes {
             return false;
         if (pos.getY() < minY)
             return false;
-        switch(this) {
-            case BASALT:
-            case SANDSTONE:
-            case PUMICE:
-            case MIGMATITE:
-            case LIMESTONE:
-            case GRANITE:
-            case GNEISS:
+        switch (this) {
+            case BASALT, SANDSTONE, PUMICE, MIGMATITE, LIMESTONE, GRANITE, GNEISS -> {
                 return true;
-            case GRANULITE:
-            case OPAL:
-            case SCHIST:
-            case QUARTZ:
-            case PERIDOTITE:
-            case MARBLE:
-                break;
-            case HORNFEL:
+            }
+            case GRANULITE, OPAL, SCHIST, QUARTZ, PERIDOTITE, MARBLE -> {
+            }
+            case HORNFEL -> {
                 return world.getBiome(pos).value().coldEnoughToSnow(pos);
-            case SHALE:
-            case SLATE:
+            }
+            case SHALE, SLATE -> {
                 return world.getBiomeManager().getBiome(pos) != world.registryAccess().registryOrThrow(Registries.BIOME).getHolder(Biomes.DESERT).get() && world.getBiomeManager().getBiome(pos) != world.registryAccess().registryOrThrow(Registries.BIOME).getHolder(Biomes.BADLANDS).get() && world.getBiomeManager().getBiome(pos) != world.registryAccess().registryOrThrow(Registries.BIOME).getHolder(Biomes.SAVANNA).get();
-            case ONYX:
-                return ReikaWorldHelper.checkForAdjMaterial(world, pos, Material.LAVA) != null;
+            }
+            case ONYX -> {
+                return ReikaWorldHelper.checkForAdjMaterial(world, pos, MapColor.FIRE) != null; //todo lava
+            }
         }
         return true;
     }

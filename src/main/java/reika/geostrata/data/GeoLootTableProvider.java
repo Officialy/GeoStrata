@@ -5,10 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import reika.geostrata.GeoStrata;
 
@@ -48,7 +45,11 @@ public class GeoLootTableProvider extends LootTableProvider {
             validationtracker.reportProblem("Missing mod loot table: " + id);
         }
 
-        map.forEach((id, lootTable) -> LootTables.validate(validationtracker, id, lootTable));
+//        map.forEach((id, lootTable) -> lootTable.validate(validationtracker.setParams(LootContextParamSets.BLOCK).enterTable("{" + id + "}", id)));
+
+        map.forEach((p_278897_, p_278898_) -> {
+            p_278898_.validate(validationtracker.setParams(p_278898_.getParamSet()).enterElement("{" + p_278897_ + "}", new LootDataId<>(LootDataType.TABLE, p_278897_)));
+        });
     }
 
 }
