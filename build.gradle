@@ -2,7 +2,6 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
      id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 version = '0.0.1a'
@@ -13,6 +12,27 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: 'official', version: "1.20.1"
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'trace'
+
+            mods {
+                "geostrata" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', "geostrata", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -20,7 +40,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
     implementation project(':DragonAPI')
-    implementation project(':RotaryCraft')
+    compileOnly project(':RotaryCraft')
 }
 
 jar {
@@ -37,7 +57,7 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')
+//jar.finalizedBy('reobfJar')
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

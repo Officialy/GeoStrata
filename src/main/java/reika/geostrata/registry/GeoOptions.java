@@ -1,10 +1,6 @@
 package reika.geostrata.registry;
 
 import net.minecraft.util.Mth;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import org.apache.commons.lang3.tuple.Pair;
 import reika.dragonapi.interfaces.configuration.*;
 import reika.geostrata.GeoStrata;
 
@@ -25,9 +21,9 @@ public enum GeoOptions implements BooleanConfig, IntegerConfig, DecimalConfig, S
     WAILA("Waila Overlay", true),
     OPALFREQ("Opal Color Frequency", 1F),
     OPALHUE("Opal Hue Offset (degrees)", 0),
-    ROCKGEN("Rock Generation Pattern - Legacy, Simplex, Banded", "Legacy"),
+    ROCKGEN("Rock Generation Pattern - Legacy, Simplex, Banded", "Simplex"),
     RFACTIVATE("Flux Crystal Requires Activation", false),
-    OVERGEN("Rock Can Generate Into Other Rock", true);
+    OVERGEN("Rock Can Generate Into Other Rock", false);
 
     private final String label;
     private boolean defaultState;

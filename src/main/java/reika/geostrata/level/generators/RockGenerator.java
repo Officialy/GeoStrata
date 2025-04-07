@@ -1,6 +1,8 @@
 package reika.geostrata.level.generators;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
@@ -10,12 +12,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import reika.dragonapi.auxiliary.trackers.WorldgenProfiler;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.api.RockGenerationPatterns;
+import reika.geostrata.level.generators.types.RockGeneratorTypes;
 import reika.geostrata.registry.GeoOptions;
 import reika.geostrata.registry.RockTypes;
-import reika.geostrata.level.generators.types.RockGeneratorTypes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class RockGenerator extends Feature<NoneFeatureConfiguration> {
@@ -84,8 +85,8 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
             return true;
         if (id == Level.END || id == Level.NETHER)
             return false;
-//        if (id == ReikaTwilightHelper.getDimensionID())
-//            return GeoOptions.COMMON.TFGEN.get();
+        if (id == ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath("twilightforest", "twilight"))) //todo test twilight compat
+            return GeoOptions.TFGEN.getState();
         return GeoOptions.DIMGEN.getState();
     }
 

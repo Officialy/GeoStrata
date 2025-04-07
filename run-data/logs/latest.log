@@ -1,0 +1,43 @@
+[28Mar2025 20:05:30.347] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, C:\Users\mcmad\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, geostrata, --all, --output, C:\Max\Modding\Porting\Reika\GeoStrata\src\generated\resources, --existing, C:\Max\Modding\Porting\Reika\GeoStrata\src\main\resources]
+[28Mar2025 20:05:30.358] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.7 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[28Mar2025 20:05:30.542] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file C:\Max\Modding\Porting\Reika\GeoStrata\run-data\config\fml.toml is not correct. Correcting
+[28Mar2025 20:05:30.544] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+[28Mar2025 20:05:30.544] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowLogHelpMessage] was corrected from null to true
+[28Mar2025 20:05:30.545] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSquir] was corrected from null to false
+[28Mar2025 20:05:30.545] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowShowCPU] was corrected from null to false
+[28Mar2025 20:05:30.568] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
+[28Mar2025 20:05:30.644] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/mcmad/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[28Mar2025 20:05:31.193] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.0\f0c0b352173d0a378cbdcec9cfc4ba65899a721\javafmllanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[28Mar2025 20:05:31.198] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.0\e862740d8c84d08dbfedea412bef88fe42e727c5\lowcodelanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[28Mar2025 20:05:31.202] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.0\5719b3a297a33f877ed5dde4cb4bd75c859096af\mclanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[28Mar2025 20:05:31.207] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.0\235975dafa4309945b59c56b53f31dc5b65a6051\fmlcore-1.20.1-47.4.0.jar is missing mods.toml file
+[28Mar2025 20:05:31.387] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[28Mar2025 20:05:36.507] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\mcmad\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, geostrata, --all, --output, C:\Max\Modding\Porting\Reika\GeoStrata\src\generated\resources, --existing, C:\Max\Modding\Porting\Reika\GeoStrata\src\main\resources]
+[28Mar2025 20:05:37.238] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [geostrata]
+[28Mar2025 20:05:43.725] [modloading-worker-0/INFO] [dragonapi/]: DragonAPI is running in a deobfuscated environment!
+[28Mar2025 20:05:43.725] [modloading-worker-0/INFO] [dragonapi/]: GeoStrata is running in a deobfuscated environment!
+[28Mar2025 20:05:43.733] [modloading-worker-0/INFO] [dragonapi/]: Registered GEOSTRATA as version v0a
+[28Mar2025 20:05:43.734] [modloading-worker-0/INFO] [dragonapi/]: GEOSTRATA: Constructed; Active Classloader is: cpw.mods.modlauncher.TransformingClassLoader@3481ff98
+[28Mar2025 20:05:43.734] [modloading-worker-0/INFO] [dragonapi/]: Registered DRAGONAPI as version v0a
+[28Mar2025 20:05:43.734] [modloading-worker-0/INFO] [dragonapi/]: DRAGONAPI: Constructed; Active Classloader is: cpw.mods.modlauncher.TransformingClassLoader@3481ff98
+[28Mar2025 20:05:43.746] [modloading-worker-0/INFO] [dragonapi/]: DRAGONAPI: Completed loading phase CONSTRUCT in 23 ms (0h:0m:0s:23ms).
+[28Mar2025 20:05:43.746] [modloading-worker-0/INFO] [dragonapi/]: GEOSTRATA: Completed loading phase CONSTRUCT in 30 ms (0h:0m:0s:30ms).
+[28Mar2025 20:05:43.746] [modloading-worker-0/WARN] [dragonapi/]: ****************************************
+[28Mar2025 20:05:43.747] [modloading-worker-0/WARN] [dragonapi/]: DragonAPI Loading
+[28Mar2025 20:05:43.747] [modloading-worker-0/WARN] [dragonapi/]: ****************************************
+[28Mar2025 20:05:43.759] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.0, for MC 1.20.1 with MCP 20230612.114412
+[28Mar2025 20:05:43.768] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.0 Initialized
+[28Mar2025 20:05:43.803] [modloading-worker-0/INFO] [dragonapi/]: DRAGONAPI: Completed loading phase PRELOAD in 57 ms (0h:0m:0s:57ms).
+[28Mar2025 20:05:43.863] [modloading-worker-0/INFO] [dragonapi/]: DRAGONAPI: geostrata detected in the MC installation. Adjusting behavior accordingly.
+[28Mar2025 20:05:44.376] [modloading-worker-0/INFO] [geostrata/]: Registered 306 blocks
+[28Mar2025 20:05:44.376] [modloading-worker-0/INFO] [geostrata/]: Registered 34connected blocks
+[28Mar2025 20:05:44.377] [modloading-worker-0/INFO] [geostrata/]: Registered 306 stairs
+[28Mar2025 20:05:44.377] [modloading-worker-0/INFO] [geostrata/]: Registered 17 ores
+[28Mar2025 20:05:44.377] [modloading-worker-0/INFO] [geostrata/]: Registered 306 slabs
+[28Mar2025 20:05:44.398] [modloading-worker-0/INFO] [dragonapi/]: Pre-initialized GEOSTRATA; preloaded 1/2 mods.
+[28Mar2025 20:05:44.398] [modloading-worker-0/INFO] [dragonapi/]: GEOSTRATA: Completed loading phase PRELOAD in 652 ms (0h:0m:0s:652ms).
+[28Mar2025 20:05:44.955] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/mcmad/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_official_1.20.1/forge-1.20.1-47.4.0_mapped_official_1.20.1-recomp.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[28Mar2025 20:05:44.957] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/mcmad/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_official_1.20.1/forge-1.20.1-47.4.0_mapped_official_1.20.1-recomp.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[28Mar2025 20:05:45.316] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: RotaryCraftBlockStates
+[28Mar2025 20:05:47.398] [main/INFO] [net.minecraft.data.DataGenerator/]: RotaryCraftBlockStates finished after 2081 ms
+[28Mar2025 20:05:47.398] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: GeoStrataItemModels
