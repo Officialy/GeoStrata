@@ -32,8 +32,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+
 import reika.dragonapi.instantiable.data.blockstruct.BlockArray;
 import reika.dragonapi.instantiable.data.blockstruct.CurvedTrajectory;
 import reika.dragonapi.instantiable.data.immutable.BlockBox;
@@ -57,11 +57,11 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public  BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TileRFCrystal(pos, state);
     }
 
-    @Nullable
+    
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState p_153213_, BlockEntityType<T> p_153214_) {
         return level.isClientSide() ? null : ((level1, pPos, pState1, pBlockEntity) -> ((BlockRFCrystalSeed.TileRFCrystal) pBlockEntity).updateEntity());
@@ -140,7 +140,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         }
 
         @Override
-        public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        public  <T> LazyOptional<T> getCapability( Capability<T> cap,  Direction side) {
             return cap == ForgeCapabilities.ENERGY ? energyStorageLazyOptional.cast() : super.getCapability(cap, side);
         }
 
@@ -277,7 +277,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
             isActivated = NBT.getBoolean("activated") || !GeoOptions.RFACTIVATE.getState();
         }
 
-        @Nullable
+        
         @Override
         public Packet<ClientGamePacketListener> getUpdatePacket() {
             CompoundTag NBT = new CompoundTag();

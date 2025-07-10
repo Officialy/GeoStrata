@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+
 import org.joml.Matrix4f;
 import reika.dragonapi.instantiable.rendering.RotatedQuad;
 import reika.dragonapi.interfaces.IBlockRenderer;
@@ -148,7 +148,7 @@ public class OceanSpikeRenderer implements IBlockRenderer {
     }
 
     @Override
-    public boolean shouldRender(BlockState blockState, BlockAndTintGetter world, BlockPos pos, @Nullable RenderType renderType) {
+    public boolean shouldRender(BlockState blockState, BlockAndTintGetter world, BlockPos pos,  RenderType renderType) {
         return blockState.getBlock() == GeoBlocks.OCEAN_SPIKE.get();
     }
 

@@ -4,7 +4,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+
 import reika.geostrata.block.BlockGlowCrystal;
 
 public class BlockItemGlowCrystal extends BlockItem {
@@ -12,7 +12,7 @@ public class BlockItemGlowCrystal extends BlockItem {
         super(p_40565_, new Properties());
     }
 
-    @Nullable
+    
     @Override
     protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
         return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 0);
@@ -24,7 +24,7 @@ public class BlockItemGlowCrystal extends BlockItem {
             super(p_40565_, new Properties());
         }
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 1);
@@ -38,7 +38,7 @@ public class BlockItemGlowCrystal extends BlockItem {
         }
 
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 2);
@@ -51,7 +51,7 @@ public class BlockItemGlowCrystal extends BlockItem {
             super(p_40565_, new Properties());
         }
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, 3);

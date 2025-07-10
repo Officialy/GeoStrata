@@ -7,10 +7,12 @@ import reika.dragonapi.instantiable.math.noise.NoiseGeneratorBase;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.api.RockGenerationPatterns;
-import reika.geostrata.registry.GeoOptions;
-import reika.geostrata.registry.RockTypes;
 import reika.geostrata.level.generators.RockGenerator;
 import reika.geostrata.level.generators.WorldGenGeoRock;
+import reika.geostrata.registry.GeoOptions;
+import reika.geostrata.registry.RockTypes;
+
+import static reika.geostrata.level.generators.RockGenerator.VEIN_SIZE;
 
 public class BandedGenerator implements RockGenerationPatterns.RockGenerationPattern {
 
@@ -21,7 +23,7 @@ public class BandedGenerator implements RockGenerationPatterns.RockGenerationPat
 
     public BandedGenerator() {
         for (int i = 0; i < generators.length; i++) {
-            generators[i] = new WorldGenGeoRock(this, RockTypes.rockList[i], RockGenerator.VEIN_SIZE);
+            generators[i] = new WorldGenGeoRock(this, RockTypes.rockList[i], VEIN_SIZE);
             RockGenerator.instance.registerProfilingSubgenerator(RockTypes.rockList[i], this, generators[i]);
         }
     }
@@ -39,7 +41,7 @@ public class BandedGenerator implements RockGenerationPatterns.RockGenerationPat
             int posY = GeoStrata.config.getRockBand(geo)+(int)(OFFSET_MARGIN*bandOffsets.getValue(posX, posZ));
 //            GeoStrata.LOGGER.debug(geo.name()+":"+geo.canGenerateAt(world, posX, posY, posZ, random));
             if (geo.canGenerateAt(world, new BlockPos(posX, posY, posZ), random)) {
-//                (new WorldGenMinable(geo.getID(RockShapes.SMOOTH), VEIN_SIZE, Blocks.stone)).generate(world, random, posX, posY, posZ);
+                //(new WorldGenMinable(geo.getID(RockShapes.SMOOTH), VEIN_SIZE, Blocks.STONE)).generate(world, random, posX, posY, posZ);
                 generators[geo.ordinal()].generate(world, random, posX, posY, posZ);
 //                GeoStrata.LOGGER.info("Generating "+geo+" at "+posX+", "+posY+", "+posZ);
             }

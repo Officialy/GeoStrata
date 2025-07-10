@@ -19,6 +19,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 
+import reika.geostrata.GeoStrata;
+import reika.geostrata.block.BlockConnectedRock;
+
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.ForgeRegistries;
 import reika.dragonapi.libraries.java.ReikaStringParser;
@@ -78,7 +81,19 @@ public enum RockTypes {
     }
 
     public static RockTypes getTypeFromID(Block id) {
-        return GeoBlocks.blockMapping.get(id).getKey();
+        if (id instanceof BlockConnectedRock) {
+            var pair = GeoBlocks.connectedBlockMapping.get(id);
+            if (pair != null) {
+                return pair.getKey();
+            }
+        }
+        var pair = GeoBlocks.blockMapping.get(id);
+        if (pair != null) {
+            return pair.getKey();
+        }
+        // If we can't find the block in either mapping, return a default type to avoid NPE
+        GeoStrata.LOGGER.warn("Could not find rock type for block: " + id);
+        return RockTypes.GRANITE; // Default to a common type
     }
 
     public String getName() {

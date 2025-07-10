@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.IForgeShearable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+
 import reika.dragonapi.APIPacketHandler;
 import reika.dragonapi.DragonAPI;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
@@ -210,7 +210,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     }
 
     @Override
-    public @NotNull List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level level, BlockPos pos, int fortune) {
+    public  List<ItemStack> onSheared( Player player,  ItemStack item, Level level, BlockPos pos, int fortune) {
         return super.onSheared(player, item, level, pos, fortune);
     }
 

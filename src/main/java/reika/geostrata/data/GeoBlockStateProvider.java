@@ -57,43 +57,45 @@ public class GeoBlockStateProvider extends BlockStateProvider {
 
 //          GeoBlocks.oreMapping.forEach((block, rockType) -> simpleBlock(block.get()));
 
+
+
     }
 
     private void tinted_block(Block b, String texture) {
-        BlockModelBuilder model = models().withExistingParent(GeoDataProviders.name(b), new ResourceLocation(GeoStrata.MODID, "block/tinted_block"));
+        BlockModelBuilder model = models().withExistingParent(GeoDataProviders.name(b), ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_block"));
         model.texture("all", "block/" + texture);
         simpleBlock(b, model);
     }
 
     private void tintedStairBlock(StairBlock b) {
-        BlockModelBuilder stairs = models().withExistingParent(GeoDataProviders.name(b), new ResourceLocation(GeoStrata.MODID, "block/tinted_stair"));
-        BlockModelBuilder stairsInner = models().withExistingParent(GeoDataProviders.name(b) + "_inner", new ResourceLocation(GeoStrata.MODID, "block/tinted_inner_stair"));
-        BlockModelBuilder stairsOuter = models().withExistingParent(GeoDataProviders.name(b) + "_outer", new ResourceLocation(GeoStrata.MODID, "block/tinted_outer_stair"));
+        BlockModelBuilder stairs = models().withExistingParent(GeoDataProviders.name(b), ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_stair"));
+        BlockModelBuilder stairsInner = models().withExistingParent(GeoDataProviders.name(b) + "_inner", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_inner_stair"));
+        BlockModelBuilder stairsOuter = models().withExistingParent(GeoDataProviders.name(b) + "_outer", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_outer_stair"));
         var tex = GeoDataProviders.name(b).replaceAll("_stair", "");
-        stairs.texture("bottom", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairs.texture("side", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairs.texture("top", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsInner.texture("bottom", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsInner.texture("side", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsInner.texture("top", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsOuter.texture("bottom", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsOuter.texture("side", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        stairsOuter.texture("top", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
+        stairs.texture("bottom", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairs.texture("side", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairs.texture("top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsInner.texture("bottom", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsInner.texture("side", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsInner.texture("top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsOuter.texture("bottom", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsOuter.texture("side", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        stairsOuter.texture("top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
 
         stairsBlock(b, stairs, stairsInner, stairsOuter);
     }
 
     private void tintedSlabBlock(SlabBlock b) {
-        BlockModelBuilder bottom = models().withExistingParent(GeoDataProviders.name(b), new ResourceLocation(GeoStrata.MODID, "block/tinted_slab"));
-        BlockModelBuilder top = models().withExistingParent(GeoDataProviders.name(b) + "_top", new ResourceLocation(GeoStrata.MODID, "block/tinted_slab_top"));
+        BlockModelBuilder bottom = models().withExistingParent(GeoDataProviders.name(b), ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_slab"));
+        BlockModelBuilder top = models().withExistingParent(GeoDataProviders.name(b) + "_top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/tinted_slab_top"));
         var tex = GeoDataProviders.name(b).replaceAll("_slab", "");
-        bottom.texture("bottom", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        bottom.texture("side", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        bottom.texture("top", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        top.texture("bottom", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        top.texture("side", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        top.texture("top", new ResourceLocation(GeoStrata.MODID, "block/" + tex));
-        slabBlock(b, bottom, top, models().getExistingFile(new ResourceLocation(GeoStrata.MODID, "block/" + GeoDataProviders.name(b).replaceAll("_slab", ""))));
+        bottom.texture("bottom", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        bottom.texture("side", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        bottom.texture("top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        top.texture("bottom", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        top.texture("side", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        top.texture("top", ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + tex));
+        slabBlock(b, bottom, top, models().getExistingFile(ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "block/" + GeoDataProviders.name(b).replaceAll("_slab", ""))));
     }
 
     private void simpleStairBlock(StairBlock block) {

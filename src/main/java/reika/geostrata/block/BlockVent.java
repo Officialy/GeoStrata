@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+
 import reika.dragonapi.ModList;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
 import reika.dragonapi.libraries.registry.ReikaItemHelper;
@@ -53,7 +53,7 @@ public class BlockVent extends Block implements EntityBlock {
         level.sendBlockUpdated(pos, state, state, 3); //todo this.tickRate(level)+rand.nextInt(2400)
     }
 
-    @Nullable
+
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return switch (type) {
@@ -70,7 +70,7 @@ public class BlockVent extends Block implements EntityBlock {
     }
 
     @Override
-    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos,  Direction direction) {
         return true;
     }
 
@@ -134,7 +134,7 @@ public class BlockVent extends Block implements EntityBlock {
         }
     }
 
-    @Nullable
+
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide() ? null : ((level1, pPos, pState1, pBlockEntity) -> {

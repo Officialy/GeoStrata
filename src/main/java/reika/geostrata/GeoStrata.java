@@ -9,11 +9,8 @@
  ******************************************************************************/
 package reika.geostrata;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,9 +27,10 @@ import reika.dragonapi.base.DragonAPIMod;
 import reika.dragonapi.instantiable.rendering.ReikaRenderDispatcher;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.geostrata.compat.GeoChisel;
-import reika.geostrata.registry.*;
-import reika.geostrata.rendering.OceanSpikeRenderer;
 import reika.geostrata.level.GeoPlacedFeatures;
+import reika.geostrata.registry.*;
+import reika.geostrata.rendering.ConnectedStoneRenderer;
+import reika.geostrata.rendering.OceanSpikeRenderer;
 
 import java.awt.*;
 import java.io.File;
@@ -123,6 +121,8 @@ public class GeoStrata extends DragonAPIMod {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
         ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
+        GeoBlocks.connectedBlockMapping.forEach((blockConnectedRock, rockTypesRockShapesPair) ->
+                ReikaRenderDispatcher.registerBlockRenderer(blockConnectedRock, new ConnectedStoneRenderer()));
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {
@@ -170,7 +170,7 @@ public class GeoStrata extends DragonAPIMod {
 
                 for (int k = 0; k < RockShapes.shapeList.length; k++) {
                     RockShapes shape = RockShapes.shapeList[k];
-//					todo BlockColorInterface.addGPRBlockColor(rock.getID(shape), rock.rockColor);
+//      todo BlockColorInterface.addGPRBlockColor(rock.getID(shape), rock.rockColor);
                 }
             }
         }

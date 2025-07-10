@@ -1,0 +1,227 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 1048576 bytes. Error detail: AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:44), pid=64328, tid=63120
+#
+# JRE version:  (21.0.3+9) (build )
+# Java VM: OpenJDK 64-Bit Server VM (21.0.3+9-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dstderr.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dfile.encoding=UTF-8 -Duser.country=GB -Duser.language=en -Duser.variant C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.neoforged\neoform-runtime\1.0.37\b40f0a4b0a5204977c8ac2cf2e2d5378a681a38a\neoform-runtime-1.0.37-all.jar --home-dir C:\Users\mcmad\.gradle\caches\neoformruntime --work-dir C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\neoformruntime run --java-executable C:\Program Files\Eclipse Adoptium\jdk-17.0.7.7-hotspot\bin\java.exe --neoforge net.minecraftforge:forge:1.20.1-47.4.3:userdev --dist joined --write-result namedToIntermediaryMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\namedToIntermediate.tsrg --write-result intermediaryToNamedMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\intermediateToNamed.srg --write-result csvMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\intermediateToNamed.zip --write-result clientResources:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\client-extra-1.20.1-47.4.3.jar --write-result compiledWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3.jar --write-result sourcesWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3-sources.jar --write-result sourcesAndCompiledWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3-merged.jar --problems-report C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\createMinecraftArtifacts\nfrt-problem-report.json --artifact-manifest C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\createMinecraftArtifacts\nfrt_artifact_manifest.properties --warn-on-artifact-manifest-miss
+
+Host: AMD Ryzen 9 3900X 12-Core Processor            , 24 cores, 63G,  Windows 11 , 64 bit Build 27881 (10.0.27881.1000)
+Time: Sun Jul  6 20:16:10 2025 GMT Summer Time elapsed time: 1.626706 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000085e2c25810):  JavaThread "Unknown thread" [_thread_in_vm, id=63120, stack(0x00000085e2ae0000,0x00000085e2be0000) (1024K)]
+
+Stack: [0x00000085e2ae0000,0x00000085e2be0000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6c8699]
+V  [jvm.dll+0x8a2061]
+V  [jvm.dll+0x8a458e]
+V  [jvm.dll+0x8a4c63]
+V  [jvm.dll+0x27e476]
+V  [jvm.dll+0xbf557]
+V  [jvm.dll+0x32ec55]
+V  [jvm.dll+0x327131]
+V  [jvm.dll+0x86b0b9]
+V  [jvm.dll+0x3b81c1]
+V  [jvm.dll+0x854318]
+V  [jvm.dll+0x44c55e]
+V  [jvm.dll+0x44e081]
+C  [jli.dll+0x5278]
+C  [ucrtbase.dll+0x8ccf0]
+C  [KERNEL32.DLL+0x35f37]
+C  [ntdll.dll+0x4f40]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007fff7756e048, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+Total: 0
+
+Other Threads:
+  0x00000085f600ff90 WorkerThread "GC Thread#0"                     [id=39648, stack(0x00000085f61d0000,0x00000085f62d0000) (1024K)]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007fff76c73800]
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007fff775e2228] Heap_lock - owner thread: 0x00000085e2c25810
+
+Heap address: 0x0000000401000000, size: 16368 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+ CardTable entry size: 512
+ Card Set container configuration: InlinePtr #cards 4 size 8 Array Of Cards #cards 64 size 144 Howl #buckets 8 coarsen threshold 14745 Howl Bitmap #cards 2048 size 272 coarsen threshold 1843 Card regions per heap region 1 cards per card region 16384
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000401000000, 0x0000000800000000)
+  region size 8192K, 0 young (0K), 0 survivors (0K)
+
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007fff77062069]
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.016 Loaded shared library C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes loaded (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+ZGC Phase Switch (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff6fa850000 - 0x00007ff6fa85e000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\java.exe
+0x00007fffc4d60000 - 0x00007fffc4fc3000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007fffc30e0000 - 0x00007fffc31a9000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007fffc1dc0000 - 0x00007fffc21ab000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007fffc23a0000 - 0x00007fffc24ee000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007fffb54b0000 - 0x00007fffb54cb000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\VCRUNTIME140.dll
+0x00007fffbcc60000 - 0x00007fffbcc78000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\jli.dll
+0x00007fffc2e00000 - 0x00007fffc2fcc000 	C:\WINDOWS\System32\USER32.dll
+0x00007fffa19b0000 - 0x00007fffa1c4b000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.27881.1000_none_12eb9eca89b416ef\COMCTL32.dll
+0x00007fffc2970000 - 0x00007fffc2997000 	C:\WINDOWS\System32\win32u.dll
+0x00007fffc4a60000 - 0x00007fffc4b09000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007fffc48b0000 - 0x00007fffc48e3000 	C:\WINDOWS\System32\GDI32.dll
+0x00007fffc21b0000 - 0x00007fffc22e1000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007fffc22f0000 - 0x00007fffc2394000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007fffc3320000 - 0x00007fffc33c6000 	C:\WINDOWS\System32\sechost.dll
+0x00007fffc2c90000 - 0x00007fffc2cc1000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007fffbee20000 - 0x00007fffbee2c000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\vcruntime140_1.dll
+0x00007fffa85a0000 - 0x00007fffa862e000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\msvcp140.dll
+0x00007fff76940000 - 0x00007fff776c2000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\server\jvm.dll
+0x00007fffc2d40000 - 0x00007fffc2df2000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007fffc38b0000 - 0x00007fffc39c2000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007fffc3bc0000 - 0x00007fffc3c35000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007fffc1be0000 - 0x00007fffc1c3d000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007fffb3d40000 - 0x00007fffb3d76000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007fffb9f90000 - 0x00007fffb9f9b000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007fffc1bc0000 - 0x00007fffc1bd4000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007fffc0b50000 - 0x00007fffc0b6b000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007fffbcc50000 - 0x00007fffbcc5a000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\jimage.dll
+0x00007fffa9aa0000 - 0x00007fffa9d70000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007fffc33e0000 - 0x00007fffc3765000 	C:\WINDOWS\System32\combase.dll
+0x00007fffc2ba0000 - 0x00007fffc2c81000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007fffa7c70000 - 0x00007fffa7ca9000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007fffc28c0000 - 0x00007fffc295e000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007fffb5490000 - 0x00007fffb54af000 	C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.27881.1000_none_12eb9eca89b416ef;C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin\server
+
+VM Arguments:
+jvm_args: -Dstderr.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dfile.encoding=UTF-8 -Duser.country=GB -Duser.language=en -Duser.variant 
+java_command: C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.neoforged\neoform-runtime\1.0.37\b40f0a4b0a5204977c8ac2cf2e2d5378a681a38a\neoform-runtime-1.0.37-all.jar --home-dir C:\Users\mcmad\.gradle\caches\neoformruntime --work-dir C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\neoformruntime run --java-executable C:\Program Files\Eclipse Adoptium\jdk-17.0.7.7-hotspot\bin\java.exe --neoforge net.minecraftforge:forge:1.20.1-47.4.3:userdev --dist joined --write-result namedToIntermediaryMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\namedToIntermediate.tsrg --write-result intermediaryToNamedMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\intermediateToNamed.srg --write-result csvMapping:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\intermediateToNamed.zip --write-result clientResources:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\client-extra-1.20.1-47.4.3.jar --write-result compiledWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3.jar --write-result sourcesWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3-sources.jar --write-result sourcesAndCompiledWithNeoForge:C:\Max\Modding\Porting\Reika\GeoStrata\build\moddev\artifacts\forge-1.20.1-47.4.3-merged.jar --problems-report C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\createMinecraftArtifacts\nfrt-problem-report.json --artifact-manifest C:\Max\Modding\Porting\Reika\GeoStrata\build\tmp\createMinecraftArtifacts\nfrt_artifact_manifest.properties --warn-on-artifact-manifest-miss
+java_class_path (initial): C:\Users\mcmad\.gradle\caches\modules-2\files-2.1\net.neoforged\neoform-runtime\1.0.37\b40f0a4b0a5204977c8ac2cf2e2d5378a681a38a\neoform-runtime-1.0.37-all.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 12                                        {product} {ergonomic}
+     uint ConcGCThreads                            = 5                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 18                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 8388608                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 1073741824                                {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 17163091968                               {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 8388608                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 7602480                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122027880                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122027880                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 17163091968                            {manageable} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags foldmultilines=false
+ #1: stderr all=off uptime,level,tags foldmultilines=false
+
+Environment Variables:
+CLASSPATH=C:\Max\Modding\Porting\Reika\RotaryCraft\\gradle\wrapper\gradle-wrapper.jar
+PATH=C:\Program Files\ImageMagick-7.1.1-Q16-HDRI;C:\Program Files\Eclipse Adoptium\jdk-21.0.3.9-hotspot\bin;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files\Eclipse Adoptium\jdk-17.0.7.7-hotspot\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1\libnvvp;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\IncrediBuild;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\CMake\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2023.1.1\;C:\Program Files\WorldPainter;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Void\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\nodejs\;C:\Users\mcmad\.local\bin;C:\Users\mcmad\anaconda3;C:\Users\mcmad\anaconda3\Library\mingw-w64\bin;C:\Users\mcmad\anaconda3\Library\usr\bin;C:\Users\mcmad\anaconda3\Library\bin;C:\Users\mcmad\anaconda3\Scripts;C:\Users\mcmad\.cargo\bin;C:\Users\mcmad\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2022.2.4\bin;C:\Users\mcmad\AppData\Local\gitkraken\bin;C:\Users\mcmad\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mcmad\AppData\Local\GitHubDesktop\bin;C:\Users\mcmad\.dotnet\tools;C:\Users\mcmad\AppData\Local\Programs\Python\Python310\python.exe;C:\Users\mcmad\AppData\Local\JetBrains\Toolbox\scripts;C:\Program Files\Graphviz\bin;C:\Users\mcmad\.bun\bin;C:\Users\mcmad\AppData\Local\Programs\Ollama;C:\Users\mcmad\AppData\Local\Yarn\bin;C:\Users\mcmad\.lmstudio\bin;C:\Users\mcmad\AppData\Local\Microsoft\WindowsApps;C:\Users\mcmad\AppData\Local\XPipe\bin;C:\Users\mcmad\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\mcmad\AppData\Local\nvm;C:\nvm4w\nodejs;C:\Users\mcmad\AppData\Roaming\npm
+USERNAME=mcmad
+LANG=en_US.UTF-8
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD
+TMP=C:\Users\mcmad\AppData\Local\Temp
+TEMP=C:\Users\mcmad\AppData\Local\Temp
+
+
+
+
+Periodic native trim disabled
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 27881 (10.0.27881.1000)
+OS uptime: 7 days 2:42 hours
+Hyper-V role detected
+
+CPU: total 24 (initial active 24) (24 cores per cpu, 2 threads per core) family 23 model 113 stepping 0 microcode 0x8701021, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4a, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt, hv, rdtscp, rdpid, f16c
+Processor Information for all 24 processors :
+  Max Mhz: 3801, Current Mhz: 3801, Mhz Limit: 3801
+
+Memory: 4k page, system-wide physical 65456M (9726M free)
+TotalPageFile size 104085M (AvailPageFile size 276M)
+current process WorkingSet (physical memory assigned to process): 13M, peak: 13M
+current process commit charge ("private bytes"): 79M, peak: 79M
+
+vm_info: OpenJDK 64-Bit Server VM (21.0.3+9-LTS) for windows-amd64 JRE (21.0.3+9-LTS), built on 2024-04-16T00:00:00Z by "admin" with MS VC++ 17.7 (VS2022)
+
+END.

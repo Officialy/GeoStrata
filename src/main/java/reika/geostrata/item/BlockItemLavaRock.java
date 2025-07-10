@@ -4,7 +4,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+
 import reika.geostrata.block.BlockLavaRock;
 
 public class BlockItemLavaRock extends BlockItem {
@@ -12,7 +12,7 @@ public class BlockItemLavaRock extends BlockItem {
         super(p_40565_, new Properties());
     }
 
-    @Nullable
+    
     @Override
     protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
         return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 0);
@@ -23,7 +23,7 @@ public class BlockItemLavaRock extends BlockItem {
             super(p_40565_, new Properties());
         }
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 1);
@@ -37,7 +37,7 @@ public class BlockItemLavaRock extends BlockItem {
         }
 
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 2);
@@ -50,7 +50,7 @@ public class BlockItemLavaRock extends BlockItem {
             super(p_40565_, new Properties());
         }
 
-        @Nullable
+        
         @Override
         protected BlockState getPlacementState(BlockPlaceContext p_40613_) {
             return this.getBlock().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 3);

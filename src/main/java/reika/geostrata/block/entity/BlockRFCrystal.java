@@ -28,7 +28,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.Nullable;
+
 import reika.dragonapi.DragonAPI;
 import reika.dragonapi.libraries.ReikaEnchantmentHelper;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
@@ -52,7 +52,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         super(Properties.of().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
     }
 
-    @Nullable
+
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TileRFCrystalAux(pos, state);
@@ -184,7 +184,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
             return false;
         }
 
-        @Nullable
+
         @Override
         public Packet<ClientGamePacketListener> getUpdatePacket() {
             CompoundTag NBT = new CompoundTag();
