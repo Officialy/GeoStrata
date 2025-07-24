@@ -3,11 +3,11 @@ package reika.geostrata.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.common.data.ExistingFileHelper;
+import net.neoforged.data.event.GatherDataEvent;
+import net.neoforged.eventbus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.registries.ForgeRegistries;
 import reika.geostrata.GeoStrata;
 
 @Mod.EventBusSubscriber(modid = GeoStrata.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

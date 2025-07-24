@@ -1,9 +1,9 @@
 package reika.geostrata.registry;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.registries.DeferredRegister;
+import net.neoforged.registries.ForgeRegistries;
+import net.neoforged.registries.RegistryObject;
 import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;

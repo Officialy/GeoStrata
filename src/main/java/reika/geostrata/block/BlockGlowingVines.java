@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.common.IForgeShearable;
+import net.neoforged.common.IForgeShearable;
 
 
 import reika.dragonapi.APIPacketHandler;

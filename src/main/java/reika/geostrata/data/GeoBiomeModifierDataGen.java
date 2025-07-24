@@ -16,8 +16,8 @@
 //import net.minecraft.world.level.biome.Biome;
 //import net.minecraft.world.level.levelgen.GenerationStep;
 //import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-//import net.minecraftforge.common.data.ExistingFileHelper;
-//import net.minecraftforge.registries.ForgeRegistries;
+//import net.neoforged.common.data.ExistingFileHelper;
+//import net.neoforged.registries.ForgeRegistries;
 //import reika.geostrata.GeoStrata;
 //import reika.geostrata.world.GeoFeatures;
 //

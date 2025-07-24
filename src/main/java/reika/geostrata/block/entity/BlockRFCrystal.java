@@ -27,7 +27,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.energy.IEnergyStorage;
 
 import reika.dragonapi.DragonAPI;
 import reika.dragonapi.libraries.ReikaEnchantmentHelper;

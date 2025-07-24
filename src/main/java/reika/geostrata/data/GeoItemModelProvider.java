@@ -1,8 +1,8 @@
 package reika.geostrata.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.client.model.generators.ItemModelProvider;
+import net.neoforged.common.data.ExistingFileHelper;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
 

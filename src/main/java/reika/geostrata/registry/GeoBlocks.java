@@ -15,11 +15,11 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.GameData;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.eventbus.api.IEventBus;
+import net.neoforged.registries.DeferredRegister;
+import net.neoforged.registries.ForgeRegistries;
+import net.neoforged.registries.GameData;
+import net.neoforged.registries.RegistryObject;
 import org.apache.commons.lang3.tuple.Pair;
 import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;

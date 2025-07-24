@@ -11,14 +11,14 @@ package reika.geostrata;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.common.NeoForge;
+import net.neoforged.eventbus.api.IEventBus;
+import net.neoforged.fml.DistExecutor;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import reika.dragonapi.ModList;
@@ -64,7 +64,7 @@ public class GeoStrata extends DragonAPIMod {
 
     public GeoStrata() {
         this.startTiming(LoadProfiler.LoadPhase.PRELOAD);
-        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+        IEventBus forgeBus = NeoForge.EVENT_BUS;
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         instance = this;
         config = new GeoConfig(instance, GeoOptions.optionList, null);
@@ -81,8 +81,8 @@ public class GeoStrata extends DragonAPIMod {
         });
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
 //             Server setup
-            MinecraftForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
-            MinecraftForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
+            NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
+            NeoForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
         });
 
         GeoBlocks.initialise(bus);

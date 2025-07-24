@@ -23,7 +23,7 @@ import reika.geostrata.GeoStrata;
 import reika.geostrata.block.BlockConnectedRock;
 
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.registries.ForgeRegistries;
 import reika.dragonapi.libraries.java.ReikaStringParser;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;

@@ -9,10 +9,10 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.registries.DeferredRegister;
+import net.neoforged.registries.ForgeRegistries;
+import net.neoforged.registries.RegistryObject;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.level.generators.*;
 

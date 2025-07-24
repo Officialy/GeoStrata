@@ -1,7 +1,7 @@
 package reika.geostrata.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.common.data.LanguageProvider;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
 
