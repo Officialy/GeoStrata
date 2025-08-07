@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.client.event.RegisterColorHandlersEvent;
 import net.neoforged.event.entity.living.LivingDamageEvent;
 import net.neoforged.event.entity.living.LivingFallEvent;
-import net.neoforged.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 import reika.geostrata.block.BlockGlowCrystal;
 import reika.geostrata.block.BlockVent;
 import reika.geostrata.registry.GeoBlocks;
