@@ -1,8 +1,6 @@
 {
-    "pack": {
-        "description": "geostrata resources",
-        "pack_format": 8,
-        "forge:resource_pack_format": 9,
-        "forge:data_pack_format": 10
-    }
+  "pack": {
+    "description": "GeoStrata resources",
+    "pack_format": 88
+  }
 }
