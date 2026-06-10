@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "geostrata:block/schist_pillar",
-    "side": "geostrata:block/schist_pillar",
-    "top": "geostrata:block/schist_pillar"
-  }
-}

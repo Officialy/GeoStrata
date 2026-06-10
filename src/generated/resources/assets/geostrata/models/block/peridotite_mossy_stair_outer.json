@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "geostrata:block/peridotite_mossy",
-    "side": "geostrata:block/peridotite_mossy",
-    "top": "geostrata:block/peridotite_mossy"
-  }
-}

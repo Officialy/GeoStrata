@@ -10,9 +10,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.registries.DeferredRegister;
-import net.neoforged.registries.ForgeRegistries;
-import net.neoforged.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.level.generators.*;
 
@@ -21,18 +21,18 @@ import java.util.List;
 
 import static reika.geostrata.GeoStrata.MODID;
 
-@Mod.EventBusSubscriber(modid = GeoStrata.MODID)
+@net.neoforged.fml.common.EventBusSubscriber(modid = GeoStrata.MODID)
 public class GeoPlacedFeatures {
 
     public static BlockPredicate ONLY_IN_WATER_PREDICATE = BlockPredicate.matchesBlocks(Collections.singletonList(Blocks.WATER));
-    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> OCEAN_SPIKE_FEATURE = FEATURES.register("ocean_spike", DecoGenerator::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GLOW_CRYSTAL_FEATURE = FEATURES.register("glow_crystal", GlowCrystalGenerator::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LAVA_ROCK_FEATURE = FEATURES.register("lava_rock", LavaRockGeneratorRedesign::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> VENT_FEATURE = FEATURES.register("vent", VentGenerator::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GEO_ROCK_FEATURE = FEATURES.register("geo_rock", RockGenerator::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> RF_CRYSTAL_FEATURE = FEATURES.register("rf_crystal", RFCrystalGenerator::new);
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GLOWING_VINE_FEATURE = FEATURES.register("glowing_vine", GlowingVineGenerator::new);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MODID);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> OCEAN_SPIKE_FEATURE = FEATURES.register("ocean_spike", DecoGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GLOW_CRYSTAL_FEATURE = FEATURES.register("glow_crystal", GlowCrystalGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> LAVA_ROCK_FEATURE = FEATURES.register("lava_rock", LavaRockGeneratorRedesign::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> VENT_FEATURE = FEATURES.register("vent", VentGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GEO_ROCK_FEATURE = FEATURES.register("geo_rock", RockGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> RF_CRYSTAL_FEATURE = FEATURES.register("rf_crystal", RFCrystalGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GLOWING_VINE_FEATURE = FEATURES.register("glowing_vine", GlowingVineGenerator::new);
 
     public static PlacedFeature OCEAN_SPIKE;
     public static PlacedFeature GLOW_CRYSTAL;

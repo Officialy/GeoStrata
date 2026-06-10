@@ -9,7 +9,7 @@ import reika.geostrata.block.BlockGlowCrystal;
 
 public class BlockItemGlowCrystal extends BlockItem {
     public BlockItemGlowCrystal(Block p_40565_) {
-        super(p_40565_, new Properties());
+        super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
     }
 
     
@@ -21,7 +21,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal1 extends BlockItem {
 
         public BlockItemGlowCrystal1(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
         
@@ -34,7 +34,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal2 extends BlockItem {
 
         public BlockItemGlowCrystal2(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
 
@@ -48,7 +48,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal3 extends BlockItem {
 
         public BlockItemGlowCrystal3(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
         

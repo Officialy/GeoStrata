@@ -40,8 +40,8 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         var chunk = context.level().getChunk(context.origin());
-        var chunkX = chunk.getPos().x;
-        var chunkZ = chunk.getPos().z;
+        var chunkX = chunk.getPos().x();
+        var chunkZ = chunk.getPos().z();
         var world = context.level();
 
         this.seedNoise(world);
@@ -73,14 +73,14 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
             return;
         }
         if (c.getBlockState(pos.below()).getBlock() == GeoBlocks.LAVAROCK.get()) {
-            c.setBlockState(pos.below(), c.getBlockState(pos.below()).setValue(BlockLavaRock.CONNECTED_STATE, true), false);
+            c.setBlockState(pos.below(), c.getBlockState(pos.below()).setValue(BlockLavaRock.CONNECTED_STATE, true), 3);
         }
         if (c.getBlockState(pos.above()).getBlock() == GeoBlocks.LAVAROCK.get()) {
-            c.setBlockState(pos.above(), c.getBlockState(pos.above()).setValue(BlockLavaRock.CONNECTED_STATE, true), false);
+            c.setBlockState(pos.above(), c.getBlockState(pos.above()).setValue(BlockLavaRock.CONNECTED_STATE, true), 3);
         }
-        c.setBlockState(pos, GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, height), false);
+        c.setBlockState(pos, GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, height), 3);
 //        for (int i = 1; i < height; i++) { //todo see what this does lol
-//            c.setBlockState(pos.above(i), GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 2), false);
+//            c.setBlockState(pos.above(i), GeoBlocks.LAVAROCK.get().defaultBlockState().setValue(BlockLavaRock.BLOCK_HEIGHT_STATE, 2), 0);
 //        }
         if (height < 3) {
             int d = 1;
@@ -101,8 +101,8 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
     }
 
     private int getSizeStep(ChunkAccess c, int cx, int y, int cz) {
-        int x = cx + c.getPos().x * 16;
-        int z = cz + c.getPos().z * 16;
+        int x = cx + c.getPos().x() * 16;
+        int z = cz + c.getPos().z() * 16;
         lavaRockThickness.setFrequency(0.1);
         double val = lavaRockThickness.getValue(x, z);
         return (int) Mth.clamp(ReikaMathLibrary.normalizeToBounds(val, 0.5, 3.5), 1, 3);

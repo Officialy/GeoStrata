@@ -9,17 +9,18 @@
  ******************************************************************************/
 package reika.geostrata.registry;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.eventbus.api.IEventBus;
-import net.neoforged.registries.DeferredRegister;
-import net.neoforged.registries.ForgeRegistries;
-import net.neoforged.registries.GameData;
-import net.neoforged.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.apache.commons.lang3.tuple.Pair;
 import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;
@@ -35,63 +36,107 @@ import java.util.function.Supplier;
 
 public class GeoBlocks {
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, GeoStrata.MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GeoStrata.MODID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(GeoStrata.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(GeoStrata.MODID);
 
-    //    public static final RegistryObject<Block> DECO          = register("deco_blocks",    () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(5)));
-    public static final RegistryObject<Block> STEAM_VENT = register("steam_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.STEAM), false, false, false);
-    public static final RegistryObject<Block> PYRO_VENT = register("pyro_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.PYRO), false, false, false);
-    public static final RegistryObject<Block> CRYO_VENT = register("cryo_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.CRYO), false, false, false);
-    public static final RegistryObject<Block> GAS_VENT = register("gas_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.GAS), false, false, false);
-    public static final RegistryObject<Block> LAVA_VENT = register("lava_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.LAVA), false, false, false);
-    public static final RegistryObject<Block> SMOKE_VENT = register("smoke_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.SMOKE), false, false, false);
-    public static final RegistryObject<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
-    public static final RegistryObject<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
-    public static final RegistryObject<Block> WATER_VENT = register("water_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
+    // 1.21.5: Block.Properties / Item.Properties need setId() before the constructor runs. We stash
+    // the ResourceKey in a ThreadLocal while each factory runs, and helpers blockProperties() /
+    // itemProperties() read it. Block subclasses with no-arg ctors must call blockProperties()
+    // inside their super(...) chain instead of blockProperties().
+    private static final ThreadLocal<ResourceKey<Block>> CURRENT_BLOCK_KEY = new ThreadLocal<>();
+    private static final ThreadLocal<ResourceKey<Item>> CURRENT_ITEM_KEY = new ThreadLocal<>();
 
-    public static RegistryObject<Block> LAVAROCK;
+    public static BlockBehaviour.Properties blockProperties() {
+        BlockBehaviour.Properties p = BlockBehaviour.Properties.of();
+        ResourceKey<Block> k = CURRENT_BLOCK_KEY.get();
+        if (k != null) p.setId(k);
+        return p;
+    }
+
+    public static Item.Properties itemProperties() {
+        Item.Properties p = new Item.Properties();
+        ResourceKey<Item> k = CURRENT_ITEM_KEY.get();
+        if (k != null) p.setId(k);
+        return p;
+    }
+
+    /** Public helper so other registry classes (OreTypes, RockShapes) can use the same pattern. */
+    public static <BLOCK extends Block> DeferredBlock<BLOCK> registerBlockOnly(String name, Supplier<BLOCK> factory) {
+        return BLOCKS.register(name, rl -> {
+            CURRENT_BLOCK_KEY.set(ResourceKey.create(Registries.BLOCK, rl));
+            try {
+                return factory.get();
+            } finally {
+                CURRENT_BLOCK_KEY.remove();
+            }
+        });
+    }
+
+    public static <I extends Item> DeferredItem<I> registerItemOnly(String name, Supplier<I> factory) {
+        return ITEMS.register(name, rl -> {
+            CURRENT_ITEM_KEY.set(ResourceKey.create(Registries.ITEM, rl));
+            try {
+                return factory.get();
+            } finally {
+                CURRENT_ITEM_KEY.remove();
+            }
+        });
+    }
+
+    //    public static final DeferredBlock<Block> DECO          = register("deco_blocks",    () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(5)));
+    public static final DeferredBlock<Block> STEAM_VENT = register("steam_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.STEAM), false, false, false);
+    public static final DeferredBlock<Block> PYRO_VENT = register("pyro_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.PYRO), false, false, false);
+    public static final DeferredBlock<Block> CRYO_VENT = register("cryo_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.CRYO), false, false, false);
+    public static final DeferredBlock<Block> GAS_VENT = register("gas_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.GAS), false, false, false);
+    public static final DeferredBlock<Block> LAVA_VENT = register("lava_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.LAVA), false, false, false);
+    public static final DeferredBlock<Block> SMOKE_VENT = register("smoke_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.SMOKE), false, false, false);
+    public static final DeferredBlock<Block> FIRE_VENT = register("fire_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.FIRE), false, false, false);
+    public static final DeferredBlock<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
+    public static final DeferredBlock<Block> WATER_VENT = register("water_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
+
+    public static DeferredBlock<Block> LAVAROCK;
 
     //Lava rock BlockItem registering
-    public static RegistryObject<Item> LAVAROCK_ITEM_0 = ITEMS.register("lava_rock_item_0", () -> new BlockItemLavaRock(GeoBlocks.LAVAROCK.get()));
+    public static DeferredItem<Item> LAVAROCK_ITEM_0 = registerItemOnly("lava_rock_item_0", () -> new BlockItemLavaRock(GeoBlocks.LAVAROCK.get()));
 
-    public static RegistryObject<Item> LAVAROCK_ITEM_1 = ITEMS.register("lava_rock_item_1", () -> new BlockItemLavaRock.BlockItemLavaRock1(GeoBlocks.LAVAROCK.get()));
+    public static DeferredItem<Item> LAVAROCK_ITEM_1 = registerItemOnly("lava_rock_item_1", () -> new BlockItemLavaRock.BlockItemLavaRock1(GeoBlocks.LAVAROCK.get()));
 
-    public static RegistryObject<Item> LAVAROCK_ITEM_2 = ITEMS.register("lava_rock_item_2", () -> new BlockItemLavaRock.BlockItemLavaRock2(GeoBlocks.LAVAROCK.get()));
+    public static DeferredItem<Item> LAVAROCK_ITEM_2 = registerItemOnly("lava_rock_item_2", () -> new BlockItemLavaRock.BlockItemLavaRock2(GeoBlocks.LAVAROCK.get()));
 
-    public static RegistryObject<Item> LAVAROCK_ITEM_3 = ITEMS.register("lava_rock_item_3", () -> new BlockItemLavaRock.BlockItemLavaRock3(GeoBlocks.LAVAROCK.get()));
+    public static DeferredItem<Item> LAVAROCK_ITEM_3 = registerItemOnly("lava_rock_item_3", () -> new BlockItemLavaRock.BlockItemLavaRock3(GeoBlocks.LAVAROCK.get()));
 
     static {
 //todo cleaner, maybe use if I make it a standard block and use random ticks instead? Though it wont be like 1.7.10 if i cant get the timer to constantly tick
 //      for (VentType type : VentType.values()) {
-//            register(type.name().toLowerCase() + "_vent", () -> new BlockVent(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5F, 3F), type), false, false, false);
+//            register(type.name().toLowerCase() + "_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), type), false, false, false);
 //        }
 
         if (ModList.ROTARYCRAFT.isLoaded()) {
-            LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRockRoC::new);
+            LAVAROCK = registerBlockOnly("lava_rock", BlockLavaRockRoC::new);
         } else {
-            LAVAROCK = BLOCKS.register("lava_rock", BlockLavaRock::new);
+            LAVAROCK = registerBlockOnly("lava_rock", BlockLavaRock::new);
         }
     }
 
-    public static final RegistryObject<Block> LUMINOUS_CRYSTAL = BLOCKS.register("luminous_crystal", BlockGlowCrystal::new);
+    public static final DeferredBlock<Block> LUMINOUS_CRYSTAL = registerBlockOnly("luminous_crystal", BlockGlowCrystal::new);
 
-    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_0 = ITEMS.register("luminous_crystal_item_0", () -> new BlockItemGlowCrystal(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_1 = ITEMS.register("luminous_crystal_item_1", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal1(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_2 = ITEMS.register("luminous_crystal_item_2", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal2(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final RegistryObject<Item> LUMINOUS_CRYSTAL_ITEM_3 = ITEMS.register("luminous_crystal_item_3", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal3(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_0 = registerItemOnly("luminous_crystal_item_0", () -> new BlockItemGlowCrystal(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_1 = registerItemOnly("luminous_crystal_item_1", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal1(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_2 = registerItemOnly("luminous_crystal_item_2", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal2(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_3 = registerItemOnly("luminous_crystal_item_3", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal3(GeoBlocks.LUMINOUS_CRYSTAL.get()));
 
-    public static final RegistryObject<Block> GLOWING_VINES = register("glowing_vines", BlockGlowingVines::new, false, false, false);
-    //public static final RegistryObject<Block> RFCRYSTAL     = register("Flux Crystals",       BlockRFCrystal);
-    //public static final RegistryObject<Block> RFCRYSTALSEED = register("Flux Crystal Seed",   BlockRFCrystalSeed);
-    public static final RegistryObject<Block> VOID_OPALS = register("void_opals", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(7F)), false, false, false);
-    public static final RegistryObject<Block> OBSIDIAN_BRICKS = register("obsidian_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(60, 1200)), false, false, false);
-    public static final RegistryObject<Block> GLOWSTONE_BRICKS = register("glowstone_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1F)), false, false, false);
-    public static final RegistryObject<Block> REDSTONE_BRICKS = register("redstone_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(5.5F).sound(SoundType.METAL)), false, false, false);
-    public static final RegistryObject<Block> LAPIS_BRICKS = register("lapis_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(3.5F)), false, false, false);
-    public static final RegistryObject<Block> EMERALD_BRICKS = register("emerald_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(6F)), false, false, false);
-    public static final RegistryObject<Block> OCEAN_SPIKE = register("ocean_spike", () -> new BlockOceanSpike(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(6F).noOcclusion()), false, false, false);
-    public static final RegistryObject<Block> RF_CRYSTAL_SEED = register("rf_crystal_seed", BlockRFCrystalSeed::new, false, false, false);
-    public static final RegistryObject<Block> RF_CRYSTAL = register("rf_crystal", BlockRFCrystal::new, false, false, false);
+    public static final DeferredBlock<Block> GLOWING_VINES = register("glowing_vines", BlockGlowingVines::new, false, false, false);
+    //public static final DeferredBlock<Block> RFCRYSTAL     = register("Flux Crystals",       BlockRFCrystal);
+    //public static final DeferredBlock<Block> RFCRYSTALSEED = register("Flux Crystal Seed",   BlockRFCrystalSeed);
+    public static final DeferredBlock<Block> VOID_OPALS = register("void_opals", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(7F)), false, false, false);
+    public static final DeferredBlock<Block> OBSIDIAN_BRICKS = register("obsidian_bricks", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(60, 1200)), false, false, false);
+    public static final DeferredBlock<Block> GLOWSTONE_BRICKS = register("glowstone_bricks", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(1F)), false, false, false);
+    public static final DeferredBlock<Block> REDSTONE_BRICKS = register("redstone_bricks", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(5.5F).sound(SoundType.METAL)), false, false, false);
+    public static final DeferredBlock<Block> LAPIS_BRICKS = register("lapis_bricks", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(3.5F)), false, false, false);
+    public static final DeferredBlock<Block> EMERALD_BRICKS = register("emerald_bricks", () -> new Block(blockProperties().mapColor(MapColor.STONE).strength(6F)), false, false, false);
+    public static final DeferredBlock<Block> OCEAN_SPIKE = register("ocean_spike", () -> new BlockOceanSpike(blockProperties().mapColor(MapColor.STONE).strength(6F).noOcclusion()), false, false, false);
+    public static final DeferredBlock<Block> RF_CRYSTAL_SEED = register("rf_crystal_seed", BlockRFCrystalSeed::new, false, false, false);
+    public static final DeferredBlock<Block> RF_CRYSTAL = register("rf_crystal", BlockRFCrystal::new, false, false, false);
 
     public static HashMap<Block, Pair<RockTypes, RockShapes>> blockMapping = new HashMap<>();
     public static HashMap<BlockConnectedRock, Pair<RockTypes, RockShapes>> connectedBlockMapping = new HashMap<>();
@@ -114,45 +159,27 @@ public class GeoBlocks {
         for (int i = 0; i < RockTypes.rockList.length; i++) {
             OreTypes o = OreTypes.oreList[i];
             RockTypes r = RockTypes.rockList[i];
-            GameData.unfreezeData(); //todo find out why i need this & get rid of it
 
-            oreMapping.put(o.registerOreBlock(r), Pair.of(r, o));
+            // 1.21.5: ore/connected/stair/slab registrations now self-populate their maps inside
+            // the registration lambda (because block construction is deferred until RegisterEvent
+            // fires). Just trigger the registration here; the side-effects fill in the maps later.
+            o.registerOreBlock(r);
 
-            connectedBlockMapping.put(RockShapes.CONNECTED.registerConnectedBlock(r), Pair.of(r, RockShapes.CONNECTED));
-            connectedBlockMapping.put(RockShapes.CONNECTED2.registerConnectedBlock(r), Pair.of(r, RockShapes.CONNECTED2));
+            RockShapes.CONNECTED.registerConnectedBlock(r);
+            RockShapes.CONNECTED2.registerConnectedBlock(r);
 
             for (RockShapes rockShapes : RockShapes.filteredShapeList) {
-                blockMapping.put(rockShapes.register(r), Pair.of(r, rockShapes));
-                stairMapping.put(rockShapes.registerStairBlock(r, rockShapes), Pair.of(r, rockShapes));
-                slabMapping.put(rockShapes.registerSlabBlock(r), Pair.of(r, rockShapes));
+                rockShapes.register(r);
+                rockShapes.registerStairBlock(r, rockShapes);
+                rockShapes.registerSlabBlock(r);
             }
         }
         BLOCKS.register(bus);
     }
 
-    public static <BLOCK extends Block> RegistryObject<BLOCK> register(final String name, final Supplier<BLOCK> blockFactory, boolean ore, boolean stair, boolean slab) {
-        return registerBlock(name, blockFactory, block -> new BlockItem(block, new Item.Properties()));//.tab(ore ? GeoStrata.TAB_GEO_ORES : stair ? GeoStrata.TAB_GEO_STAIRS : slab ? GeoStrata.TAB_GEO_SLABS : GeoStrata.TAB_GEO)));
-    }
-
-
-    /**
-     * Registers a block with the given name, block factory, and block item factory.
-     * 
-     * @param name The name of the block to register.
-     * @param blockFactory A supplier for creating instances of the block.
-     * @param itemFactory An IBlockItemFactory for creating instances of the block item.
-     * @return A RegistryObject for the registered block.
-     */
-    private static <BLOCK extends Block> RegistryObject<BLOCK> registerBlock(final String name, final Supplier<BLOCK> blockFactory, final IBlockItemFactory<BLOCK> itemFactory) {
-        final RegistryObject<BLOCK> block = BLOCKS.register(name, blockFactory);
-    
-        ITEMS.register(name, () -> itemFactory.create(block.get()));
-    
+    public static <BLOCK extends Block> DeferredBlock<BLOCK> register(final String name, final Supplier<BLOCK> blockFactory, boolean ore, boolean stair, boolean slab) {
+        DeferredBlock<BLOCK> block = registerBlockOnly(name, blockFactory);
+        ITEMS.registerSimpleBlockItem(block); // sets the BlockItem's id automatically
         return block;
-    }
-
-    @FunctionalInterface
-    private interface IBlockItemFactory<BLOCK extends Block> {
-        Item create(BLOCK block);
     }
 }

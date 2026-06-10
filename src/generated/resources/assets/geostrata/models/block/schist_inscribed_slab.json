@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "geostrata:block/schist_inscribed",
-    "side": "geostrata:block/schist_inscribed",
-    "top": "geostrata:block/schist_inscribed"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "geostrata:block/tinted_slab",
-  "textures": {
-    "bottom": "geostrata:block/opal_spiral",
-    "side": "geostrata:block/opal_spiral",
-    "top": "geostrata:block/opal_spiral"
-  }
-}

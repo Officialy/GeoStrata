@@ -35,8 +35,8 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         var random = context.random();
         var chunk = context.level().getChunk(context.origin());
-        var chunkX = chunk.getPos().x;
-        var chunkZ = chunk.getPos().z;
+        var chunkX = chunk.getPos().x();
+        var chunkZ = chunk.getPos().z();
         var world = context.level();
 
         if (/*world.getWorldInfo().getTerrainType() != LevelType.FLAT &&*/ world.getLevel().dimension() != Level.END && random.nextInt(BASE_CHANCE) == 0) {

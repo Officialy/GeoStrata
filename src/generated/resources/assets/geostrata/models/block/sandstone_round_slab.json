@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "geostrata:block/sandstone_round",
-    "side": "geostrata:block/sandstone_round",
-    "top": "geostrata:block/sandstone_round"
-  }
-}

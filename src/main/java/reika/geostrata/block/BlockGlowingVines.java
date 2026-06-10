@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.common.IForgeShearable;
+import net.neoforged.neoforge.common.IShearable;
 
 
 import reika.dragonapi.APIPacketHandler;
@@ -46,7 +46,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.*;
 
-public class BlockGlowingVines extends VineBlock implements IForgeShearable, ShearablePlant {
+public class BlockGlowingVines extends VineBlock implements IShearable, ShearablePlant {
 
     private final SimplexNoiseGenerator lightNoise = new SimplexNoiseGenerator(~System.currentTimeMillis());
 
@@ -54,7 +54,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     //private final SimplexNoiseGenerator hueNoise2 = new SimplexNoiseGenerator(-System.currentTimeMillis());
 
     public BlockGlowingVines() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollission());
+        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollision());
     }
 
     @Override
@@ -137,7 +137,7 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
             int dy = y + dir.getStepY();
             int dz = z + dir.getStepZ();
             Block b = world.getBlockState(new BlockPos(dx, dy, dz)).getBlock();
-            if (b == Blocks.STONE || b == Blocks.DIRT || b == Blocks.GRASS) {
+            if (b == Blocks.STONE || b == Blocks.DIRT || b == Blocks.SHORT_GRASS) {
                 flag = true;
                 break;
             }
@@ -202,25 +202,23 @@ public class BlockGlowingVines extends VineBlock implements IForgeShearable, She
     }
 
     @Override
-    public void onNeighborChange(BlockState state, LevelReader world, BlockPos pos, BlockPos neighbor) {
-        this.updateAndDropSides((Level) world, pos);
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, net.minecraft.world.level.redstone.Orientation p_60513_, boolean p_60514_) {
+        this.updateAndDropSides(level, pos);
         if (PROPERTY_BY_DIRECTION.isEmpty()) {
-            ((Level) world).setBlock(pos, Blocks.AIR.defaultBlockState(), 3); //todo check cast
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         }
     }
 
-    @Override
     public  List<ItemStack> onSheared( Player player,  ItemStack item, Level level, BlockPos pos, int fortune) {
-        return super.onSheared(player, item, level, pos, fortune);
+         super.neighborChanged(null, level, pos, null, null, false);
+         return null;
     }
 
-    @Override
     public void shearAll(Level world, BlockPos pos, Player ep) {
         ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, PROPERTY_BY_DIRECTION.size()));
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
 
-    @Override
     public void shearSide(Level world, BlockPos pos, Direction dir, Player ep) {
         if (PROPERTY_BY_DIRECTION.containsKey(dir)) {
             PROPERTY_BY_DIRECTION.remove(dir);

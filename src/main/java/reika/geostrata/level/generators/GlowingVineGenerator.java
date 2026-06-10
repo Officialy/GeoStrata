@@ -43,8 +43,8 @@ public class GlowingVineGenerator extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         var random = context.random();
         var chunk = context.level().getChunk(context.origin());
-        var chunkX = chunk.getPos().x;
-        var chunkZ = chunk.getPos().z;
+        var chunkX = chunk.getPos().x();
+        var chunkZ = chunk.getPos().z();
 
         var world = context.level();
         chunkX *= 16;
@@ -71,8 +71,8 @@ public class GlowingVineGenerator extends Feature<NoneFeatureConfiguration> {
     private static boolean isValidBiome(WorldGenLevel world, int x, int z) {
 //        if (world.dimensionId == TwilightForestHandler.getInstance().dimensionID)
 //            return true;
-        var b = world.getBiome(new BlockPos(x, world.getMaxBuildHeight(), z)).unwrapKey().orElse(Biomes.PLAINS); //PLAINS in case its null
-        var biomeHolder = world.getBiome(new BlockPos(x, world.getMaxBuildHeight(), z)); //PLAINS in case its null
+        var b = world.getBiome(new BlockPos(x, world.getMaxY(), z)).unwrapKey().orElse(Biomes.PLAINS); //PLAINS in case its null
+        var biomeHolder = world.getBiome(new BlockPos(x, world.getMaxY(), z)); //PLAINS in case its null
 
 //        if (ModList.CHROMATICRAFT.isLoaded()) {
 //            return isGlowingCliffs(b);

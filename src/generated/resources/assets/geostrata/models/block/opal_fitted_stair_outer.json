@@ -1,8 +1,0 @@
-{
-  "parent": "geostrata:block/tinted_outer_stair",
-  "textures": {
-    "bottom": "geostrata:block/opal_fitted",
-    "side": "geostrata:block/opal_fitted",
-    "top": "geostrata:block/opal_fitted"
-  }
-}

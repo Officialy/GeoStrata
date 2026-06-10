@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "geostrata:block/limestone_engraved",
-    "side": "geostrata:block/limestone_engraved",
-    "top": "geostrata:block/limestone_engraved"
-  }
-}

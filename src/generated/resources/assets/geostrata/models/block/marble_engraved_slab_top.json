@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "geostrata:block/marble_engraved",
-    "side": "geostrata:block/marble_engraved",
-    "top": "geostrata:block/marble_engraved"
-  }
-}

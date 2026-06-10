@@ -25,7 +25,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
     private RockEntry initData(LevelAccessor world, RockTypes geo) {
         RockEntry gen = data[geo.ordinal()];
         if (gen != null) {
-            world.getServer().getWorldData().worldGenOptions().seed();
+            ((net.minecraft.server.level.ServerLevel)world).getSeed();
         }
         gen = new RockEntry(world, geo);
         return gen;

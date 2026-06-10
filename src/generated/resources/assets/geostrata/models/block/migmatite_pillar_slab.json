@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "geostrata:block/migmatite_pillar",
-    "side": "geostrata:block/migmatite_pillar",
-    "top": "geostrata:block/migmatite_pillar"
-  }
-}

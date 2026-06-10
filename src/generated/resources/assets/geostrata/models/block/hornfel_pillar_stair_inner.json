@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "geostrata:block/hornfel_pillar",
-    "side": "geostrata:block/hornfel_pillar",
-    "top": "geostrata:block/hornfel_pillar"
-  }
-}

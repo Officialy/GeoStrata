@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +29,7 @@ import net.minecraft.world.phys.AABB;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.geostrata.base.VentType;
-import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
+//import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
 
 import java.util.List;
 import java.util.Random;
@@ -36,7 +37,7 @@ import java.util.Random;
 public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
 
     public static final Random rand = new Random();
-    private final VentType ventType;
+    private VentType ventType;
     private boolean plugged;
     public int activeTimer = 0;
 
@@ -81,12 +82,12 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
                         for (LivingEntity e : li) {
                             e.hurt(ventType.getDamageSrc(e), ventType.damage);
                             if (ventType == VentType.FIRE || ventType == VentType.LAVA || ventType == VentType.PYRO)
-                                e.setSecondsOnFire(ventType.damage);
+                                e.igniteForSeconds(ventType.damage);
                         }
                     }
 
                     AABB box = ventType.getEffectBox(this);
-                    if (box != null) {
+                    if (level.getBlockState(pos).getBlock() instanceof FarmlandBlock) {
                         List<LivingEntity> li = level.getEntitiesOfClass(LivingEntity.class, box);
                         for (LivingEntity e : li) {
                             ventType.applyEntityEffect(e);
@@ -117,34 +118,25 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        if (level.isClientSide && net.getDirection() == PacketFlow.CLIENTBOUND) {
-            handleUpdateTag(pkt.getTag());
-        }
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
-        this.saveAdditional(tag);
+    public CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider provider) {
+        CompoundTag tag = super.getUpdateTag(provider);
+        tag.putInt("ventType", ventType.ordinal());
+        tag.putInt("activeTimer", activeTimer);
         return tag;
     }
 
-    @Override
-    public void handleUpdateTag(CompoundTag nbt) {
-        this.load(nbt);
+    protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        super.saveAdditional(output);
+
+        output.putInt("ventType", ventType.ordinal());
+        output.putInt("activeTimer", activeTimer);
     }
 
-    @Override
-    public void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
-        nbt.putInt("activeTimer", activeTimer);
-    }
+    protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        super.loadAdditional(input);
 
-    @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        activeTimer = nbt.getInt("activeTimer");
+        ventType = VentType.values()[input.getIntOr("ventType", 0)];
+        activeTimer = input.getIntOr("activeTimer", 0);
     }
 
     public AABB getEffectBox() {
@@ -153,7 +145,7 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
             if (this.isBlocking(level, worldPosition.above()))
                 break;
         }
-        return new AABB(worldPosition.above(), worldPosition.offset(1, i + 1, 1)); //todo test
+        return new AABB(worldPosition.above().getX(), worldPosition.above().getY(), worldPosition.above().getZ(), worldPosition.offset(1, i + 1, 1).getX(), worldPosition.offset(1, i + 1, 1).getY(), worldPosition.offset(1, i + 1, 1).getZ()); //todo test
     }
 
     public boolean canFire() {

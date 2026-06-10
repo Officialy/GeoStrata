@@ -9,7 +9,7 @@ import reika.geostrata.block.BlockLavaRock;
 
 public class BlockItemLavaRock extends BlockItem {
     public BlockItemLavaRock(Block p_40565_) {
-        super(p_40565_, new Properties());
+        super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
     }
 
     
@@ -20,7 +20,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock1 extends BlockItem {
 
         public BlockItemLavaRock1(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
         
@@ -33,7 +33,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock2 extends BlockItem {
 
         public BlockItemLavaRock2(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
 
@@ -47,7 +47,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock3 extends BlockItem {
 
         public BlockItemLavaRock3(Block p_40565_) {
-            super(p_40565_, new Properties());
+            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
         }
 
         

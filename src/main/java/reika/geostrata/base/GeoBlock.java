@@ -23,10 +23,10 @@ public class GeoBlock extends Block {
 
     public int getColor(BlockGetter iba, BlockPos pos, RockTypes rock) {
         if (rock == RockTypes.OPAL) {
-            return GeoStrata.getOpalPositionColor(pos);
+            return 0xFFFFFF;
         }
         else {
-            return BlockColors.createDefault().getColor(rock.getID(RockShapes.SMOOTH).defaultBlockState(), (Level) iba, pos);
+            return 0xFFFFFF;
         }
     }
 

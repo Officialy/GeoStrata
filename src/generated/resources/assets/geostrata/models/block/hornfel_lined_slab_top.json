@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "geostrata:block/hornfel_lined",
-    "side": "geostrata:block/hornfel_lined",
-    "top": "geostrata:block/hornfel_lined"
-  }
-}

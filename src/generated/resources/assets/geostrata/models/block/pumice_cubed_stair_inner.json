@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "geostrata:block/pumice_cubed",
-    "side": "geostrata:block/pumice_cubed",
-    "top": "geostrata:block/pumice_cubed"
-  }
-}

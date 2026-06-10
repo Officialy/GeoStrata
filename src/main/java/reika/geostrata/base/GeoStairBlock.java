@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class GeoStairBlock extends StairBlock {
 
     public GeoStairBlock(Supplier<BlockState> state, Properties properties) {
-        super(state, properties);
+        super(state.get(), properties);
     }
 
 }

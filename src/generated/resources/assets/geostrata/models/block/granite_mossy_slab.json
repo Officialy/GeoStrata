@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "geostrata:block/granite_mossy",
-    "side": "geostrata:block/granite_mossy",
-    "top": "geostrata:block/granite_mossy"
-  }
-}

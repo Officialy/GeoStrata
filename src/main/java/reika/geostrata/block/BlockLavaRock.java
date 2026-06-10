@@ -50,7 +50,7 @@ public class BlockLavaRock extends Block {
     public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
     public BlockLavaRock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
+        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
         this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0).setValue(CONNECTED_STATE, false));
     }
 
@@ -88,9 +88,9 @@ public class BlockLavaRock extends Block {
         if (doEffect) {
             e.hurt(blockHeight == 0 ? e.damageSources().lava() : e.damageSources().inFire(), 3 - blockHeight);
             if (blockHeight == 0) { //lava is 15
-                e.setSecondsOnFire(8);
-            } else if (blockHeight == 1) {
-                e.setSecondsOnFire(4);
+                e.igniteForSeconds(8.0F);
+            } else {
+                e.igniteForSeconds(4.0F);
             }
         }
     }
@@ -106,7 +106,7 @@ public class BlockLavaRock extends Block {
 //	}
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, BlockPos p_60513_, boolean p_60514_) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, net.minecraft.world.level.redstone.Orientation p_60513_, boolean p_60514_) {
         super.neighborChanged(state, level, pos, p_60512_, p_60513_, p_60514_);
         onPlace(state, level, pos, state, false);
     }
@@ -131,7 +131,7 @@ public class BlockLavaRock extends Block {
 //                Material mat2 = ReikaWorldHelper.getMaterial(world, new BlockPos(dx, dy, dz));
 //                if (ReikaBlockHelper.matchMaterialsLoosely(MapColor.WATER, mat2)) {
                     int chance = 3 + 3 * height * height; // 1 in: 3, 6, 15, 30
-                    boolean obsidian = world.random.nextInt(chance) == 0;
+                    boolean obsidian = world.getRandom().nextInt(chance) == 0;
                     world.setBlock(pos, obsidian ? Blocks.OBSIDIAN.defaultBlockState() : (height <= 1 ? Blocks.COBBLESTONE.defaultBlockState() : Blocks.STONE.defaultBlockState()), 3);
 //                } else {
 
@@ -142,9 +142,9 @@ public class BlockLavaRock extends Block {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    protected net.minecraft.world.item.ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
-            case 0 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get());
+            case 0 -> new net.minecraft.world.item.ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get());
             case 1 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_1.get());
             case 2 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_2.get());
             default -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_3.get());

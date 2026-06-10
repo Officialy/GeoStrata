@@ -10,13 +10,13 @@
 package reika.geostrata;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.client.event.RegisterColorHandlersEvent;
-import net.neoforged.event.entity.living.LivingDamageEvent;
-import net.neoforged.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.bus.api.Event;
 import reika.geostrata.block.BlockGlowCrystal;
 import reika.geostrata.block.BlockVent;
@@ -38,67 +38,61 @@ public class GeoEvents {
 
     public static class BlockColorEvents {
 
-        public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        // Opal tint source: uses world position for color variation
+        private static final BlockTintSource OPAL_TINT = new BlockTintSource() {
+            @Override
+            public int color(net.minecraft.world.level.block.state.BlockState state) {
+                return GeoStrata.getOpalPositionColor(BlockPos.ZERO);
+            }
+            @Override
+            public int colorInWorld(net.minecraft.world.level.block.state.BlockState state,
+                                    net.minecraft.client.renderer.block.BlockAndTintGetter level,
+                                    BlockPos pos) {
+                return GeoStrata.getOpalPositionColor(pos);
+            }
+        };
 
-            RockShapes.filteredShapeList.forEach(rockShapes -> event.getBlockColors().register((state, access, pos, tintIndex) -> {
-                if(pos != null){
-                    return GeoStrata.getOpalPositionColor(pos);
-                }
-                return 0;
-            }, RockTypes.OPAL.getID(rockShapes)));
+        private static final BlockTintSource CRYSTAL_TINT = new BlockTintSource() {
+            @Override
+            public int color(net.minecraft.world.level.block.state.BlockState state) {
+                return BlockGlowCrystal.getRenderColor(BlockPos.ZERO, state.getValue(BlockGlowCrystal.COLOR_INDEX));
+            }
+            @Override
+            public int colorInWorld(net.minecraft.world.level.block.state.BlockState state,
+                                    net.minecraft.client.renderer.block.BlockAndTintGetter level,
+                                    BlockPos pos) {
+                return BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX));
+            }
+        };
+
+        public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
+            java.util.List<BlockTintSource> opalSources = java.util.List.of(OPAL_TINT);
+            RockShapes.filteredShapeList.forEach(rockShapes -> event.register(opalSources, RockTypes.OPAL.getID(rockShapes)));
+
             var opalSlabMapping = GeoBlocks.slabMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             var opalStairMapping = GeoBlocks.stairMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             var opalOreMapping = GeoBlocks.oreMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+            opalSlabMapping.forEach((slabBlock, e) -> event.register(opalSources, slabBlock));
+            opalStairMapping.forEach((stairBlock, e) -> event.register(opalSources, stairBlock));
+            opalOreMapping.forEach((oreBlock, e) -> event.register(opalSources, oreBlock));
 
-            opalSlabMapping.forEach((slabBlock, e) -> event.register((state, access, pos, tintIndex) -> {
-                if(pos != null){
-                    return GeoStrata.getOpalPositionColor(pos);
-                }
-                return 0;
-            },  slabBlock));
-            opalStairMapping.forEach((stairBlock, e) -> event.register((state, access, pos, tintIndex) -> {
-                if(pos != null){
-                    return GeoStrata.getOpalPositionColor(pos);
-                }
-                return 0;
-            },  stairBlock));
-            opalOreMapping.forEach((oreBlock, e) -> event.register((state, access, pos, tintIndex) -> {
-                if(pos != null){
-                    return GeoStrata.getOpalPositionColor(pos);
-                }
-                return 0;
-            },  oreBlock));
-
-            event.register((state, access, pos, tintIndex) -> {
-                if(pos != null){
-                    return BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX));
-                }
-                return 0;
-            }, GeoBlocks.LUMINOUS_CRYSTAL.get());
+            event.register(java.util.List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTAL.get());
         }
 
-        public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-
-            final ItemColor itemColor = (pStack, pTintIndex) -> GeoStrata.getOpalPositionColor(Minecraft.getInstance().player.getOnPos());
-            RockShapes.filteredShapeList.forEach(rockShapes -> event.getItemColors().register(itemColor, RockTypes.OPAL.getID(rockShapes)));
-            var opalSlabMapping = GeoBlocks.slabMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            var opalStairMapping = GeoBlocks.stairMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-            opalSlabMapping.forEach((slabBlock, e) -> event.getItemColors().register(itemColor, slabBlock));
-            opalStairMapping.forEach((stairBlock, e) -> event.getItemColors().register(itemColor, stairBlock));
-
-
-            final ItemColor crystalItemColor = (pStack, pTintIndex) -> BlockGlowCrystal.getRenderColor(Minecraft.getInstance().player.getOnPos(), 1); //todo color index
-            event.getItemColors().register(crystalItemColor, GeoBlocks.LUMINOUS_CRYSTAL.get());
+        // 26.1: item tint sources are declared in resource-pack JSON (item model files,
+        // "tint_sources" field) — not in Java. The legacy RegisterColorHandlersEvent.Item path is
+        // gone. We keep this empty handler stub for symmetry with the block-tint registration
+        // above; opal + crystal item tints live in assets/geostrata/items/<name>.json.
+        public static void registerItemColors(RegisterColorHandlersEvent.ItemTintSources event) {
         }
     }
 
-    public static void smokeVentAir(LivingDamageEvent evt) {
-        if (evt.getSource() == evt.getEntity().damageSources().inWall()) {
-            long last = evt.getEntity().serializeNBT().getLong(BlockVent.SMOKE_VENT_TAG);
-            if (evt.getEntity().level().getGameTime() - last <= 8) {
-                evt.setResult(Event.Result.ALLOW);
+    public static void smokeVentAir(LivingDamageEvent.Pre evt) {
+        if (evt.getSource() == evt.getEntity().damageSources().inWall()) { // todo: event source logic
+            long last = evt.getEntity().getPersistentData().getLongOr(BlockVent.SMOKE_VENT_TAG, 0L);
+            if (evt.getEntity().level().getGameTime() - last < 20) {
+                evt.setNewDamage(0); // Cancel the damage
             }
         }
     }

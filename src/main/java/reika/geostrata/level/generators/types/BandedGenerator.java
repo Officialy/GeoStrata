@@ -31,8 +31,8 @@ public class BandedGenerator implements RockGenerationPatterns.RockGenerationPat
     @Override
     public void generateRockType(RockTypes geo, LevelAccessor world, RandomSource random, int chunkX, int chunkZ) {
         double max = RockGenerator.BASE_GEN*geo.rarity* 1*GeoOptions.getRockDensity()*2;
-        if (bandOffsets == null || bandOffsets.seed != world.getServer().getWorldData().worldGenOptions().seed()) {
-            bandOffsets = new SimplexNoiseGenerator(world.getServer().getWorldData().worldGenOptions().seed()).setFrequency(1/64D);
+        if (bandOffsets == null || bandOffsets.seed != ((net.minecraft.server.level.ServerLevel)world).getSeed()) {
+            bandOffsets = new SimplexNoiseGenerator(((net.minecraft.server.level.ServerLevel)world).getSeed()).setFrequency(1/64D);
         }
         //ReikaJavaLibrary.pConsole("Genning "+geo+" "+max+" times.");
         for (int i = 0; i < max; i++) {

@@ -7,4 +7,5 @@ ext {
 
 dependencies {
     implementation project(":DragonAPI")
+    implementation project(":RotaryCraft")
 }

@@ -12,13 +12,13 @@ package reika.geostrata;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.common.NeoForge;
-import net.neoforged.eventbus.api.IEventBus;
-import net.neoforged.fml.DistExecutor;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import reika.dragonapi.ModList;
@@ -62,33 +62,34 @@ public class GeoStrata extends DragonAPIMod {
         return config.getConfigFolder();
     }
 
-    public GeoStrata() {
+    public GeoStrata(final IEventBus modEventBus, final ModContainer modContainer) {
         this.startTiming(LoadProfiler.LoadPhase.PRELOAD);
-        IEventBus forgeBus = NeoForge.EVENT_BUS;
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         instance = this;
         config = new GeoConfig(instance, GeoOptions.optionList, null);
         config.loadSubfolderedConfigFile();
         config.initProps();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::clientSetup);
 
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-//             Client setup
-            bus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
-            bus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
-        });
-        DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-//             Server setup
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            modEventBus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
+            modEventBus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
+        }
+        if (FMLEnvironment.getDist() == Dist.DEDICATED_SERVER) {
             NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
             NeoForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
-        });
+        }
 
-        GeoBlocks.initialise(bus);
-        GeoBlocks.ITEMS.register(bus);
-        GeoBlockEntities.BLOCK_ENTITIES.register(bus);
-        RockShapes.initalize();
+        GeoBlocks.initialise(modEventBus);
+        GeoBlocks.ITEMS.register(modEventBus);
+        GeoBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+        // RockShapes.initalize() walks every (shape, type) combination and calls getBlock(...)
+        // on each — which throws if the underlying DeferredHolder's lambda hasn't fired yet.
+        // The lambdas only run at Register<Block> time (after the mod constructor returns), so
+        // calling initalize() here gives an empty blockMap. Defer to FMLCommonSetupEvent: by
+        // then every DeferredRegister entry has materialised and populated RockShapes.blockMap
+        // via the side-effect inside RockShapes.register's lambda.
 
         LOGGER.info("Registered " + GeoBlocks.blockMapping.size() + " blocks");
         LOGGER.info("Registered " + GeoBlocks.connectedBlockMapping.size() + "connected blocks");
@@ -97,7 +98,7 @@ public class GeoStrata extends DragonAPIMod {
         LOGGER.info("Registered " + GeoBlocks.slabMapping.size() + " slabs");
 //        LOGGER.info("Registered " + GeoBlocks.wallMapping.size() + " walls");
 
-        GeoPlacedFeatures.FEATURES.register(bus);
+        GeoPlacedFeatures.FEATURES.register(modEventBus);
 
         this.basicSetup();
         this.finishTiming();
@@ -127,6 +128,9 @@ public class GeoStrata extends DragonAPIMod {
 
     public void commonSetup(final FMLCommonSetupEvent event) {
         this.startTiming(LoadProfiler.LoadPhase.LOAD);
+        // Block DeferredRegister has now fired — every (shape, type) lambda has populated
+        // RockShapes.blockMap, so the shape→block reverse-lookup table can be built safely.
+        RockShapes.initalize();
         GeoPlacedFeatures.registerConfiguredFeatures();
         DonatorController.instance.registerMod(this, DonatorController.reikaURL);
 
@@ -225,3 +229,5 @@ public class GeoStrata extends DragonAPIMod {
     }
 
 }
+
+

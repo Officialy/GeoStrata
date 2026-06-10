@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "geostrata:block/pumice_tile",
-    "side": "geostrata:block/pumice_tile",
-    "top": "geostrata:block/pumice_tile"
-  }
-}

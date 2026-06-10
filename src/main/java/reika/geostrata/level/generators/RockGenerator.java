@@ -2,7 +2,7 @@ package reika.geostrata.level.generators;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
@@ -67,8 +67,8 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         var chunk = context.level().getChunk(context.origin());
-        var chunkX = chunk.getPos().x;
-        var chunkZ = chunk.getPos().z;
+        var chunkX = chunk.getPos().x();
+        var chunkZ = chunk.getPos().z();
         if (generators.isEmpty()) {
             throw new IllegalStateException("No generators to run!");
         }
@@ -85,7 +85,7 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
             return true;
         if (id == Level.END || id == Level.NETHER)
             return false;
-        if (id == ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath("twilightforest", "twilight"))) //todo test twilight compat
+        if (id == ResourceKey.create(Registries.DIMENSION, Identifier.fromNamespaceAndPath("twilightforest", "twilight"))) //todo test twilight compat
             return GeoOptions.TFGEN.getState();
         return GeoOptions.DIMGEN.getState();
     }

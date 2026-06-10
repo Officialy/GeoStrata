@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "geostrata:block/granite_round",
-    "side": "geostrata:block/granite_round",
-    "top": "geostrata:block/granite_round"
-  }
-}

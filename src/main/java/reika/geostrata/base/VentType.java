@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -154,8 +154,8 @@ public enum VentType implements StringRepresentable {
     public AABB getEffectBox(BlockEntityVent te) {
         return switch (this) {
             case WATER, SMOKE -> te.getEffectBox();
-            case GAS, PYRO -> ReikaAABBHelper.getBlockAABB(te).expandTowards(3, 3, 3).move(0, 2, 0);
-            case ENDER -> ReikaAABBHelper.getBlockAABB(te).expandTowards(2, 2, 2).move(0, 1, 0);
+            case GAS, PYRO -> ReikaAABBHelper.getBlockAABB(te).inflate(3, 3, 3).move(0, 2, 0);
+            case ENDER -> ReikaAABBHelper.getBlockAABB(te).inflate(2, 2, 2).move(0, 1, 0);
             default -> null;
         };
     }
@@ -170,9 +170,8 @@ public enum VentType implements StringRepresentable {
                     e.clearFire();
                 }
                 break;
-            case SMOKE:
-                e.serializeNBT().putLong(BlockVent.SMOKE_VENT_TAG, e.level().getGameTime());
-                break;
+                //TODO: properly set custom data tag in 1.21
+                //e.serializeNBT().putLong(BlockVent.SMOKE_VENT_TAG, e.level().getGameTime());    break;
             case GAS:
                 e.addEffect(new MobEffectInstance(MobEffects.POISON, 20 + BlockEntityVent.rand.nextInt(200), BlockEntityVent.rand.nextInt(4) == 0 ? 1 : 0));
                 break;
@@ -200,8 +199,9 @@ public enum VentType implements StringRepresentable {
                 }
                 break;
             case PYRO:
-                e.setSecondsOnFire(60);
-                ReikaEntityHelper.damageArmor(e, 4);
+            if (e instanceof LivingEntity) {
+                e.igniteForSeconds(60.0F);
+            }    ReikaEntityHelper.damageArmor(e, 4);
                 break;
             default:
                 break;
@@ -225,10 +225,10 @@ public enum VentType implements StringRepresentable {
                     int rz = ReikaRandomHelper.getRandomPlusMinus(pos.getZ(), r);
                     BlockState b = world.getBlockState(new BlockPos(rx, ry, rz));
                     if (b.getBlock() == Blocks.FARMLAND) {
-                        world.setBlock(new BlockPos(rx, ry, rz), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 7), 3);
+                        world.setBlock(new BlockPos(rx, ry, rz), Blocks.FARMLAND.defaultBlockState().setValue(FarmlandBlock.MOISTURE, 7), 3);
                     }
                     if (rand.nextInt(3) == 0) {
-                        BlockTickEvent.fire(b, (ServerLevel) world, new BlockPos(rx, ry, rz), world.random, BlockTickEvent.UpdateFlags.getForcedUnstoppableTick() + BlockTickEvent.UpdateFlags.NATURAL.flag);
+                        BlockTickEvent.fire(b, (ServerLevel) world, new BlockPos(rx, ry, rz), world.getRandom(), BlockTickEvent.UpdateFlags.getForcedUnstoppableTick() + BlockTickEvent.UpdateFlags.NATURAL.flag);
                     } //todo serverlevel casting, bad!!
                 }
             }

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "geostrata:block/slate_embossed",
-    "side": "geostrata:block/slate_embossed",
-    "top": "geostrata:block/slate_embossed"
-  }
-}

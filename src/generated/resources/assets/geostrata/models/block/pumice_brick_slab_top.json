@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "geostrata:block/pumice_brick",
-    "side": "geostrata:block/pumice_brick",
-    "top": "geostrata:block/pumice_brick"
-  }
-}

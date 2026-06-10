@@ -3,17 +3,16 @@ package reika.geostrata.rendering;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.joml.Matrix4f;
-import reika.dragonapi.auxiliary.CoreModDetection;
 import reika.dragonapi.interfaces.IBlockRenderer;
 import reika.dragonapi.libraries.rendering.ReikaColorAPI;
 import reika.geostrata.GeoStrata;
@@ -49,9 +48,8 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
         stack.popPose();
 
         // Get texture for the block
-        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(ResourceLocation.fromNamespaceAndPath(GeoStrata.MODID, "textures/block/connected/0.png"));
-
+        TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS)
+                .getSprite(Identifier.fromNamespaceAndPath(GeoStrata.MODID, "textures/block/deco/0.png")); //todo texture       
         float u = sprite.getU0();
         float v = sprite.getV0();
         float du = sprite.getU1();
@@ -66,7 +64,7 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
         renderFace(matrix, vertexConsumer, Direction.EAST, color, brightness * 0.5f, u, v, du, dv, pos, level, block, type);
 
         // Render connected edges if needed
-        float d = CoreModDetection.OPTIFINE.isInstalled() ? 0.005f : 0.001f;
+        float d = 0.001f;
         for (Direction dir : dirs) {
             if (shouldRenderFace(level, pos, dir, block)) {
                 renderConnectedEdges(matrix, vertexConsumer, dir, color, brightness, u, v, du, dv, pos, level, block, type, d);
@@ -89,40 +87,40 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
 
         switch (dir) {
             case DOWN:
-                vertexConsumer.vertex(matrix, 0, 0, 0).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, -1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 0).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, -1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 1).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, -1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 0, 0, 1).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, -1, 0).endVertex();
+                vertexConsumer.addVertex(matrix,0, 0, 0).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, -1, 0);
+                vertexConsumer.addVertex(matrix,1, 0, 0).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, -1, 0);
+                vertexConsumer.addVertex(matrix,1, 0, 1).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, -1, 0);
+                vertexConsumer.addVertex(matrix,0, 0, 1).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, -1, 0);
                 break;
             case UP:
-                vertexConsumer.vertex(matrix, 0, 1, 1).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 1, 1).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 1, 0).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 1, 0).endVertex();
-                vertexConsumer.vertex(matrix, 0, 1, 0).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 1, 0).endVertex();
+                vertexConsumer.addVertex(matrix,0, 1, 1).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 1, 0);
+                vertexConsumer.addVertex(matrix,1, 1, 1).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 1, 0);
+                vertexConsumer.addVertex(matrix,1, 1, 0).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 1, 0);
+                vertexConsumer.addVertex(matrix,0, 1, 0).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 1, 0);
                 break;
             case NORTH:
-                vertexConsumer.vertex(matrix, 0, 1, 0).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, -1).endVertex();
-                vertexConsumer.vertex(matrix, 1, 1, 0).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, -1).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 0).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, -1).endVertex();
-                vertexConsumer.vertex(matrix, 0, 0, 0).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, -1).endVertex();
+                vertexConsumer.addVertex(matrix,0, 1, 0).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, -1);
+                vertexConsumer.addVertex(matrix,1, 1, 0).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, -1);
+                vertexConsumer.addVertex(matrix,1, 0, 0).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, -1);
+                vertexConsumer.addVertex(matrix,0, 0, 0).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, -1);
                 break;
             case SOUTH:
-                vertexConsumer.vertex(matrix, 0, 0, 1).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, 1).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 1).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, 1).endVertex();
-                vertexConsumer.vertex(matrix, 1, 1, 1).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, 1).endVertex();
-                vertexConsumer.vertex(matrix, 0, 1, 1).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, 1).endVertex();
+                vertexConsumer.addVertex(matrix,0, 0, 1).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, 1);
+                vertexConsumer.addVertex(matrix,1, 0, 1).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, 1);
+                vertexConsumer.addVertex(matrix,1, 1, 1).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, 1);
+                vertexConsumer.addVertex(matrix,0, 1, 1).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, 1);
                 break;
             case WEST:
-                vertexConsumer.vertex(matrix, 0, 0, 0).color(r, g, b, 255).uv(u, dv).uv2(0).normal(-1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 0, 0, 1).color(r, g, b, 255).uv(du, dv).uv2(0).normal(-1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 0, 1, 1).color(r, g, b, 255).uv(du, v).uv2(0).normal(-1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 0, 1, 0).color(r, g, b, 255).uv(u, v).uv2(0).normal(-1, 0, 0).endVertex();
+                vertexConsumer.addVertex(matrix,0, 0, 0).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(-1, 0, 0);
+                vertexConsumer.addVertex(matrix,0, 0, 1).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(-1, 0, 0);
+                vertexConsumer.addVertex(matrix,0, 1, 1).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(-1, 0, 0);
+                vertexConsumer.addVertex(matrix,0, 1, 0).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(-1, 0, 0);
                 break;
             case EAST:
-                vertexConsumer.vertex(matrix, 1, 1, 0).color(r, g, b, 255).uv(u, v).uv2(0).normal(1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 1, 1).color(r, g, b, 255).uv(du, v).uv2(0).normal(1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 1).color(r, g, b, 255).uv(du, dv).uv2(0).normal(1, 0, 0).endVertex();
-                vertexConsumer.vertex(matrix, 1, 0, 0).color(r, g, b, 255).uv(u, dv).uv2(0).normal(1, 0, 0).endVertex();
+                vertexConsumer.addVertex(matrix,1, 1, 0).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(1, 0, 0);
+                vertexConsumer.addVertex(matrix,1, 1, 1).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(1, 0, 0);
+                vertexConsumer.addVertex(matrix,1, 0, 1).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(1, 0, 0);
+                vertexConsumer.addVertex(matrix,1, 0, 0).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(1, 0, 0);
                 break;
         }
     }
@@ -149,40 +147,40 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
 
             switch (dir) {
                 case UP:
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 1, 0).endVertex();
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 1, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 1, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 1, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 1, 0);
                     break;
                 case DOWN:
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, -1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, -1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, -1, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, -1, 0).endVertex();
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, -1, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, -1, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, -1, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, -1, 0);
                     break;
                 case EAST:
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(1, 0, 0).endVertex();
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(1, 0, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(1, 0, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(1, 0, 0);
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(1, 0, 0);
                     break;
                 case WEST:
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(-1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(-1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(-1, 0, 0).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(-1, 0, 0).endVertex();
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(-1, 0, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(-1, 0, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(-1, 0, 0);
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(-1, 0, 0);
                     break;
                 case SOUTH:
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, 1).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, 1).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, 1).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, 1).endVertex();
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, 1);
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, 1);
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, 1);
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, 1);
                     break;
                 case NORTH:
-                    vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, -1).endVertex();
-                    vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, -1).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, -1).endVertex();
-                    vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, -1).endVertex();
+                    vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, -1);
+                    vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, -1);
+                    vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, -1);
+                    vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, -1);
                     break;
             }
         }
@@ -202,40 +200,40 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
 
                 switch (dir) {
                     case UP:
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 1, 0).endVertex();
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 1, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 1, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 1, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 1, 0);
                         break;
                     case DOWN:
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, -1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, -1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, -1, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, -1, 0).endVertex();
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, -1, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, -1, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, -1, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, -1, 0);
                         break;
                     case EAST:
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(1, 0, 0).endVertex();
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(1, 0, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(1, 0, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(1, 0, 0);
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(1, 0, 0);
                         break;
                     case WEST:
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(-1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(-1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(-1, 0, 0).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(-1, 0, 0).endVertex();
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(-1, 0, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(-1, 0, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(-1, 0, 0);
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(-1, 0, 0);
                         break;
                     case SOUTH:
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, 1).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, 1).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 1 + d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, 1).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 1 + d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, 1).endVertex();
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, 1);
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, 1);
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 1 + d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, 1);
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 1 + d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, 1);
                         break;
                     case NORTH:
-                        vertexConsumer.vertex(matrix, 0 - d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, v).uv2(0).normal(0, 0, -1).endVertex();
-                        vertexConsumer.vertex(matrix, 0 - d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, v).uv2(0).normal(0, 0, -1).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 1 + d, 0 - d).color(r, g, b, 255).uv(u, dv).uv2(0).normal(0, 0, -1).endVertex();
-                        vertexConsumer.vertex(matrix, 1 + d, 0 - d, 0 - d).color(r, g, b, 255).uv(du, dv).uv2(0).normal(0, 0, -1).endVertex();
+                        vertexConsumer.addVertex(matrix,0 - d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, v).setLight(0).setNormal(0, 0, -1);
+                        vertexConsumer.addVertex(matrix,0 - d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, v).setLight(0).setNormal(0, 0, -1);
+                        vertexConsumer.addVertex(matrix,1 + d, 1 + d, 0 - d).setColor(r, g, b, 255).setUv(u, dv).setLight(0).setNormal(0, 0, -1);
+                        vertexConsumer.addVertex(matrix,1 + d, 0 - d, 0 - d).setColor(r, g, b, 255).setUv(du, dv).setLight(0).setNormal(0, 0, -1);
                         break;
                 }
             }
@@ -247,3 +245,4 @@ public class ConnectedStoneRenderer implements IBlockRenderer {
         return blockState.getBlock() instanceof BlockConnectedRock;
     }
 }
+

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "geostrata:block/peridotite_fan",
-    "side": "geostrata:block/peridotite_fan",
-    "top": "geostrata:block/peridotite_fan"
-  }
-}

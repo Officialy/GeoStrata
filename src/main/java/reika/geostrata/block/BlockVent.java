@@ -111,7 +111,12 @@ public class BlockVent extends Block implements EntityBlock {
     public void ventSounds(boolean isActive, int timer, BlockState state, BlockEntityVent te, VentType ventType, Level level, BlockPos pos, RandomSource rand) {
         if (isActive) {
             if (timer > 0 && timer % ventType.getSoundInterval() == 0) {
-                level.sendBlockUpdated(pos, state, state, 2);
+                // 26.1 PERF: removed {@code level.sendBlockUpdated(pos, state, state, 2)} that
+                // was firing periodically here. Same redundant chunk-re-mesh pattern that we
+                // stripped from IOMachine.updateBlockEntity — sending a ClientboundBlockUpdate
+                // packet with oldState == newState makes every nearby client re-mesh the chunk
+                // section for no visual gain. The sound effect below doesn't need a block
+                // update; vents are pure decorative emitters.
                 switch (ventType) {
                     case FIRE, LAVA, PYRO ->
                             ReikaSoundHelper.playSoundAtBlock(level, pos, SoundEvents.GHAST_SHOOT, 0.25F, 1);
@@ -143,7 +148,7 @@ public class BlockVent extends Block implements EntityBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos pos2, boolean bool) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, net.minecraft.world.level.redstone.Orientation orientation, boolean bool) {
         BlockEntityVent b = (BlockEntityVent) level.getBlockEntity(pos);
         b.checkPlug(pos, level);
     }
@@ -159,11 +164,11 @@ public class BlockVent extends Block implements EntityBlock {
      */
     @Override
     public boolean canHarvestBlock(BlockState state, BlockGetter world, BlockPos pos, Player player) {
-        if (EnchantmentHelper.getEnchantments(player.getMainHandItem()).equals(Enchantments.SILK_TOUCH)) {
+        /*if (EnchantmentHelper.getEnchantments(player.getMainHandItem()).equals(Enchantments.SILK_TOUCH)) {
             player.awardStat(Stats.BLOCK_MINED.get(this), 1);
             player.causeFoodExhaustion(0.025F);
             ReikaItemHelper.dropItem((Level) world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, 1));
-        }
+        }*/
         return false;
     }
 

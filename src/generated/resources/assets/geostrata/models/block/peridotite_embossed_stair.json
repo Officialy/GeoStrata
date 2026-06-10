@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "geostrata:block/peridotite_embossed",
-    "side": "geostrata:block/peridotite_embossed",
-    "top": "geostrata:block/peridotite_embossed"
-  }
-}

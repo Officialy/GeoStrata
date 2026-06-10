@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "geostrata:block/limestone_fan",
-    "side": "geostrata:block/limestone_fan",
-    "top": "geostrata:block/limestone_fan"
-  }
-}

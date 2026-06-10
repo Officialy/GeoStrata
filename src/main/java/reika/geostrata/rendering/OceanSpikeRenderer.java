@@ -1,16 +1,14 @@
 package reika.geostrata.rendering;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.joml.Matrix4f;
@@ -104,47 +102,45 @@ public class OceanSpikeRenderer implements IBlockRenderer {
         stack.popPose();
 
         int color = (ReikaColorAPI.GStoHex(Math.max(32 + (int) (16 * Math.sin((pos.getX() + pos.getY() * 8 + pos.getZ() * 2) / 8D)), 255 - 6 * ReikaMathLibrary.intpow2(n + 1, 2))));
-        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(new ResourceLocation(GeoStrata.MODID, "textures/block/deco/0.png")); //todo texture
+        TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS).getSprite(Identifier.fromNamespaceAndPath(GeoStrata.MODID, "textures/block/deco/0.png")); //todo texture
         float u = sprite.getU0();
         float v = sprite.getV0();
         float du = sprite.getU1();
         float dv = sprite.getV1();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorNormalShader);
-        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r10x, 0, r10z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r11x, 0, r11z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r12x, 0, r12z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r13x, 0, r13z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r23x, 1, r23z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r22x, 1, r22z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r21x, 1, r21z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r20x, 1, r20z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r20x, 1, r20z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r21x, 1, r21z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r11x, 0, r11z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r10x, 0, r10z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r13x, 0, r13z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r12x, 0, r12z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r22x, 1, r22z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r23x, 1, r23z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, r21x, 1, r21z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r22x, 1, r22z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r12x, 0, r12z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r11x, 0, r11z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r21x, 1, r21z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r22x, 1, r22z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r12x, 0, r12z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r11x, 0, r11z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, r10x, 0, r10z).color(color).uv(u, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r13x, 0, r13z).color(color).uv(du, v).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r23x, 1, r23z).color(color).uv(du, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, r20x, 1, r20z).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,r10x, 0, r10z).setColor(color).setUv(u, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r13x, 0, r13z).setColor(color).setUv(du, v).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r23x, 1, r23z).setColor(color).setUv(du, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,r20x, 1, r20z).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
 
-        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
-        vertexConsumer.vertex(matrix, 0, 0, 0).color(color).uv(u, dv).uv2(0).normal(0, 0, 0).endVertex();
+        vertexConsumer.addVertex(matrix,0, 0, 0).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,0, 0, 0).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,0, 0, 0).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
+        vertexConsumer.addVertex(matrix,0, 0, 0).setColor(color).setUv(u, dv).setLight(0).setNormal(0, 0, 0);
     }
 
     @Override
@@ -153,3 +149,4 @@ public class OceanSpikeRenderer implements IBlockRenderer {
     }
 
 }
+

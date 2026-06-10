@@ -90,21 +90,18 @@ public enum RockShapes {
             map = new EnumMap<>(RockTypes.class);
             blockMap.put(this, map);
         }
-        if (map.containsKey(r)) {
-            throw new RegistrationException(GeoStrata.getInstance(), "Block type for " + r + " " + this + " was created twice!");
-        } else {
-            try {
-                var b = new GeoBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
-                var name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT);
-                GeoBlocks.register(name, () -> b, false, false, false);
-                map.put(r, b);
-                //todo Register the one probe info
-                return b;
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RegistrationException(GeoStrata.getInstance(), "Block type for " + r + " " + this + " could not be created: " + e.getLocalizedMessage());
-            }
-        }
+        // 1.21.5: defer block construction inside the registration lambda so Block.Properties.setId
+        // can populate via GeoBlocks.blockProperties() threadlocal. Self-populate map + GeoBlocks.blockMapping.
+        EnumMap<RockTypes, Block> finalMap = map;
+        RockShapes self = this;
+        var name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT);
+        GeoBlocks.register(name, () -> {
+            var b = new GeoBlock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            finalMap.put(r, b);
+            GeoBlocks.blockMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            return b;
+        }, false, false, false);
+        return null; // legacy return no longer used by callers
     }
 
     public BlockConnectedRock registerConnectedBlock(RockTypes r) {
@@ -113,19 +110,16 @@ public enum RockShapes {
             map = new EnumMap<>(RockTypes.class);
             connectedBlockMap.put(this, map);
         }
-        if (map.containsKey(r)) {
-            throw new RegistrationException(GeoStrata.getInstance(), "ConnectedBlock type for " + r + " " + this + " was created twice!");
-        }
-        try {
-            BlockConnectedRock b = new BlockConnectedRock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
-            String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_connected";
-            GeoBlocks.register(name, () -> b, false, true, false);
-            //todo Register the one probe info
+        EnumMap<RockTypes, Block> finalMap = map;
+        RockShapes self = this;
+        String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_connected";
+        GeoBlocks.register(name, () -> {
+            BlockConnectedRock b = new BlockConnectedRock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            finalMap.put(r, b);
+            GeoBlocks.connectedBlockMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
             return b;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RegistrationException(GeoStrata.getInstance(), "ConnectedBlock type for " + r + " " + this + " could not be created: " + e.getLocalizedMessage());
-        }
+        }, false, true, false);
+        return null;
     }
 
     public SlabBlock registerSlabBlock(RockTypes r) {
@@ -134,19 +128,16 @@ public enum RockShapes {
             map = new EnumMap<>(RockTypes.class);
             slabBlockMap.put(this, map);
         }
-        if (map.containsKey(r)) {
-            throw new RegistrationException(GeoStrata.getInstance(), "SlabBlock type for " + r + " " + this + " was created twice!");
-        }
-        try {
-            SlabBlock b = new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
-            String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_slab";
-            GeoBlocks.register(name, () -> b, false, false, true);
-            //todo Register the one probe info
+        EnumMap<RockTypes, SlabBlock> finalMap = map;
+        RockShapes self = this;
+        String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_slab";
+        GeoBlocks.register(name, () -> {
+            SlabBlock b = new SlabBlock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            finalMap.put(r, b);
+            GeoBlocks.slabMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
             return b;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RegistrationException(GeoStrata.getInstance(), "SlabBlock type for " + r + " " + this + " could not be created: " + e.getLocalizedMessage());
-        }
+        }, false, false, true);
+        return null;
     }
 
     public StairBlock registerStairBlock(RockTypes r, RockShapes s) {
@@ -155,19 +146,16 @@ public enum RockShapes {
             map = new EnumMap<>(RockTypes.class);
             stairBlockMap.put(this, map);
         }
-        if (map.containsKey(r)) {
-            throw new RegistrationException(GeoStrata.getInstance(), "StairBlock type for " + r + " " + this + " was created twice!");
-        }
-        try {
-            StairBlock b = new GeoStairBlock(() -> r.getID(s).defaultBlockState(), BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
-            String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_stair";
-            GeoBlocks.register(name, () -> b, false, true, false);
-            //todo Register the one probe info
+        EnumMap<RockTypes, StairBlock> finalMap = map;
+        RockShapes self = this;
+        String name = r.name().toLowerCase(Locale.ROOT) + "_" + this.name().toLowerCase(Locale.ROOT) + "_stair";
+        GeoBlocks.register(name, () -> {
+            StairBlock b = new GeoStairBlock(() -> r.getID(s).defaultBlockState(), GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
+            finalMap.put(r, b);
+            GeoBlocks.stairMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
             return b;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RegistrationException(GeoStrata.getInstance(), "StairBlock type for " + r + " " + this + " could not be created: " + e.getLocalizedMessage());
-        }
+        }, false, true, false);
+        return null;
     }
 
     public Block getBlock(RockTypes r) {

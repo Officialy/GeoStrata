@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "geostrata:block/hornfel_spiral",
-    "side": "geostrata:block/hornfel_spiral",
-    "top": "geostrata:block/hornfel_spiral"
-  }
-}

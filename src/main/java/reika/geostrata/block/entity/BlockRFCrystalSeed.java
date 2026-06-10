@@ -28,10 +28,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.common.capabilities.Capability;
-import net.neoforged.common.capabilities.ForgeCapabilities;
-import net.neoforged.common.util.LazyOptional;
-import net.neoforged.energy.IEnergyStorage;
 
 
 import reika.dragonapi.instantiable.data.blockstruct.BlockArray;
@@ -42,7 +38,6 @@ import reika.dragonapi.instantiable.data.immutable.ReikaBlockPosHelper;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
-import reika.dragonapi.modinteract.power.ReikaEnergyStorage;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlockEntities;
 import reika.geostrata.registry.GeoBlocks;
@@ -69,85 +64,31 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Player player, net.minecraft.world.item.ItemStack tool, boolean willHarvest, FluidState fluid) {
         if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof TileRFCrystal) {
             ((TileRFCrystal) level.getBlockEntity(pos)).breakEntireCrystal(false);
         }
-        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+        return super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
     }
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         ItemStack is = new ItemStack(this);
-        if (GeoOptions.RFACTIVATE.getState()) {
-            BlockEntity te = builder.getLevel().getBlockEntity(new BlockPos((int) builder.getParameter(LootContextParams.ORIGIN).x, (int) builder.getParameter(LootContextParams.ORIGIN).y, (int) builder.getParameter(LootContextParams.ORIGIN).z));
-            if (te instanceof TileRFCrystal && ((TileRFCrystal) te).isActivated) {
-                is.getOrCreateTag().putBoolean("activated", true);
-            }
+        net.minecraft.world.level.block.entity.BlockEntity te = builder.getLevel().getBlockEntity(net.minecraft.core.BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN)));
+        if (te instanceof TileRFCrystal) {
+            //is.getOrCreateTag().putBoolean("activated", true);
         }
         return ReikaJavaLibrary.makeListFrom(is);
     }
 
     public static class TileRFCrystal extends BlockEntity implements CurvedTrajectory.TrailShape, CurvedTrajectory.InitialAngleProvider {
 
-        //private SimplexNoiseGenerator XYCrystalShape;
-        //private SimplexNoiseGenerator XZCrystalShape;
-        //private SimplexNoiseGenerator YZCrystalShape;
-
-        //private final Simplex3DGenerator crystalShape = new Simplex3DGenerator(0);
-
-        //private HashSet<BlockPos> crystalShape;
-
-//        private final Simplex3DGenerator crystalShapeA = new Simplex3DGenerator(0);
-//        private final Simplex3DGenerator crystalShapeB = new Simplex3DGenerator(0);
-
         private HashSet<BlockPos> crystalShape;
         private boolean isActivated = false;
-        public final ReikaEnergyStorage energy;
-        private final LazyOptional<IEnergyStorage> energyStorageLazyOptional;
         private final BlockArray crystal = new BlockArray();
 
         public TileRFCrystal(BlockPos p_155229_, BlockState p_155230_) {
             super(GeoBlockEntities.RF_CRYSTAL_SEED.get(), p_155229_, p_155230_);
-            energy = new ReikaEnergyStorage(this.getCapacity(), this.getCapacity(), 0, this) {
-                @Override
-                public int receiveEnergy(int maxReceive, boolean simulate) {
-                    int amt = Math.min(Math.min(getCapacity() - energy, Integer.MAX_VALUE), maxReceive);
-                    if (!simulate)
-                        energy += amt;
-                    return amt;
-                }
-
-                @Override
-                public int extractEnergy(int maxExtract, boolean simulate) {
-                    int amt = Math.min(Math.min(energy, Integer.MAX_VALUE), maxExtract);
-                    if (!simulate)
-                        energy -= amt;
-                    return amt;
-                }
-
-                @Override
-                public int getEnergyStored() {
-                    return Math.min(energy, Integer.MAX_VALUE);
-                }
-
-                @Override
-                public int getMaxEnergyStored() {
-                    return Math.min(getCapacity(), Integer.MAX_VALUE);
-                }
-            };
-            energyStorageLazyOptional = LazyOptional.of(() -> energy);
-        }
-
-        @Override
-        public  <T> LazyOptional<T> getCapability( Capability<T> cap,  Direction side) {
-            return cap == ForgeCapabilities.ENERGY ? energyStorageLazyOptional.cast() : super.getCapability(cap, side);
-        }
-
-        @Override
-        public void setRemoved() {
-            super.setRemoved();
-            energyStorageLazyOptional.invalidate();
         }
 
         public void breakEntireCrystal(boolean skipSelf) {
@@ -169,12 +110,13 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
                 cv.trailCount = 9;
                 cv.trailForkChance = 0;//0.01F;
                 cv.bounds = BlockBox.block(this).expand(48, 24, 48);
-                cv.generatePaths(level.getServer().getWorldData().worldGenOptions().seed() ^ worldPosition.hashCode(), this, this);
+                cv.generatePaths(((net.minecraft.server.level.ServerLevel)level).getSeed() ^ worldPosition.hashCode(), this, this);
                 crystalShape = cv.getLocations();
             }
 
             if (!level.isClientSide()) {
                 if (isActivated) {
+/*
                     int cap = this.getCapacity();
                     if (energy.getEnergyStored() > cap)
                         energy.setEnergy(cap);
@@ -185,22 +127,8 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
                     if (energy.getEnergyStored() > 0 && level.hasNeighborSignal(getBlockPos())) {
                         BlockEntity te = level.getBlockEntity(getBlockPos().below());
-                        if (te != null && te.getCapability(ForgeCapabilities.ENERGY).isPresent()) {
-                            IEnergyStorage ies = te.getCapability(ForgeCapabilities.ENERGY).orElse(null);
-                            if (ies != null) {
-                                /*int amt = ies.receiveEnergy(energy.getEnergyStored(), true);
-                                if (amt > 0) {
-                                    energy.extractEnergy(ies.receiveEnergy(amt, false), false);
-                                }*/
-                                int pushable = Math.min(energy.getEnergyStored(), ies.receiveEnergy(this.getCapacity(), true));
-                                if (pushable > 0) {
-                                    pushable = ies.receiveEnergy(this.getCapacity(), false);
-                                    energy.setEnergy(energy.getEnergyStored() - pushable);
-//                                    GeoStrata.LOGGER.info("Pushing " + pushable + " RF to " + te);
-                                }
-                            }
-                        }
                     }
+*/
                 } else {
                     if (crystal.getSize() > 1) {
                         this.breakEntireCrystal(true);
@@ -229,7 +157,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
                 //loc.setBlock(level, GeoBlocks.RFCRYSTAL.get());
                 //crystal.addBlockCoordinate(loc.xCoord, loc.yCoord, loc.zCoord);
                 place(level, loc, this);
-                energy.setEnergy(Math.max(energy.getEnergyStored() - this.getGrowthCost(), 0));
+                //energy.setEnergy(Math.max(energy.getEnergyStored() - this.getGrowthCost(), 0));
             }
         }
 
@@ -260,34 +188,26 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         }
 
         @Override
-        protected void saveAdditional(CompoundTag NBT) {
-            super.saveAdditional(NBT);
-
-            NBT.putInt("energy", energy.getEnergyStored());
-            crystal.saveAdditional("blocks", NBT);
-            NBT.putBoolean("activated", isActivated);
+        protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+            super.saveAdditional(output);
+            
+            //output.putInt("energy", energy.getEnergyStored());
+            output.putBoolean("activated", isActivated);
+            
+            net.minecraft.nbt.CompoundTag crystalTag = new net.minecraft.nbt.CompoundTag();
+            crystal.saveAdditional("blocks", crystalTag);
+            output.store("crystal_data", net.minecraft.nbt.CompoundTag.CODEC, crystalTag);
         }
 
         @Override
-        public void load(CompoundTag NBT) {
-            super.load(NBT);
-
-            energy.setEnergy(NBT.getInt("energy"));
-            crystal.load("blocks", NBT);
-            isActivated = NBT.getBoolean("activated") || !GeoOptions.RFACTIVATE.getState();
-        }
-
-        
-        @Override
-        public Packet<ClientGamePacketListener> getUpdatePacket() {
-            CompoundTag NBT = new CompoundTag();
-            this.saveAdditional(NBT);
-            return ClientboundBlockEntityDataPacket.create(this, (blockEntity) -> NBT);
-        }
-
-        @Override
-        public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-            load(pkt.getTag());
+        protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+            super.loadAdditional(input);
+            
+            //energy.setEnergy(input.getIntOr("energy", 0));
+            isActivated = input.getBooleanOr("activated", false) || !GeoOptions.RFACTIVATE.getState();
+            
+            net.minecraft.nbt.CompoundTag crystalTag = input.read("crystal_data", net.minecraft.nbt.CompoundTag.CODEC).orElse(new net.minecraft.nbt.CompoundTag());
+            crystal.load("blocks", crystalTag);
         }
 
         /*

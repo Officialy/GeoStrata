@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "geostrata:block/slate_fitted",
-    "side": "geostrata:block/slate_fitted",
-    "top": "geostrata:block/slate_fitted"
-  }
-}

@@ -27,7 +27,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import reika.dragonapi.DragonAPI;
 import reika.dragonapi.libraries.ReikaEnchantmentHelper;
@@ -49,7 +49,7 @@ import java.util.Random;
 public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock {//,IWailaDataProvider, IMoveCheck, ILaputaImmobile {
 
     public BlockRFCrystal() {
-        super(Properties.of().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
+        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
     }
 
 
@@ -66,10 +66,10 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.item.ItemStack tool, boolean willHarvest, FluidState fluid) {
         if (this == GeoBlocks.RF_CRYSTAL.get())
             ((TileRFCrystalAux) level.getBlockEntity(pos)).removeFromParent();
-        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+        return super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
 		return currenttip;
 	}*/
 
-    public static class TileRFCrystalAux extends BlockEntity implements IEnergyStorage {
+    public static class TileRFCrystalAux extends BlockEntity {
 
         private BlockPos controller;
 
@@ -119,7 +119,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         private BlockRFCrystalSeed.TileRFCrystal getParent() {
             if (controller == null)
                 return null;
-            BlockEntity te = level.getBlockEntity(controller);
+            net.minecraft.world.level.block.entity.BlockEntity te = level.getBlockEntity(controller);
             return te instanceof BlockRFCrystalSeed.TileRFCrystal ? (BlockRFCrystalSeed.TileRFCrystal) te : new BlockRFCrystalSeed.TileRFCrystal(worldPosition, getBlockState()); //npe protection
         }
 
@@ -140,19 +140,19 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         }
 
         @Override
-        public void saveAdditional(CompoundTag NBT) {
-            super.saveAdditional(NBT);
-
+        protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+            super.saveAdditional(output);
             if (controller != null)
-                NBT.putLong("parent", controller.asLong());
+                output.putLong("parent", controller.asLong());
         }
 
         @Override
-        public void load(CompoundTag NBT) {
-            super.load(NBT);
-            controller = BlockPos.of(NBT.getLong("parent"));
+        protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+            super.loadAdditional(input);
+            controller = net.minecraft.core.BlockPos.of(input.getLongOr("parent", 0L));
         }
 
+/*
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
             return 0;
@@ -165,15 +165,14 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
 
         @Override
         public int getEnergyStored() {
-            return controller == null ? 0 : this.getParent().energy.getEnergyStored();
+            return 0;
         }
 
         @Override
         public int getMaxEnergyStored() {
-            return controller == null ? 0 : this.getParent().energy.getMaxEnergyStored();
+            return 0;
         }
 
-        //todo redstone should make this true
         @Override
         public boolean canExtract() {
             return false;
@@ -183,21 +182,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         public boolean canReceive() {
             return false;
         }
-
-
-        @Override
-        public Packet<ClientGamePacketListener> getUpdatePacket() {
-            CompoundTag NBT = new CompoundTag();
-            this.saveAdditional(NBT);
-            return ClientboundBlockEntityDataPacket.create(this, (blockEntity) -> NBT);
-        }
-
-        @Override
-        public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-            this.load(pkt.getTag());
-            level.sendBlockUpdated(pkt.getPos(), getBlockState(), getBlockState(), 3);
-        }
-
+*/
     }
 
 }

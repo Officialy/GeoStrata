@@ -11,15 +11,15 @@ package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
+//import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
 
-public class BlockLavaRockRoC extends BlockLavaRock implements EnvironmentalHeatSource {
+public class BlockLavaRockRoC extends BlockLavaRock /*implements EnvironmentalHeatSource*/ {
 
     public BlockLavaRockRoC() {
         super();
     }
 
-    @Override
+/*    @Override
     public SourceType getSourceType(BlockGetter getter, BlockPos pos) {
         return SourceType.LAVA;
     }
@@ -27,6 +27,6 @@ public class BlockLavaRockRoC extends BlockLavaRock implements EnvironmentalHeat
     @Override
     public boolean isActive(BlockGetter getter, BlockPos pos) {
         return true;
-    }
+    }*/
 
 }
