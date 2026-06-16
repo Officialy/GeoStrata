@@ -167,8 +167,11 @@ public class GeoStrata extends DragonAPIMod {
         if (ModList.ROTARYCRAFT.isLoaded()) {
             for (int i = 0; i < RockTypes.rockList.length; i++) {
                 RockTypes rock = RockTypes.rockList[i];
-                ItemStack smooth = rock.getItem(RockShapes.SMOOTH);
-                ItemStack cobble = rock.getItem(RockShapes.COBBLE);
+                // The grinder API recipes and GPR block colors these stacks fed are not yet
+                // ported (commented below), so building the ItemStacks here is dead work — and
+                // doing it in commonSetup crashes before item data components are bound.
+//                ItemStack smooth = rock.getItem(RockShapes.SMOOTH);
+//                ItemStack cobble = rock.getItem(RockShapes.COBBLE);
 //                RecipeInterface.grinder.addAPIRecipe(smooth, cobble);
 //                RecipeInterface.grinder.addAPIRecipe(cobble, new ItemStack(Blocks.GRAVEL));
 
