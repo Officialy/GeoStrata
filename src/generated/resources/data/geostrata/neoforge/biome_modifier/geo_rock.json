@@ -1,6 +1,6 @@
 {
-  "type": "forge:add_features",
+  "type": "neoforge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": "geostrata:glowing_vine",
+  "features": "geostrata:geo_rock",
   "step": "underground_decoration"
 }

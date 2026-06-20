@@ -70,10 +70,9 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
         if (generators.isEmpty()) {
-            throw new IllegalStateException("No generators to run!");
+            return false;
         }
         if (this.canGenInDimension(context.level().getLevel().dimension())) {
-//            GeoStrata.LOGGER.info("Generating in dimension " + context.level().getLevel().dimension().location() + " at " + chunkX + ", " + chunkZ);
             this.generateRock(context.level(), context.random(), chunkX, chunkZ);
             return true;
         }
@@ -85,7 +84,7 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
             return true;
         if (id == Level.END || id == Level.NETHER)
             return false;
-        if (id == ResourceKey.create(Registries.DIMENSION, Identifier.fromNamespaceAndPath("twilightforest", "twilight"))) //todo test twilight compat
+        if (id == ResourceKey.create(Registries.DIMENSION, Identifier.fromNamespaceAndPath("twilightforest", "twilight")))
             return GeoOptions.TFGEN.getState();
         return GeoOptions.DIMGEN.getState();
     }

@@ -25,11 +25,9 @@ public final class GeoDataProviders {
 
     @SubscribeEvent
     public static void onGatherServer(GatherDataEvent.Server event) {
-        // 26.1: minimum-viable port — every GeoStrata block needs a loot-table entry, otherwise
-        // datagen fails with "Missing loottable" the moment the LootTableProvider runs over the
-        // block registry. {@link GeoLootProvider} emits {@code dropSelf} for all blocks that
-        // have a BlockItem and a no-drop entry for the rest. Recipes / tags / biome modifiers
-        // are still TODO.
         event.createProvider(GeoLootProvider::new);
+        event.createDatapackRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
+        event.createProvider(GeoBiomeModifierProvider::new);
+        event.createProvider(GeoRecipeProvider::new);
     }
 }

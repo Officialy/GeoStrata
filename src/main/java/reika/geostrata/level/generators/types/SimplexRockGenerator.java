@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import reika.dragonapi.instantiable.math.noise.Simplex3DGenerator;
+import reika.geostrata.GeoStrata;
 import reika.geostrata.api.RockGenerationPatterns;
 import reika.geostrata.api.RockProofStone;
 import reika.geostrata.base.GeoBlock;

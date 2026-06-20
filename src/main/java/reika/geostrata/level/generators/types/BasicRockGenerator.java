@@ -25,7 +25,6 @@ public class BasicRockGenerator implements RockGenerationPatterns.RockGeneration
     @Override
     public void generateRockType(RockTypes geo, LevelAccessor world, RandomSource random, int chunkX, int chunkZ) {
         double max = RockGenerator.BASE_GEN * geo.rarity * this.getDensityFactor(geo);
-//        GeoStrata.LOGGER.info("Genning "+geo+" "+max+" times.");
         for (int i = 0; i < max; i++) {
             int posX = chunkX + random.nextInt(16);
             int posZ = chunkZ + random.nextInt(16);
