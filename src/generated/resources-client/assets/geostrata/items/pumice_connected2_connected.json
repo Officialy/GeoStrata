@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/pumice_connected2_connected"
+    "model": "geostrata:item/pumice_connected2_connected"
   }
 }

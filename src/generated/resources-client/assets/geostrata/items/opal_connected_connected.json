@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_connected_connected"
+    "model": "geostrata:item/opal_connected_connected"
   }
 }

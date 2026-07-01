@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "geostrata:block/granite_connected2_connected"
-  }
-}

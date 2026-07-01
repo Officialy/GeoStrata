@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "type": "dragonapi:connected_overlay",
+      "base": "geostrata:block/hornfel_smooth",
+      "overlays": "geostrata:block/connected2",
+      "sections": true
+    }
+  }
+}

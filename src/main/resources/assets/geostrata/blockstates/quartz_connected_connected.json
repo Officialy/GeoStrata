@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "type": "dragonapi:connected_overlay",
+      "base": "geostrata:block/quartz_smooth",
+      "overlays": "geostrata:block/connected",
+      "sections": false
+    }
+  }
+}

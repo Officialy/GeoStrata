@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/peridotite_connected2_connected"
+    "model": "geostrata:item/peridotite_connected2_connected"
   }
 }

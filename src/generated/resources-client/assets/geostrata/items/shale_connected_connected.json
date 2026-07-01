@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/shale_connected_connected"
+    "model": "geostrata:item/shale_connected_connected"
   }
 }

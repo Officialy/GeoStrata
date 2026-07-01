@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/gneiss_connected2_connected"
+    "model": "geostrata:item/gneiss_connected2_connected"
   }
 }

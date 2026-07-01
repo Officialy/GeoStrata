@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/hornfel_connected_connected"
+    "model": "geostrata:item/hornfel_connected_connected"
   }
 }
