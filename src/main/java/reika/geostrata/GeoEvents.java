@@ -11,9 +11,11 @@ package reika.geostrata;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
@@ -24,6 +26,7 @@ import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.RockShapes;
 import reika.geostrata.registry.RockTypes;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -41,12 +44,12 @@ public class GeoEvents {
         // Opal tint source: uses world position for color variation
         private static final BlockTintSource OPAL_TINT = new BlockTintSource() {
             @Override
-            public int color(net.minecraft.world.level.block.state.BlockState state) {
+            public int color(BlockState state) {
                 return GeoStrata.getOpalPositionColor(BlockPos.ZERO);
             }
             @Override
-            public int colorInWorld(net.minecraft.world.level.block.state.BlockState state,
-                                    net.minecraft.client.renderer.block.BlockAndTintGetter level,
+            public int colorInWorld(BlockState state,
+                                    BlockAndTintGetter level,
                                     BlockPos pos) {
                 return GeoStrata.getOpalPositionColor(pos);
             }
@@ -54,19 +57,19 @@ public class GeoEvents {
 
         private static final BlockTintSource CRYSTAL_TINT = new BlockTintSource() {
             @Override
-            public int color(net.minecraft.world.level.block.state.BlockState state) {
+            public int color(BlockState state) {
                 return BlockGlowCrystal.getRenderColor(BlockPos.ZERO, state.getValue(BlockGlowCrystal.COLOR_INDEX));
             }
             @Override
-            public int colorInWorld(net.minecraft.world.level.block.state.BlockState state,
-                                    net.minecraft.client.renderer.block.BlockAndTintGetter level,
+            public int colorInWorld(BlockState state,
+                                    BlockAndTintGetter level,
                                     BlockPos pos) {
                 return BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX));
             }
         };
 
         public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
-            java.util.List<BlockTintSource> opalSources = java.util.List.of(OPAL_TINT);
+            List<BlockTintSource> opalSources = List.of(OPAL_TINT);
             RockShapes.filteredShapeList.forEach(rockShapes -> event.register(opalSources, RockTypes.OPAL.getID(rockShapes)));
 
             var opalSlabMapping = GeoBlocks.slabMapping.entrySet().stream().filter(entry -> entry.getValue().getLeft().equals(RockTypes.OPAL)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -77,7 +80,7 @@ public class GeoEvents {
             opalStairMapping.forEach((stairBlock, e) -> event.register(opalSources, stairBlock));
             opalOreMapping.forEach((oreBlock, e) -> event.register(opalSources, oreBlock));
 
-            event.register(java.util.List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTAL.get());
+            event.register(List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTAL.get());
         }
 
         // 26.1: item tint sources are declared in resource-pack JSON (item model files,

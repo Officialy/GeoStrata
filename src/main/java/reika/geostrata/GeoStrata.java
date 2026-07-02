@@ -29,7 +29,6 @@ import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.level.GeoPlacedFeatures;
 import reika.geostrata.registry.*;
-import reika.geostrata.rendering.ConnectedStoneRenderer;
 import reika.geostrata.rendering.OceanSpikeRenderer;
 
 import java.awt.*;
@@ -122,8 +121,8 @@ public class GeoStrata extends DragonAPIMod {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
         ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
-        GeoBlocks.connectedBlockMapping.forEach((blockConnectedRock, rockTypesRockShapesPair) ->
-                ReikaRenderDispatcher.registerBlockRenderer(blockConnectedRock, new ConnectedStoneRenderer()));
+        // Connected rocks: no runtime renderer registration any more — they render through DragonAPI's
+        // dragonapi:connected_overlay blockstate model (static JSONs under assets/geostrata/blockstates).
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {

@@ -6,10 +6,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import reika.geostrata.block.BlockLavaRock;
+import reika.geostrata.registry.GeoBlocks;
 
 public class BlockItemLavaRock extends BlockItem {
     public BlockItemLavaRock(Block p_40565_) {
-        super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+        super(p_40565_, GeoBlocks.itemProperties());
     }
 
     
@@ -20,7 +21,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock1 extends BlockItem {
 
         public BlockItemLavaRock1(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
         
@@ -33,7 +34,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock2 extends BlockItem {
 
         public BlockItemLavaRock2(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
 
@@ -47,7 +48,7 @@ public class BlockItemLavaRock extends BlockItem {
     public static class BlockItemLavaRock3 extends BlockItem {
 
         public BlockItemLavaRock3(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
         

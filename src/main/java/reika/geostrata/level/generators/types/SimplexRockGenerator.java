@@ -1,6 +1,7 @@
 package reika.geostrata.level.generators.types;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +27,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
     private RockEntry initData(LevelAccessor world, RockTypes geo) {
         RockEntry gen = data[geo.ordinal()];
         if (gen != null) {
-            ((net.minecraft.server.level.ServerLevel)world).getSeed();
+            ((ServerLevel)world).getSeed();
         }
         gen = new RockEntry(world, geo);
         return gen;

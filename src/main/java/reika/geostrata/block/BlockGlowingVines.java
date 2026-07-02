@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.redstone.Orientation;
 import net.neoforged.neoforge.common.IShearable;
 
 
@@ -54,7 +55,7 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
     //private final SimplexNoiseGenerator hueNoise2 = new SimplexNoiseGenerator(-System.currentTimeMillis());
 
     public BlockGlowingVines() {
-        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollision());
+        super(GeoBlocks.blockProperties().mapColor(MapColor.PLANT).strength(0.2f).randomTicks().lightLevel((p_50886_) -> 1).sound(SoundType.GRASS).noOcclusion().noCollision());
     }
 
     @Override
@@ -202,7 +203,7 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, net.minecraft.world.level.redstone.Orientation p_60513_, boolean p_60514_) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, Orientation p_60513_, boolean p_60514_) {
         this.updateAndDropSides(level, pos);
         if (PROPERTY_BY_DIRECTION.isEmpty()) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);

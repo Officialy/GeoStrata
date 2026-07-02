@@ -28,6 +28,6 @@ public final class GeoDataProviders {
         event.createProvider(GeoLootProvider::new);
         event.createDatapackRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
         event.createProvider(GeoBiomeModifierProvider::new);
-        event.createProvider(GeoRecipeProvider::new);
+//        event.createProvider(GeoRecipeProvider::new);
     }
 }

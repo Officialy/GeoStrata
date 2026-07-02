@@ -16,6 +16,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
@@ -64,7 +67,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Player player, net.minecraft.world.item.ItemStack tool, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack tool, boolean willHarvest, FluidState fluid) {
         if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof TileRFCrystal) {
             ((TileRFCrystal) level.getBlockEntity(pos)).breakEntireCrystal(false);
         }
@@ -74,7 +77,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         ItemStack is = new ItemStack(this);
-        net.minecraft.world.level.block.entity.BlockEntity te = builder.getLevel().getBlockEntity(net.minecraft.core.BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN)));
+        BlockEntity te = builder.getLevel().getBlockEntity(BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN)));
         if (te instanceof TileRFCrystal) {
             //is.getOrCreateTag().putBoolean("activated", true);
         }
@@ -110,7 +113,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
                 cv.trailCount = 9;
                 cv.trailForkChance = 0;//0.01F;
                 cv.bounds = BlockBox.block(this).expand(48, 24, 48);
-                cv.generatePaths(((net.minecraft.server.level.ServerLevel)level).getSeed() ^ worldPosition.hashCode(), this, this);
+                cv.generatePaths(((ServerLevel)level).getSeed() ^ worldPosition.hashCode(), this, this);
                 crystalShape = cv.getLocations();
             }
 
@@ -188,25 +191,25 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         }
 
         @Override
-        protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        protected void saveAdditional(ValueOutput output) {
             super.saveAdditional(output);
             
             //output.putInt("energy", energy.getEnergyStored());
             output.putBoolean("activated", isActivated);
             
-            net.minecraft.nbt.CompoundTag crystalTag = new net.minecraft.nbt.CompoundTag();
+            CompoundTag crystalTag = new CompoundTag();
             crystal.saveAdditional("blocks", crystalTag);
-            output.store("crystal_data", net.minecraft.nbt.CompoundTag.CODEC, crystalTag);
+            output.store("crystal_data", CompoundTag.CODEC, crystalTag);
         }
 
         @Override
-        protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        protected void loadAdditional(ValueInput input) {
             super.loadAdditional(input);
             
             //energy.setEnergy(input.getIntOr("energy", 0));
             isActivated = input.getBooleanOr("activated", false) || !GeoOptions.RFACTIVATE.getState();
             
-            net.minecraft.nbt.CompoundTag crystalTag = input.read("crystal_data", net.minecraft.nbt.CompoundTag.CODEC).orElse(new net.minecraft.nbt.CompoundTag());
+            CompoundTag crystalTag = input.read("crystal_data", CompoundTag.CODEC).orElse(new CompoundTag());
             crystal.load("blocks", crystalTag);
         }
 

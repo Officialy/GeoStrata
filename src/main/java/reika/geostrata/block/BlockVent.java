@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraft.world.level.redstone.Orientation;
 import reika.dragonapi.ModList;
 import reika.dragonapi.libraries.io.ReikaSoundHelper;
 import reika.dragonapi.libraries.registry.ReikaItemHelper;
@@ -148,7 +149,7 @@ public class BlockVent extends Block implements EntityBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, net.minecraft.world.level.redstone.Orientation orientation, boolean bool) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, Orientation orientation, boolean bool) {
         BlockEntityVent b = (BlockEntityVent) level.getBlockEntity(pos);
         b.checkPlug(pos, level);
     }

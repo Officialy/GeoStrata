@@ -21,6 +21,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -50,7 +52,7 @@ public class BlockLavaRock extends Block {
     public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
     public BlockLavaRock() {
-        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
+        super(GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
         this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0).setValue(CONNECTED_STATE, false));
     }
 
@@ -106,7 +108,7 @@ public class BlockLavaRock extends Block {
 //	}
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, net.minecraft.world.level.redstone.Orientation p_60513_, boolean p_60514_) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, Orientation p_60513_, boolean p_60514_) {
         super.neighborChanged(state, level, pos, p_60512_, p_60513_, p_60514_);
         onPlace(state, level, pos, state, false);
     }
@@ -142,9 +144,9 @@ public class BlockLavaRock extends Block {
     }
 
     @Override
-    protected net.minecraft.world.item.ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
-            case 0 -> new net.minecraft.world.item.ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get());
+            case 0 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_0.get());
             case 1 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_1.get());
             case 2 -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_2.get());
             default -> new ItemStack(GeoBlocks.LAVAROCK_ITEM_3.get());

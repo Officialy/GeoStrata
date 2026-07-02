@@ -26,6 +26,8 @@ import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -75,11 +77,32 @@ public class GeoModelProvider extends ModelProvider {
         // Track which items are auto-generated block-items (registerSimpleBlockItem) so we don't
         // double-register them. Other BlockItems (e.g. BlockItemLavaRock variants registered via
         // registerItemOnly) get their own flat item models in the items loop below.
-        java.util.Set<Item> blockItemsHandled = new java.util.HashSet<>();
+        Set<Item> blockItemsHandled = new HashSet<>();
 
         // BLOCKS — every GeoStrata block gets a trivial cube_all model + single-variant blockstate.
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
+
+            if (block instanceof reika.geostrata.block.BlockConnectedRock) {
+                // Connected rocks: the in-world model is DragonAPI's dragonapi:connected_overlay custom
+                // blockstate model, shipped as STATIC JSON under assets/geostrata/blockstates (datagen's
+                // Variant codec can't express custom model types) — so no blockstate is emitted here.
+                // The ITEM still needs a normal model: a cube_all of the rock's base (smooth) texture.
+                var pair = GeoBlocks.connectedBlockMapping.get(block);
+                String rock = pair.getLeft().name().toLowerCase(java.util.Locale.ROOT);
+                Identifier itemModelId = ModelTemplates.CUBE_ALL.create(
+                        ModelLocationUtils.getModelLocation(block.asItem()),
+                        TextureMapping.cube(new net.minecraft.client.resources.model.sprite.Material(
+                                Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + rock + "_smooth"))),
+                        modelOut);
+                Item asItem = block.asItem();
+                if (asItem != Items.AIR) {
+                    itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));
+                    blockItemsHandled.add(asItem);
+                }
+                continue;
+            }
+
             Identifier blockModelId = ModelTemplates.CUBE_ALL.create(
                     block, TextureMapping.cube(block), modelOut);
             MultiVariant single = new MultiVariant(
@@ -108,7 +131,10 @@ public class GeoModelProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.listElements()
-                .filter(h -> h.getKey().identifier().getNamespace().equals(GeoStrata.MODID));
+                .filter(h -> h.getKey().identifier().getNamespace().equals(GeoStrata.MODID))
+                // Connected rocks ship STATIC blockstates (dragonapi:connected_overlay custom model);
+                // exclude them from the provider's must-have-a-generated-blockstate validation.
+                .filter(h -> !(h.value() instanceof reika.geostrata.block.BlockConnectedRock));
     }
 
     @Override

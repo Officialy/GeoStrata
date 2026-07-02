@@ -6,10 +6,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import reika.geostrata.block.BlockGlowCrystal;
+import reika.geostrata.registry.GeoBlocks;
 
 public class BlockItemGlowCrystal extends BlockItem {
     public BlockItemGlowCrystal(Block p_40565_) {
-        super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+        super(p_40565_, GeoBlocks.itemProperties());
     }
 
     
@@ -21,7 +22,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal1 extends BlockItem {
 
         public BlockItemGlowCrystal1(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
         
@@ -34,7 +35,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal2 extends BlockItem {
 
         public BlockItemGlowCrystal2(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
 
@@ -48,7 +49,7 @@ public class BlockItemGlowCrystal extends BlockItem {
     public static class BlockItemGlowCrystal3 extends BlockItem {
 
         public BlockItemGlowCrystal3(Block p_40565_) {
-            super(p_40565_, reika.geostrata.registry.GeoBlocks.itemProperties());
+            super(p_40565_, GeoBlocks.itemProperties());
         }
 
         

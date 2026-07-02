@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static reika.geostrata.GeoStrata.MODID;
 
-@net.neoforged.fml.common.EventBusSubscriber(modid = GeoStrata.MODID)
+@EventBusSubscriber(modid = GeoStrata.MODID)
 public class GeoPlacedFeatures {
 
     public static BlockPredicate ONLY_IN_WATER_PREDICATE = BlockPredicate.matchesBlocks(Collections.singletonList(Blocks.WATER));

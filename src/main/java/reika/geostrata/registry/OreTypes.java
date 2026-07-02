@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.util.valueproviders.UniformInt;
+import org.apache.commons.lang3.tuple.Pair;
 
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public enum OreTypes {
             DropExperienceBlock ore = new DropExperienceBlock(UniformInt.of(0, 0),
                     GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             oreBlocks.add(ore);
-            GeoBlocks.oreMapping.put(ore, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            GeoBlocks.oreMapping.put(ore, Pair.of(r, self));
             return ore;
         }, true, false, false);
     }

@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -20,7 +21,7 @@ import reika.geostrata.registry.RockTypes;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-@net.neoforged.fml.common.EventBusSubscriber(modid = GeoStrata.MODID)
+@EventBusSubscriber(modid = GeoStrata.MODID)
 public class GeoTabs {
 
     public static CreativeModeTab GEOSTRATA;// = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 1).title(Component.translatable("itemGroup.geostrata")).icon(() -> GeoBlocks.RF_CRYSTAL.get().asItem().getDefaultInstance()).build();

@@ -24,6 +24,8 @@ import net.minecraft.world.level.material.FluidState;
 
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -49,7 +51,7 @@ import java.util.Random;
 public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock {//,IWailaDataProvider, IMoveCheck, ILaputaImmobile {
 
     public BlockRFCrystal() {
-        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
+        super(GeoBlocks.blockProperties().mapColor(MapColor.NONE)/*todo fix none color, unless it is right idfk*/.sound(SoundType.GLASS).strength(2.5F).explosionResistance(60000).friction(0.99F).strength(2.5F).lightLevel((state) -> 6).noOcclusion());
     }
 
 
@@ -66,7 +68,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.item.ItemStack tool, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack tool, boolean willHarvest, FluidState fluid) {
         if (this == GeoBlocks.RF_CRYSTAL.get())
             ((TileRFCrystalAux) level.getBlockEntity(pos)).removeFromParent();
         return super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
@@ -119,7 +121,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         private BlockRFCrystalSeed.TileRFCrystal getParent() {
             if (controller == null)
                 return null;
-            net.minecraft.world.level.block.entity.BlockEntity te = level.getBlockEntity(controller);
+            BlockEntity te = level.getBlockEntity(controller);
             return te instanceof BlockRFCrystalSeed.TileRFCrystal ? (BlockRFCrystalSeed.TileRFCrystal) te : new BlockRFCrystalSeed.TileRFCrystal(worldPosition, getBlockState()); //npe protection
         }
 
@@ -140,16 +142,16 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         }
 
         @Override
-        protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        protected void saveAdditional(ValueOutput output) {
             super.saveAdditional(output);
             if (controller != null)
                 output.putLong("parent", controller.asLong());
         }
 
         @Override
-        protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        protected void loadAdditional(ValueInput input) {
             super.loadAdditional(input);
-            controller = net.minecraft.core.BlockPos.of(input.getLongOr("parent", 0L));
+            controller = BlockPos.of(input.getLongOr("parent", 0L));
         }
 
 /*

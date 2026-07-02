@@ -1,6 +1,7 @@
 package reika.geostrata.level.generators.types;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import reika.dragonapi.instantiable.math.noise.NoiseGeneratorBase;
@@ -31,8 +32,8 @@ public class BandedGenerator implements RockGenerationPatterns.RockGenerationPat
     @Override
     public void generateRockType(RockTypes geo, LevelAccessor world, RandomSource random, int chunkX, int chunkZ) {
         double max = RockGenerator.BASE_GEN*geo.rarity* 1*GeoOptions.getRockDensity()*2;
-        if (bandOffsets == null || bandOffsets.seed != ((net.minecraft.server.level.ServerLevel)world).getSeed()) {
-            bandOffsets = new SimplexNoiseGenerator(((net.minecraft.server.level.ServerLevel)world).getSeed()).setFrequency(1/64D);
+        if (bandOffsets == null || bandOffsets.seed != ((ServerLevel)world).getSeed()) {
+            bandOffsets = new SimplexNoiseGenerator(((ServerLevel)world).getSeed()).setFrequency(1/64D);
         }
         //ReikaJavaLibrary.pConsole("Genning "+geo+" "+max+" times.");
         for (int i = 0; i < max; i++) {

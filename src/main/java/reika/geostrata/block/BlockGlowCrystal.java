@@ -16,6 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HalfTransparentBlock;
@@ -47,7 +49,7 @@ public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappa
     private final SimplexNoiseGenerator hueNoiseMix = new SimplexNoiseGenerator(2 * System.currentTimeMillis());
 
     public BlockGlowCrystal() {
-        super(reika.geostrata.registry.GeoBlocks.blockProperties().mapColor(MapColor.COLOR_PURPLE).strength(0.8F, 5).friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion().isValidSpawn((blockState, getter, pos, entityType) -> false));
+        super(GeoBlocks.blockProperties().mapColor(MapColor.COLOR_PURPLE).strength(0.8F, 5).friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion().isValidSpawn((blockState, getter, pos, entityType) -> false));
         this.registerDefaultState(this.stateDefinition.any().setValue(COLOR_INDEX, 0));
         hueRanges[0] = new ImmutablePair<>(205, 25); //180 (cyan) - 230 (blue)
         hueRanges[1] = new ImmutablePair<>(25, 25); //0 (red) to 50 (yellow w bit of red)
@@ -62,7 +64,7 @@ public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappa
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Player player, net.minecraft.world.item.ItemStack tool, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack tool, boolean willHarvest, FluidState fluid) {
         return super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
     }
 
@@ -76,11 +78,11 @@ public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappa
         return getColor(pos.getX() + d, pos.getY() + d, pos.getZ() + d, i);
     }
     @Override
-    protected net.minecraft.world.item.ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         return switch (state.getValue(COLOR_INDEX)) {
-            case 0 -> new net.minecraft.world.item.ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
-            case 1 -> new net.minecraft.world.item.ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get());
-            case 2 -> new net.minecraft.world.item.ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get());
+            case 0 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
+            case 1 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get());
+            case 2 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get());
             default -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get());
         };
     }

@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import net.minecraft.world.level.material.MapColor;
+import org.apache.commons.lang3.tuple.Pair;
 import reika.dragonapi.exception.RegistrationException;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.GeoBlock;
@@ -98,7 +99,7 @@ public enum RockShapes {
         GeoBlocks.register(name, () -> {
             var b = new GeoBlock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             finalMap.put(r, b);
-            GeoBlocks.blockMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            GeoBlocks.blockMapping.put(b, Pair.of(r, self));
             return b;
         }, false, false, false);
         return null; // legacy return no longer used by callers
@@ -116,7 +117,7 @@ public enum RockShapes {
         GeoBlocks.register(name, () -> {
             BlockConnectedRock b = new BlockConnectedRock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             finalMap.put(r, b);
-            GeoBlocks.connectedBlockMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            GeoBlocks.connectedBlockMapping.put(b, Pair.of(r, self));
             return b;
         }, false, true, false);
         return null;
@@ -134,7 +135,7 @@ public enum RockShapes {
         GeoBlocks.register(name, () -> {
             SlabBlock b = new SlabBlock(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             finalMap.put(r, b);
-            GeoBlocks.slabMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            GeoBlocks.slabMapping.put(b, Pair.of(r, self));
             return b;
         }, false, false, true);
         return null;
@@ -152,7 +153,7 @@ public enum RockShapes {
         GeoBlocks.register(name, () -> {
             StairBlock b = new GeoStairBlock(() -> r.getID(s).defaultBlockState(), GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(r.blockHardness).explosionResistance(r.blastResistance).requiresCorrectToolForDrops());
             finalMap.put(r, b);
-            GeoBlocks.stairMapping.put(b, org.apache.commons.lang3.tuple.Pair.of(r, self));
+            GeoBlocks.stairMapping.put(b, Pair.of(r, self));
             return b;
         }, false, true, false);
         return null;
