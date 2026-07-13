@@ -89,7 +89,8 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
                 int dx = pos.getX() + d * dir.getStepX();
                 int dy = pos.getY() + d * dir.getStepY();
                 int dz = pos.getZ() + d * dir.getStepZ();
-                if (dy >= 0 && dx >= 0 && dz >= 0 && dx < 16 && dz < 16) {
+                // dy bound was 0 in 1.7.10 (world floor); modern lava mostly sits in the deepslate layer.
+                if (dy >= c.getMinY() && dx >= 0 && dz >= 0 && dx < 16 && dz < 16) {
                     Block b = c.getBlockState(new BlockPos(dx, dy, dz)).getBlock();
                     if (b/*.isReplaceableOreGen(c.getLevel(), x+c.getPos().x*16, y, z+c.getPos().z*16,*/ == Blocks.STONE || b == Blocks.DEEPSLATE || b == GeoBlocks.LAVAROCK.get()) {
 //                        ReikaJavaLibrary.pConsole("Placing at "+ new BlockPos(dx, dy, dz));

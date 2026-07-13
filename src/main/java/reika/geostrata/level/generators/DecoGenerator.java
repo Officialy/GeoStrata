@@ -51,7 +51,8 @@ public class DecoGenerator extends Feature<NoneFeatureConfiguration> {
             if (random.nextInt(Math.max(1, (int) (p.getGenerationChance() / GeoOptions.getDecoDensity()))) == 0) {
                 int x = chunkX + random.nextInt(16) + 8;
                 int z = chunkZ + random.nextInt(16) + 8;
-                int y = world.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, context.origin().getX(), context.origin().getZ());//todo world.getTopSolidOrLiquidBlock(dx, dz);
+                int y = world.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z); //legacy getTopSolidOrLiquidBlock skipped water, so ocean floor
+
 //                GeoStrata.LOGGER.info("x: " + x + " y: " + y + " z: " + z);
                 if (p.isValidLocation(world, new BlockPos(x, y, z))) {
                     if (p.generate(world, x, y, z, random)){
@@ -83,7 +84,8 @@ public class DecoGenerator extends Feature<NoneFeatureConfiguration> {
         private boolean isValidLocation(LevelAccessor world, BlockPos pos) {
             ResourceKey<Biome> b = world.getBiome(pos).unwrapKey().get();
             return switch (this) {
-                case OCEANSPIKE, OCEANSPIKES -> ReikaBiomeHelper.isOcean(world, b) && ReikaWorldHelper.getDepthFromBelow(world, pos.below(), Fluids.WATER) > 2 && world.getBlockState(pos.below()) == Blocks.GRAVEL.defaultBlockState() && world.getBlockState(pos.below()) != Blocks.KELP.defaultBlockState();
+                // Legacy check was just "ocean biome + >2 blocks of water above" — no floor-material requirement.
+                case OCEANSPIKE, OCEANSPIKES -> ReikaBiomeHelper.isOcean(world, b) && ReikaWorldHelper.getDepthFromBelow(world, pos.below(), Fluids.WATER) > 2;
             };
         }
 

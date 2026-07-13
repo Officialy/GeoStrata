@@ -49,19 +49,19 @@ public class GlowingVineGenerator extends Feature<NoneFeatureConfiguration> {
         var world = context.level();
         chunkX *= 16;
         chunkZ *= 16;
+        boolean placed = false;
         for (int i = 0; i < PER_CHUNK; i++) {
             int posX = chunkX + random.nextInt(16);
             int posZ = chunkZ + random.nextInt(16);
             int maxy = 100; //was originally 60
             int posY = -44 + random.nextInt(maxy); //minimum y was originally 4
-            if (canGenerateAt(world, posX, Mth.clamp(posY, -44, 60), posZ)) {
-                    if (BlockGlowingVines.place(world, new BlockPos(posX, posY, posZ), null)) {
-//                        ReikaJavaLibrary.pConsole("GLOWING VINES: " + posX + " " + posY + " " + posZ);
-                        return true;
-                    }
+            if (canGenerateAt(world, posX, posY, posZ)) {
+                if (BlockGlowingVines.place(world, new BlockPos(posX, posY, posZ), null)) {
+                    placed = true; //legacy kept attempting the full per-chunk count
+                }
             }
         }
-        return false;
+        return placed;
     }
 
     public static boolean canGenerateAt(WorldGenLevel world, int x, int y, int z) {

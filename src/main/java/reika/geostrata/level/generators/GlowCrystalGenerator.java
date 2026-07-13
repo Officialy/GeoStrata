@@ -1,6 +1,7 @@
 package reika.geostrata.level.generators;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -44,19 +45,14 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
             chunkZ *= 16;
             int x = chunkX + random.nextInt(16);
             int z = chunkZ + random.nextInt(16);
-            Biome biome = world.getBiome(new BlockPos(x, 100,z)).value();
-           /* if (biome.theBiomeDecorator.treesPerChunk > 0 || biome.toString().toLowerCase(Locale.ENGLISH).contains("forest")) {
-                if (biome.theBiomeDecorator.treesPerChunk <= 4) {
-                    if (random.nextInt(3) == 0)
-                        return false;
-                } else if (biome.theBiomeDecorator.treesPerChunk <= 2) {
-                    if (random.nextInt(2) == 0)
-                        return false;
-                }
-            } else {*/
+            // Legacy biased generation toward treed biomes (dense forest: no rejection; sparse
+            // trees: 1/3 rejected; treeless: 2/3 rejected). Tree density per biome is gone in
+            // modern MC, so approximate with the forest/jungle/taiga tags.
+            var biomeHolder = world.getBiome(new BlockPos(x, 100, z));
+            if (!biomeHolder.is(BiomeTags.IS_FOREST) && !biomeHolder.is(BiomeTags.IS_JUNGLE) && !biomeHolder.is(BiomeTags.IS_TAIGA)) {
                 if (random.nextInt(3) > 0)
                     return false;
-            //}
+            }
 			/*
 			int maxy = 60;
 			Biome b = world.getBiomeGenForCoords(x, z);

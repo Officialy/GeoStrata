@@ -94,6 +94,21 @@ public class GeoBlocks {
     public static final DeferredBlock<Block> ENDER_VENT = register("ender_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.ENDER), false, false, false);
     public static final DeferredBlock<Block> WATER_VENT = register("water_vent", () -> new BlockVent(blockProperties().mapColor(MapColor.STONE).strength(1.5F, 3F), VentType.WATER), false, false, false);
 
+    /** The block for a given vent type (1.7.10 stored the type as block metadata; now one block each). */
+    public static Block getVentBlock(VentType type) {
+        return switch (type) {
+            case STEAM -> STEAM_VENT.get();
+            case PYRO -> PYRO_VENT.get();
+            case CRYO -> CRYO_VENT.get();
+            case GAS -> GAS_VENT.get();
+            case LAVA -> LAVA_VENT.get();
+            case SMOKE -> SMOKE_VENT.get();
+            case FIRE -> FIRE_VENT.get();
+            case ENDER -> ENDER_VENT.get();
+            case WATER -> WATER_VENT.get();
+        };
+    }
+
     public static DeferredBlock<Block> LAVAROCK;
 
     //Lava rock BlockItem registering

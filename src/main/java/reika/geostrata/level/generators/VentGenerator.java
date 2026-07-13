@@ -65,14 +65,15 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
         for (int i = 0; i < PER_CHUNK; i++) {
             int posX = chunkX + random.nextInt(16);
             int posZ = chunkZ + random.nextInt(16);
-            int maxy = world.getLevel().dimension() == Level.NETHER ? 128 : (world.getLevel().dimension() == Level.OVERWORLD ? 72 : 64);
+            // Legacy: nether 128, end 72, everything else (incl. overworld) 64.
+            int maxy = world.getLevel().dimension() == Level.NETHER ? 128 : (world.getLevel().dimension() == Level.END ? 72 : 64);
             int posY = ReikaRandomHelper.getRandomBetween(4, maxy, random);
             if (random.nextBoolean()) {
                 posY *= random.nextFloat();
             }
             if (canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
                 VentType v = this.getVentTypeFor(world, posX, posY, posZ, random);
-                BlockState id = GeoBlocks.STEAM_VENT.get().defaultBlockState(); //todo vent type
+                BlockState id = GeoBlocks.getVentBlock(v).defaultBlockState();
                 world.setBlock(new BlockPos(posX, posY, posZ), id, 3);
             }
         }
@@ -105,7 +106,7 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
         Block id = world.getBlockState(pos).getBlock();
         if (id == Blocks.AIR)
             return false;
-        if (id == Blocks.STONE)
+        if (id == Blocks.STONE || id == Blocks.DEEPSLATE)
             return true;
         if (id == Blocks.DIRT)
             return true;
