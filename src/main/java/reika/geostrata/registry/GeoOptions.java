@@ -21,7 +21,7 @@ public enum GeoOptions implements BooleanConfig, IntegerConfig, DecimalConfig, S
     WAILA("Waila Overlay", true),
     OPALFREQ("Opal Color Frequency", 1F),
     OPALHUE("Opal Hue Offset (degrees)", 0),
-    ROCKGEN("Rock Generation Pattern - Legacy, Simplex, Banded", "Simplex"),
+    ROCKGEN("Rock Generation Pattern - Legacy, Simplex, Banded", "Legacy"), //1.7.10 default
     RFACTIVATE("Flux Crystal Requires Activation", false),
     OVERGEN("Rock Can Generate Into Other Rock", false);
 

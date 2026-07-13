@@ -33,29 +33,40 @@ import java.util.Random;
 import java.util.Set;
 
 public enum RockTypes {
-    //Generic makeup: Igneous 0-24; Metamorphic 16-40; Sedimentary 40+;
+    //Generic makeup (1.7.10 Y): Igneous 0-24; Metamorphic 16-40; Sedimentary 40+.
+    //Y-ranges are the 1.7.10 table remapped with newY = 2*oldY - 64 (1.7 underground was 0..64
+    //bedrock->surface; modern is -64..64), which preserves each rock's relative depth and the
+    //igneous/metamorphic/sedimentary layering the Legacy pattern relies on. Rarities are the
+    //original 1.7.10 values (they drive both Legacy vein counts and the Simplex threshold).
 
     //NAME(BLAST_RESISTANCE, HARDNESS, LOWEST Y POS, HIGHEST Y POS, RARITY, TOOL_TIER, GPR_COLOR
 
-    GRANITE(8, 8, -60, 80, 0.8F, ToolMaterial.IRON, 0xC4825E),
-    BASALT(7, 7, 0, 16, 0.6F, ToolMaterial.STONE, 0x252525),
-    MARBLE(5, 5, -30, 60, 0.5F, ToolMaterial.STONE, 0xB4B4BC),
-    LIMESTONE(3, 4, -30, 75, 0.7F, ToolMaterial.WOOD, 0xD0C4B3),
-    SHALE(2, 2, -60, 75, 0.6F, ToolMaterial.WOOD, 0x676970),
-    SANDSTONE(4, 4, -60, 75, 0.7F, ToolMaterial.WOOD, 0xD0AE90),
-    PUMICE(1, 1, -60, 319, 0.2F, ToolMaterial.WOOD, 0xD6D4CB),
-    SLATE(5, 5, -30, 80, 0.5F, ToolMaterial.STONE, 0x484B53),
-    GNEISS(7, 7, -60, 100, 0.6F, ToolMaterial.IRON, 0x7A7B79),
-    PERIDOTITE(7, 7, -60, 80, 0.4F, ToolMaterial.STONE, 0x485A4E),
-    QUARTZ(7, 7, -30, 75, 0.6F, ToolMaterial.STONE, 0xCCD5DC),
-    GRANULITE(8, 8, -60, 100, 0.5F, ToolMaterial.STONE, 0xC1BF9E),
-    HORNFEL(8, 8, -60, 90, 0.5F, ToolMaterial.IRON, 0x7B7E87),
-    MIGMATITE(7, 7, -60, 100, 0.5F, ToolMaterial.STONE, 0xA09F94),
-    SCHIST(5, 5, -60, 100, 0.6F, ToolMaterial.STONE, 0x3C3C44),
-    ONYX(8, 8, -60, 24, 0.3F, ToolMaterial.IRON, 0x111111),
-    OPAL(5, 5, 16, 60, 0.2F, ToolMaterial.STONE, 0xffddff);
+    GRANITE(8, 8, -32, 32, 1F, ToolMaterial.IRON, 0xC4825E), //was 16-48: mid metamorphic band
+    BASALT(7, 7, 32, 192, 1F, ToolMaterial.STONE, 0x252525), //was 48-128: high sedimentary band
+    MARBLE(5, 5, -32, 0, 1F, ToolMaterial.STONE, 0xB4B4BC), //was 16-32
+    LIMESTONE(3, 4, 32, 192, 1F, ToolMaterial.WOOD, 0xD0C4B3), //was 48-128
+    SHALE(2, 2, 32, 64, 1F, ToolMaterial.WOOD, 0x676970), //was 48-64
+    SANDSTONE(4, 4, 32, 192, 1F, ToolMaterial.WOOD, 0xD0AE90), //was 48-128
+    PUMICE(1, 1, -60, -32, 0.6F, ToolMaterial.WOOD, 0xD6D4CB), //was 0-16: bottom igneous band
+    SLATE(5, 5, 0, 32, 1F, ToolMaterial.STONE, 0x484B53), //was 32-48
+    GNEISS(7, 7, -32, 0, 0.8F, ToolMaterial.IRON, 0x7A7B79), //was 16-32
+    PERIDOTITE(7, 7, -60, -16, 0.6F, ToolMaterial.STONE, 0x485A4E), //was 0-24
+    QUARTZ(7, 7, -60, 64, 0.5F, ToolMaterial.STONE, 0xCCD5DC), //was 0-64
+    GRANULITE(8, 8, -32, 0, 0.7F, ToolMaterial.STONE, 0xC1BF9E), //was 16-32
+    HORNFEL(8, 8, -60, 64, 0.8F, ToolMaterial.IRON, 0x7B7E87), //was 0-64
+    MIGMATITE(7, 7, -60, -32, 0.6F, ToolMaterial.STONE, 0xA09F94), //was 0-16
+    SCHIST(5, 5, -32, 32, 0.8F, ToolMaterial.STONE, 0x3C3C44), //was 16-48
+    ONYX(8, 8, -60, -16, 1F, ToolMaterial.IRON, 0x111111), //was 0-24
+    OPAL(5, 5, 0, 56, 0.125F, ToolMaterial.STONE, 0xffddff); //was 32-60
 
     public static final RockTypes[] rockList = RockTypes.values();
+
+    static { //1.7.10 ran this from loadMappings(); without it Legacy vein density is never divided down
+        for (RockTypes rock : rockList) {
+            rock.calcCoincidentTypes();
+        }
+    }
+
     public final float blockHardness;
     public final float blastResistance;
     public final ToolMaterial harvestTool;
