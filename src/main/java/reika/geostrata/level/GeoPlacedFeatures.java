@@ -34,6 +34,10 @@ public class GeoPlacedFeatures {
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GEO_ROCK_FEATURE = FEATURES.register("geo_rock", RockGenerator::new);
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> RF_CRYSTAL_FEATURE = FEATURES.register("rf_crystal", RFCrystalGenerator::new);
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GLOWING_VINE_FEATURE = FEATURES.register("glowing_vine", GlowingVineGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> VOID_OPAL_FEATURE = FEATURES.register("void_opal", VoidOpalGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ORE_VEIN_FEATURE = FEATURES.register("ore_vein", OreVeinGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ARCTIC_SPIRE_FEATURE = FEATURES.register("arctic_spire", ArcticSpiresGenerator::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CREEPVINE_FEATURE = FEATURES.register("creepvine", CreepvineGenerator::new);
 
     public static PlacedFeature OCEAN_SPIKE;
     public static PlacedFeature GLOW_CRYSTAL;

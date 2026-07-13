@@ -25,7 +25,15 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class GeoBiomeModifierProvider implements DataProvider {
 
-    private static final record Entry(String id, GenerationStep.Decoration step) {}
+    /** One JSON per {@code id}; {@code feature} is the placed feature it points at (default: same as id). */
+    private static final record Entry(String id, String feature, GenerationStep.Decoration step, String biomes) {
+        Entry(String id, GenerationStep.Decoration step) {
+            this(id, id, step, "#minecraft:is_overworld");
+        }
+        Entry(String id, GenerationStep.Decoration step, String biomes) {
+            this(id, id, step, biomes);
+        }
+    }
     private static final List<Entry> ENTRIES = List.of(
             new Entry("geo_rock",      GenerationStep.Decoration.UNDERGROUND_DECORATION),
             new Entry("glow_crystal",  GenerationStep.Decoration.SURFACE_STRUCTURES),
@@ -33,7 +41,14 @@ public final class GeoBiomeModifierProvider implements DataProvider {
             new Entry("lava_rock",     GenerationStep.Decoration.UNDERGROUND_ORES),
             new Entry("ocean_spike",   GenerationStep.Decoration.LOCAL_MODIFICATIONS),
             new Entry("rf_crystal",    GenerationStep.Decoration.UNDERGROUND_ORES),
-            new Entry("vent",          GenerationStep.Decoration.UNDERGROUND_ORES)
+            new Entry("vent",          GenerationStep.Decoration.UNDERGROUND_ORES),
+            new Entry("void_opal",     GenerationStep.Decoration.LOCAL_MODIFICATIONS, "#minecraft:is_end"),
+            new Entry("ore_vein",      GenerationStep.Decoration.UNDERGROUND_DECORATION),
+            new Entry("ore_vein_nether", "ore_vein", GenerationStep.Decoration.UNDERGROUND_DECORATION, "#minecraft:is_nether"),
+            new Entry("ore_vein_end",    "ore_vein", GenerationStep.Decoration.UNDERGROUND_DECORATION, "#minecraft:is_end"),
+            //Last step so its tree/leaf clearing runs after vegetation, like legacy post-populate retrogen.
+            new Entry("arctic_spire",  GenerationStep.Decoration.TOP_LAYER_MODIFICATION),
+            new Entry("creepvine",     GenerationStep.Decoration.VEGETAL_DECORATION)
     );
 
     private final PackOutput.PathProvider pathProvider;
@@ -47,12 +62,13 @@ public final class GeoBiomeModifierProvider implements DataProvider {
         ImmutableList.Builder<CompletableFuture<?>> futures = ImmutableList.builder();
         for (var entry : ENTRIES) {
             Identifier id = Identifier.fromNamespaceAndPath(GeoStrata.MODID, entry.id);
+            Identifier feature = Identifier.fromNamespaceAndPath(GeoStrata.MODID, entry.feature);
             Path path = pathProvider.json(id);
             futures.add(CompletableFuture.supplyAsync(() -> {
                 JsonObject json = new JsonObject();
                 json.addProperty("type", "neoforge:add_features");
-                json.addProperty("biomes", "#minecraft:is_overworld");
-                json.addProperty("features", id.toString());
+                json.addProperty("biomes", entry.biomes);
+                json.addProperty("features", feature.toString());
                 json.addProperty("step", entry.step.getName());
                 return json;
             }).thenComposeAsync(encoded -> DataProvider.saveStable(cache, encoded, path)));

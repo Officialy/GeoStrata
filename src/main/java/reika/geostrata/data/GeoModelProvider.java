@@ -103,8 +103,11 @@ public class GeoModelProvider extends ModelProvider {
                 continue;
             }
 
-            Identifier blockModelId = ModelTemplates.CUBE_ALL.create(
-                    block, TextureMapping.cube(block), modelOut);
+            // Plant-type blocks render as crossed planes, not cubes.
+            boolean cross = block instanceof reika.geostrata.block.BlockCreepvine;
+            Identifier blockModelId = cross
+                    ? ModelTemplates.CROSS.create(block, TextureMapping.cross(block), modelOut)
+                    : ModelTemplates.CUBE_ALL.create(block, TextureMapping.cube(block), modelOut);
             MultiVariant single = new MultiVariant(
                     WeightedList.of(new Variant(blockModelId)));
             blockStateOut.accept(MultiVariantGenerator.dispatch(block, single));

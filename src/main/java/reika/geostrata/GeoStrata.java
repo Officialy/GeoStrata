@@ -81,6 +81,7 @@ public class GeoStrata extends DragonAPIMod {
         }
 
         GeoBlocks.initialise(modEventBus);
+        GeoItems.init(); //classload standalone items before the item registry event
         GeoBlocks.ITEMS.register(modEventBus);
         GeoBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         // RockShapes.initalize() walks every (shape, type) combination and calls getBlock(...)

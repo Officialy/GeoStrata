@@ -109,6 +109,27 @@ public class GeoBlocks {
         };
     }
 
+    //Ore veins: limited right-click-harvest ore pockets on cave walls (one block per legacy vein type).
+    public static final DeferredBlock<Block> STONE_ORE_VEIN = register("stone_ore_vein", () -> new BlockOreVein(blockProperties().mapColor(MapColor.STONE).strength(3F, 90F), BlockOreVein.VeinType.STONE), false, false, false);
+    public static final DeferredBlock<Block> ICE_ORE_VEIN = register("ice_ore_vein", () -> new BlockOreVein(blockProperties().mapColor(MapColor.ICE).strength(3F, 90F).lightLevel(s -> 12), BlockOreVein.VeinType.ICE), false, false, false);
+    public static final DeferredBlock<Block> NETHER_ORE_VEIN = register("nether_ore_vein", () -> new BlockOreVein(blockProperties().mapColor(MapColor.NETHER).strength(3F, 90F), BlockOreVein.VeinType.NETHER), false, false, false);
+    public static final DeferredBlock<Block> END_ORE_VEIN = register("end_ore_vein", () -> new BlockOreVein(blockProperties().mapColor(MapColor.SAND).strength(3F, 90F), BlockOreVein.VeinType.END), false, false, false);
+
+    //Creepvine: glowing deep-ocean kelp with harvestable seed cores.
+    public static final DeferredBlock<Block> CREEPVINE = register("creepvine", () -> new BlockCreepvine(blockProperties().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).sound(net.minecraft.world.level.block.SoundType.WET_GRASS)), false, false, false);
+
+    //Icicle: decorative spike hung from arctic spire lips (1.7.10 BlockDecoGen Types.ICICLE).
+    public static final DeferredBlock<Block> ICICLE = register("icicle", () -> new Block(blockProperties().mapColor(MapColor.ICE).strength(2F, 20F).noOcclusion().sound(net.minecraft.world.level.block.SoundType.GLASS)), false, false, false);
+
+    public static Block getOreVeinBlock(BlockOreVein.VeinType type) {
+        return switch (type) {
+            case STONE -> STONE_ORE_VEIN.get();
+            case ICE -> ICE_ORE_VEIN.get();
+            case NETHER -> NETHER_ORE_VEIN.get();
+            case END -> END_ORE_VEIN.get();
+        };
+    }
+
     public static DeferredBlock<Block> LAVAROCK;
 
     //Lava rock BlockItem registering

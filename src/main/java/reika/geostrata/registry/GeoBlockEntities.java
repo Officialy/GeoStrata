@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
+import reika.geostrata.block.entity.BlockEntityOreVein;
 import reika.geostrata.block.entity.BlockEntityVent;
 import reika.geostrata.block.entity.BlockEntityVentRoC;
 import reika.geostrata.block.entity.BlockRFCrystal;
@@ -50,6 +51,9 @@ public class GeoBlockEntities {
             WATER_VENT = BLOCK_ENTITIES.register("water_vent", () -> new BlockEntityType<>((level, pos) -> new BlockEntityVent(GeoBlockEntities.WATER_VENT.get(), VentType.WATER, level, pos), GeoBlocks.WATER_VENT.get()));
         }
     }
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityOreVein>> ORE_VEIN = BLOCK_ENTITIES.register("ore_vein", () -> new BlockEntityType<>(BlockEntityOreVein::new,
+            GeoBlocks.STONE_ORE_VEIN.get(), GeoBlocks.ICE_ORE_VEIN.get(), GeoBlocks.NETHER_ORE_VEIN.get(), GeoBlocks.END_ORE_VEIN.get()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockRFCrystalSeed.TileRFCrystal>> RF_CRYSTAL_SEED = BLOCK_ENTITIES.register("rf_crystal_seed", () -> new BlockEntityType<>(BlockRFCrystalSeed.TileRFCrystal::new, GeoBlocks.RF_CRYSTAL_SEED.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockRFCrystal.TileRFCrystalAux>> RF_CRYSTAL = BLOCK_ENTITIES.register("rf_crystal", () -> new BlockEntityType<>(BlockRFCrystal.TileRFCrystalAux::new, GeoBlocks.RF_CRYSTAL.get()));

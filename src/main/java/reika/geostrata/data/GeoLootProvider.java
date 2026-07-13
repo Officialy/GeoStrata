@@ -42,7 +42,18 @@ public final class GeoLootProvider extends LootTableProvider {
         protected void generate() {
             for (var holder : GeoBlocks.BLOCKS.getEntries()) {
                 Block block = holder.get();
-                if (block.asItem() == Items.AIR) {
+                if (block instanceof reika.geostrata.block.BlockOreVein vein) {
+                    // Legacy: breaking a vein yields its camouflage block's drops, never the vein itself.
+                    switch (vein.getVeinType()) {
+                        case STONE -> this.dropOther(block, net.minecraft.world.level.block.Blocks.COBBLESTONE);
+                        case ICE -> this.add(block, noDrop()); //packed ice drops nothing without silk touch
+                        case NETHER -> this.dropOther(block, net.minecraft.world.level.block.Blocks.NETHERRACK);
+                        case END -> this.dropOther(block, net.minecraft.world.level.block.Blocks.END_STONE);
+                    }
+                } else if (block instanceof reika.geostrata.block.BlockCreepvine) {
+                    // Legacy: the plant itself never drops; seeds come from right-click harvesting cores.
+                    this.add(block, noDrop());
+                } else if (block.asItem() == Items.AIR) {
                     // Item-less block (vents, crystal stages without a BlockItem) — drop nothing.
                     this.add(block, noDrop());
                 } else {

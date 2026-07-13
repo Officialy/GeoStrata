@@ -31,7 +31,11 @@ public final class GeoWorldGenProvider {
             new Entry("lava_rock"),
             new Entry("ocean_spike"),
             new Entry("rf_crystal"),
-            new Entry("vent")
+            new Entry("vent"),
+            new Entry("void_opal"),
+            new Entry("ore_vein"),
+            new Entry("arctic_spire"),
+            new Entry("creepvine")
     );
 
     private GeoWorldGenProvider() {}
