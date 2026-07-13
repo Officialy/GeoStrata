@@ -68,8 +68,13 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
 
     private static boolean isSpireBiome(WorldGenLevel world, BlockPos pos) {
         ResourceKey<Biome> b = world.getBiome(pos).unwrapKey().orElse(null);
-        //1.7.10 gated on ice plains + ice mountains; their modern equivalents:
-        return b == Biomes.SNOWY_PLAINS || b == Biomes.ICE_SPIKES || b == Biomes.SNOWY_SLOPES || b == Biomes.GROVE;
+        //1.7.10 gated on ice plains + ice mountains; their modern equivalents, plus our own biome:
+        return b == reika.geostrata.level.GeoBiomes.ARCTIC_SPIRES
+                || b == Biomes.SNOWY_PLAINS || b == Biomes.ICE_SPIKES || b == Biomes.SNOWY_SLOPES || b == Biomes.GROVE;
+    }
+
+    private static boolean isDedicatedBiome(WorldGenLevel world, BlockPos pos) {
+        return world.getBiome(pos).unwrapKey().orElse(null) == reika.geostrata.level.GeoBiomes.ARCTIC_SPIRES;
     }
 
     @Override
@@ -85,7 +90,9 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
         if (!isSpireBiome(world, new BlockPos(x, 64, z)))
             return false;
         this.setSeed(world);
-        if (!this.isGennableZone(x, z))
+        //The dedicated Arctic Spires biome (TerraBlender) IS a spire zone; vanilla snowy biomes
+        //stay gated to the legacy Voronoi zones.
+        if (!isDedicatedBiome(world, new BlockPos(x, 64, z)) && !this.isGennableZone(x, z))
             return false;
         return this.generateCluster(world, chunkX, chunkZ, random, 2) > 0;
     }
@@ -108,7 +115,11 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     private int generateCluster(WorldGenLevel world, int chunkX, int chunkZ, RandomSource random, int amt) {
-        double baseTilt = (currentClosestZone.hashCode() * 2387.183) % 360D;
+        //In the dedicated biome the zone check is skipped, so the closest zone may be unset;
+        //fall back to a zone lookup purely for the shared cluster tilt.
+        if (currentClosestZone == null)
+            currentClosestZone = zoneNoise.getClosestRoot(chunkX, 64, chunkZ);
+        double baseTilt = currentClosestZone == null ? (chunkX * 2387.183) % 360D : (currentClosestZone.hashCode() * 2387.183) % 360D;
         Random jrand = new Random(random.nextLong());
         int count = 0;
         HashSet<BlockPos> genned = new HashSet<>();

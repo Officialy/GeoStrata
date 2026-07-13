@@ -66,7 +66,13 @@ public class CreepvineGenerator extends Feature<NoneFeatureConfiguration> {
 
     private boolean isValidLocation(WorldGenLevel world, int x, int z) {
         ResourceKey<Biome> b = world.getBiome(new BlockPos(x, 64, z)).unwrapKey().orElse(null);
-        return b != null && ReikaBiomeHelper.isOcean(world, b) && mainNoise.getValue(x, z) > 0.55;
+        if (b == null)
+            return false;
+        //The dedicated Kelp Forest biome (TerraBlender) is always a grove; other oceans stay
+        //gated to the legacy noise patches.
+        if (b == reika.geostrata.level.GeoBiomes.KELP_FOREST)
+            return true;
+        return ReikaBiomeHelper.isOcean(world, b) && mainNoise.getValue(x, z) > 0.55;
     }
 
     private void setSeed(WorldGenLevel world) {
