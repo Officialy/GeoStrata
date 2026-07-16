@@ -99,6 +99,7 @@ public class GeoStrata extends DragonAPIMod {
 //        LOGGER.info("Registered " + GeoBlocks.wallMapping.size() + " walls");
 
         GeoPlacedFeatures.FEATURES.register(modEventBus);
+        GeoTabs.register(modEventBus);
 
         this.basicSetup();
         this.finishTiming();
