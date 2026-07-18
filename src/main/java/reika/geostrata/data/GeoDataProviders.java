@@ -25,6 +25,7 @@ public final class GeoDataProviders {
 
     @SubscribeEvent
     public static void onGatherServer(GatherDataEvent.Server event) {
+        event.createProvider(GeoBlockTagsProvider::new);
         event.createProvider(GeoLootProvider::new);
         event.createDatapackRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
         event.createProvider(GeoBiomeModifierProvider::new);
