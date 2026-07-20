@@ -1,4 +1,4 @@
-// 26.2	2026-07-20T15:19:19.0947182	Model Definitions - geostrata
+// 26.2	2026-07-20T16:01:03.0478315	Model Definitions - geostrata
 368a736b0206e4a0e00360e4de728f6bffa81e5e assets/geostrata/blockstates/basalt_brick.json
 e36a5b24d9dd682f550b4b46426afdd5fbf40343 assets/geostrata/blockstates/basalt_brick_slab.json
 478ffb5b3cec482832fa76cef352ee1023ee7d22 assets/geostrata/blockstates/basalt_brick_stair.json
@@ -280,7 +280,6 @@ fbab1f2a472de9d00aeb0f8cbf50341ab7b07f3d assets/geostrata/blockstates/hornfel_sp
 eb713650108c2a2e1bc5d5fc9b5b273e10b367af assets/geostrata/blockstates/hornfel_tile_slab.json
 e202a985f1df386336db18b8d0c9e9e482c0a03d assets/geostrata/blockstates/hornfel_tile_stair.json
 ce46bf4ad00e027fc71c3e7ccf6c86afb211d97d assets/geostrata/blockstates/ice_ore_vein.json
-8a086d73a71e9db0c1e06f73ee12963daf5f8ddd assets/geostrata/blockstates/icicle.json
 279ce4b9cf645d1b4d11ba3a54a81ce8741040c4 assets/geostrata/blockstates/lapis_bricks.json
 d17c84afb27cba19630ad11cc1d3da14a2909205 assets/geostrata/blockstates/limestone_brick.json
 1a5ac9e78f95aae06b09edfc3b1eee5d49b53be1 assets/geostrata/blockstates/limestone_brick_slab.json
@@ -1246,7 +1245,7 @@ de8d24f9aece3c9de177110b6735fc0e0a895010 assets/geostrata/items/hornfel_smooth_s
 9a1ddad24dd8a442924f9c01ebb5d6e2b6b9d62a assets/geostrata/items/hornfel_tile_slab.json
 cd576de7039f222ff6c81712526ce4d323d7cd00 assets/geostrata/items/hornfel_tile_stair.json
 d8f7ddddc0fc8af41a250629e9b8baf325895b49 assets/geostrata/items/ice_ore_vein.json
-90e7ca7643ccc71072733d3fdbc9df93deba8585 assets/geostrata/items/icicle.json
+866e510cbdbbab355a60ea0cdbf4460b10f5e9f1 assets/geostrata/items/icicle.json
 f91cc28b90d472163eab56f8ff060df407d827c8 assets/geostrata/items/lapis_bricks.json
 cafc6279ba139ad99881aa8e1a76b67625ee5244 assets/geostrata/items/lava_rock_item_0.json
 d11a17c8b41028eceb680d767bcbe1e30a8ea6e1 assets/geostrata/items/lava_rock_item_1.json
@@ -2234,7 +2233,6 @@ c6702eba0d10e92876ba354b716113ffd4221108 assets/geostrata/models/block/hornfel_s
 14e1cbd36f6f217f23a1e685e7d323961c001380 assets/geostrata/models/block/hornfel_tile_slab.json
 c4a7e1bdac7da7385c8e1b0cd4e3da8bace6a591 assets/geostrata/models/block/hornfel_tile_stair.json
 d12bbd085798609e9521411d74f0d9944b191c80 assets/geostrata/models/block/ice_ore_vein.json
-376a3fbfc23bc71a4c8973e2f42eda79d4bd421a assets/geostrata/models/block/icicle.json
 c5737b8b44216a8186713a9a4d6f150106e5f1b2 assets/geostrata/models/block/lapis_bricks.json
 028dc17989b04f638fba8dc58807b317926b456e assets/geostrata/models/block/limestone_brick.json
 b63f16c7b15080ea44694d55b72832a39384fd12 assets/geostrata/models/block/limestone_brick_slab.json
@@ -2919,6 +2917,7 @@ a05fd25a85f309234822a64876b7161a8b417604 assets/geostrata/models/item/granulite_
 a05fd25a85f309234822a64876b7161a8b417604 assets/geostrata/models/item/granulite_connected_connected.json
 07c887eb4a84f234da1cb30038d1c6e3de84b2fc assets/geostrata/models/item/hornfel_connected2_connected.json
 07c887eb4a84f234da1cb30038d1c6e3de84b2fc assets/geostrata/models/item/hornfel_connected_connected.json
+9ccf4f86b562d90d3dfe6757e2207e41c40555ed assets/geostrata/models/item/icicle.json
 84c62e647400171fd4ee75560d932d5183077c1d assets/geostrata/models/item/lava_rock_item_0.json
 593aa1da3aabcac46623bc698de987a3dd2d4006 assets/geostrata/models/item/lava_rock_item_1.json
 c30f876998151a165d4a9606562dbdd653f14e5f assets/geostrata/models/item/lava_rock_item_2.json

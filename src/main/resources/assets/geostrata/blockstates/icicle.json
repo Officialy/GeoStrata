@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "": {
+      "type": "geostrata:icicle",
+      "texture": "minecraft:block/packed_ice"
+    }
+  }
+}

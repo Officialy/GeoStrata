@@ -162,7 +162,10 @@ public class GeoModelProvider extends ModelProvider {
     private static boolean shipsStaticBlockState(Block block) {
         return block instanceof reika.geostrata.block.BlockVent
                 || block instanceof reika.geostrata.block.BlockLavaRock
-                || block instanceof reika.geostrata.block.BlockOceanSpike;
+                || block instanceof reika.geostrata.block.BlockOceanSpike
+                // Icicle is a plain Block drawn by the geostrata:icicle DynamicBlockStateModel; keep its
+                // hand-authored blockstate (custom model type) instead of the generated cube stub.
+                || block == GeoBlocks.ICICLE.get();
     }
 
     @Override
