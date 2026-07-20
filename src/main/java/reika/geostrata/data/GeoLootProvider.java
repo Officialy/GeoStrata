@@ -7,8 +7,12 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.registry.GeoBlocks;
+import reika.geostrata.registry.OreTypes;
+import reika.geostrata.registry.RockTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +57,10 @@ public final class GeoLootProvider extends LootTableProvider {
                 } else if (block instanceof reika.geostrata.block.BlockCreepvine) {
                     // Legacy: the plant itself never drops; seeds come from right-click harvesting cores.
                     this.add(block, noDrop());
+                } else if (block instanceof DropExperienceBlock && GeoBlocks.oreMapping.containsKey(block)) {
+                    // GeoStrata ores are 1.7.10 camouflage ores: mining yields the underlying resource
+                    // (silk-touch drops the ore block, fortune multiplies), not the decorative block.
+                    this.add(block, oreDrop((DropExperienceBlock) block, GeoBlocks.oreMapping.get(block)));
                 } else if (block.asItem() == Items.AIR) {
                     // Item-less block (vents, crystal stages without a BlockItem) — drop nothing.
                     this.add(block, noDrop());
@@ -60,6 +68,26 @@ public final class GeoLootProvider extends LootTableProvider {
                     this.dropSelf(block);
                 }
             }
+        }
+
+        /**
+         * Vanilla-faithful ore drop for a GeoStrata camouflage ore. The six vanilla-equivalent ores
+         * mirror their vanilla ore tables (raw metals + fortune, copper/lapis counts). The ~11 modded
+         * metals (silver, tin, platinum, uranium, lead, nickel, aluminium, zinc, iridium, osmium,
+         * cadmium) have no ported resource item yet — they drop the ore block itself as an interim so
+         * they stay obtainable, pending the material-progression backlog.
+         */
+        private net.minecraft.world.level.storage.loot.LootTable.Builder oreDrop(DropExperienceBlock block, Pair<RockTypes, OreTypes> map) {
+            OreTypes ore = map.getRight();
+            return switch (ore) {
+                case IRON -> createOreDrop(block, Items.RAW_IRON);
+                case GOLD -> createOreDrop(block, Items.RAW_GOLD);
+                case COPPER -> createCopperOreDrops(block);
+                case LAPIS -> createLapisOreDrops(block);
+                case DIAMOND -> createOreDrop(block, Items.DIAMOND);
+                case EMERALD -> createOreDrop(block, Items.EMERALD);
+                default -> createSingleItemTable(block); // modded metal: drop-self interim
+            };
         }
 
         @Override
