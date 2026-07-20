@@ -83,6 +83,17 @@ public class GeoModelProvider extends ModelProvider {
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
 
+            // Blocks that ship hand-authored blockstates/models under src/main/resources (vents,
+            // lava rock, and the BER-drawn ocean spike). Their textures live in sub-folders
+            // (block/vent/*, block/semilava/*) so the generated cube_all's flat block/<name> texture
+            // is missing — and since the generated copy wins the resource merge (build.gradle
+            // DuplicatesStrategy.INCLUDE), it clobbers the correct static JSON. Skip them here so the
+            // static blockstate is authoritative, exactly like BlockConnectedRock below. These are
+            // all item-less (vents, ocean spike) or have their item models registered separately
+            // (lava rock 0..3), so skipping doesn't orphan any item model.
+            if (shipsStaticBlockState(block))
+                continue;
+
             if (block instanceof reika.geostrata.block.BlockConnectedRock) {
                 // Connected rocks: the in-world model is DragonAPI's dragonapi:connected_overlay custom
                 // blockstate model, shipped as STATIC JSON under assets/geostrata/blockstates (datagen's
@@ -137,7 +148,21 @@ public class GeoModelProvider extends ModelProvider {
                 .filter(h -> h.getKey().identifier().getNamespace().equals(GeoStrata.MODID))
                 // Connected rocks ship STATIC blockstates (dragonapi:connected_overlay custom model);
                 // exclude them from the provider's must-have-a-generated-blockstate validation.
-                .filter(h -> !(h.value() instanceof reika.geostrata.block.BlockConnectedRock));
+                .filter(h -> !(h.value() instanceof reika.geostrata.block.BlockConnectedRock))
+                // Same for the other static-blockstate blocks (vents / lava rock / ocean spike).
+                .filter(h -> !shipsStaticBlockState(h.value()));
+    }
+
+    /**
+     * True for blocks whose in-world blockstate + models are hand-authored under
+     * {@code src/main/resources} and must not be overwritten by the generated cube_all stubs:
+     * vents (multi-texture, sub-folder textures), lava rock (height/connected variants) and the
+     * ocean spike (drawn by {@code OceanSpikeBER}; its model must stay the empty blank).
+     */
+    private static boolean shipsStaticBlockState(Block block) {
+        return block instanceof reika.geostrata.block.BlockVent
+                || block instanceof reika.geostrata.block.BlockLavaRock
+                || block instanceof reika.geostrata.block.BlockOceanSpike;
     }
 
     @Override

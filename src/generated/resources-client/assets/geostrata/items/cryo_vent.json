@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/cryo_vent"
+    "model": "geostrata:item/cryo_vent"
   }
 }

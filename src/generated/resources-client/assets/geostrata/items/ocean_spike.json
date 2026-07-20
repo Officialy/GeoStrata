@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/ocean_spike"
+    "model": "geostrata:item/ocean_spike"
   }
 }
