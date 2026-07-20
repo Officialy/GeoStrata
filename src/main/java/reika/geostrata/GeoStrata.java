@@ -19,6 +19,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import reika.dragonapi.ModList;
@@ -29,7 +30,7 @@ import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.level.GeoPlacedFeatures;
 import reika.geostrata.registry.*;
-import reika.geostrata.rendering.OceanSpikeRenderer;
+import reika.geostrata.rendering.OceanSpikeBER;
 
 import java.awt.*;
 import java.io.File;
@@ -74,6 +75,7 @@ public class GeoStrata extends DragonAPIMod {
         if (FMLEnvironment.getDist() == Dist.CLIENT) {
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
+            modEventBus.addListener(this::registerEntityRenderers);
         }
         if (FMLEnvironment.getDist() == Dist.DEDICATED_SERVER) {
             NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
@@ -122,9 +124,14 @@ public class GeoStrata extends DragonAPIMod {
     public void clientSetup(final FMLClientSetupEvent event) {
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
-        ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new OceanSpikeRenderer());
         // Connected rocks: no runtime renderer registration any more — they render through DragonAPI's
         // dragonapi:connected_overlay blockstate model (static JSONs under assets/geostrata/blockstates).
+    }
+
+    // The ocean spike's geometry is per-position dynamic, so it is drawn by a BlockEntityRenderer
+    // (the legacy IBlockRenderer dispatch is a no-op stub in this build). See OceanSpikeBER.
+    public void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(GeoBlockEntities.OCEAN_SPIKE.get(), OceanSpikeBER::new);
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {

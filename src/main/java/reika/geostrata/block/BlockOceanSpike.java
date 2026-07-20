@@ -22,13 +22,21 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import reika.dragonapi.instantiable.rendering.RotatedQuad;
+import reika.geostrata.block.entity.BlockEntityOceanSpike;
 import reika.geostrata.rendering.OceanSpikeRenderer;
 
-public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock {
+public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     public BlockOceanSpike(Properties p_49795_) {
         super(p_49795_);
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, false));
+    }
+
+    // The spike geometry is generated per-position at render time, so it is drawn by OceanSpikeBER,
+    // not a baked model. The block entity is the renderer's attachment point.
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new BlockEntityOceanSpike(pos, state);
     }
 
     @Override
