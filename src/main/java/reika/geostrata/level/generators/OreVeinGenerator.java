@@ -41,8 +41,14 @@ public class OreVeinGenerator extends Feature<NoneFeatureConfiguration> {
         var random = context.random();
         var world = context.level();
         var chunk = world.getChunk(context.origin());
-        int x = chunk.getPos().x() * 16 + random.nextInt(16) + 8;
-        int z = chunk.getPos().z() * 16 + random.nextInt(16) + 8;
+        //Legacy 1.7.10 added a +8 populate-phase offset here: its DecoGenerator ran via DragonAPI
+        //retrogen, after the surrounding 2x2 chunk block was already built, so reaching +8..+31 blocks
+        //past the chunk corner was safe. Modern per-chunk feature gen enforces a distance-1 read/write
+        //radius; that offset plus the +-8 vein scatter and the countAdjacentAir neighbour reads pushed
+        //reads 2 chunks out ("unsafe terrain read during worldgen"). Dropping only the +8 keeps the vein
+        //count, +-8 scatter, Y range and placement conditions identical while staying within radius 1.
+        int x = chunk.getPos().x() * 16 + random.nextInt(16);
+        int z = chunk.getPos().z() * 16 + random.nextInt(16);
 
         int amt = 16;
         int minY = 4;
