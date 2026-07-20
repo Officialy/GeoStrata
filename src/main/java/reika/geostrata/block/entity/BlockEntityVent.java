@@ -166,7 +166,7 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
     public void checkPlug(BlockPos pos, Level level) {
         boolean last = plugged;
         plugged = this.isBlocking(level, pos.above());
-        if (plugged && !last) { //just got plugged, firing
+        if (plugged && !last && this.isActive()) { //just got plugged while erupting — pressure blows it out
             this.explode(1, level, pos);
         }
     }

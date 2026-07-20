@@ -11,6 +11,7 @@ package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -126,18 +127,16 @@ public class BlockLavaRock extends Block {
         int height = state.getValue(BLOCK_HEIGHT_STATE);
         for (int i = 0; i < 6; i++) {
             Direction dir = Direction.values()[i];
-            int dx = pos.getX() + dir.getStepX();
-            int dy = pos.getY() + dir.getStepY();
-            int dz = pos.getZ() + dir.getStepZ();
-            if (world.hasChunksAt(dx, dy, dz, dx, dy, dz)) {
-//                Material mat2 = ReikaWorldHelper.getMaterial(world, new BlockPos(dx, dy, dz));
-//                if (ReikaBlockHelper.matchMaterialsLoosely(MapColor.WATER, mat2)) {
+            BlockPos np = pos.relative(dir);
+            if (world.hasChunksAt(np.getX(), np.getY(), np.getZ(), np.getX(), np.getY(), np.getZ())) {
+                // Legacy: lava rock only "quenches" into obsidian/cobble/stone when a NEIGHBOUR is
+                // water, like real lava. The port had this check commented out, so it converted on
+                // every neighbour update instead of only on contact with water.
+                if (world.getBlockState(np).getFluidState().is(FluidTags.WATER)) {
                     int chance = 3 + 3 * height * height; // 1 in: 3, 6, 15, 30
                     boolean obsidian = world.getRandom().nextInt(chance) == 0;
                     world.setBlock(pos, obsidian ? Blocks.OBSIDIAN.defaultBlockState() : (height <= 1 ? Blocks.COBBLESTONE.defaultBlockState() : Blocks.STONE.defaultBlockState()), 3);
-//                } else {
-
-//                }
+                }
             }
         }
         ReikaWorldHelper.temperatureEnvironment(world, pos, this.getEffectiveTemperature(height));
