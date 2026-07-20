@@ -44,13 +44,23 @@ import reika.geostrata.block.entity.BlockEntityOceanSpike;
  */
 public class OceanSpikeBER implements BlockEntityRenderer<BlockEntityOceanSpike, BlockEntityRenderState> {
 
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/deco/0");
+    // entityTranslucent binds a raw texture file, so this is the full textures/....png path (matching
+    // the working getSubmitTexture convention, e.g. RotaryCraft's LampModel.TEXTURE_LOCATION), NOT the
+    // atlas sprite short-form. The file lives at assets/geostrata/textures/block/deco/0.png.
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "textures/block/deco/0.png");
 
     public OceanSpikeBER(BlockEntityRendererProvider.Context context) {}
 
     @Override
     public BlockEntityRenderState createRenderState() {
         return new BlockEntityRenderState();
+    }
+
+    // The root-splay can push corners slightly past the block face, so inflate the default single-block
+    // cull box a touch (ber-frustum-culling) to keep the tip/root from popping at screen edges.
+    @Override
+    public net.minecraft.world.phys.AABB getRenderBoundingBox(BlockEntityOceanSpike be) {
+        return new net.minecraft.world.phys.AABB(be.getBlockPos()).inflate(0.25);
     }
 
     // The spike sits in water/air, so its own cell's light is fine, but sampling the brightest
