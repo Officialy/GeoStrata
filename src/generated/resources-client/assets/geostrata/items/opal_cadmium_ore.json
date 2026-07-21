@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_cadmium_ore"
+    "model": "geostrata:block/opal_cadmium_ore",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

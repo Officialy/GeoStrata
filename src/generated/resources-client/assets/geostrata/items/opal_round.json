@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_round"
+    "model": "geostrata:block/opal_round",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

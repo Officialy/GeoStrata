@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_etched"
+    "model": "geostrata:block/opal_etched",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

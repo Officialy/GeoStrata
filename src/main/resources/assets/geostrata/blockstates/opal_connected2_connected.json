@@ -4,7 +4,8 @@
       "type": "dragonapi:connected_overlay",
       "base": "geostrata:block/opal_smooth",
       "overlays": "geostrata:block/connected2",
-      "sections": true
+      "sections": true,
+      "tint": true
     }
   }
 }

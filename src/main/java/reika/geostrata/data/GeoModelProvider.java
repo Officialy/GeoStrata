@@ -134,14 +134,17 @@ public class GeoModelProvider extends ModelProvider {
                 // The ITEM still needs a normal model: a cube_all of the rock's base (smooth) texture.
                 var pair = GeoBlocks.connectedBlockMapping.get(block);
                 String rock = pair.getLeft().name().toLowerCase(java.util.Locale.ROOT);
-                Identifier itemModelId = ModelTemplates.CUBE_ALL.create(
+                boolean opalConn = pair.getLeft() == reika.geostrata.registry.RockTypes.OPAL;
+                Identifier itemModelId = (opalConn ? TINTED_BLOCK : ModelTemplates.CUBE_ALL).create(
                         ModelLocationUtils.getModelLocation(block.asItem()),
                         TextureMapping.cube(new net.minecraft.client.resources.model.sprite.Material(
                                 Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + rock + "_smooth"))),
                         modelOut);
                 Item asItem = block.asItem();
                 if (asItem != Items.AIR) {
-                    itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));
+                    itemModelOut.accept(asItem, opalConn
+                            ? ItemModelUtils.tintedModel(itemModelId, new reika.geostrata.rendering.GeoItemTints.OpalItemTint())
+                            : ItemModelUtils.plainModel(itemModelId));
                     blockItemsHandled.add(asItem);
                 }
                 continue;
@@ -186,7 +189,9 @@ public class GeoModelProvider extends ModelProvider {
                 }
                 Item asItem = block.asItem();
                 if (asItem != Items.AIR) {
-                    itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));
+                    itemModelOut.accept(asItem, opal
+                            ? ItemModelUtils.tintedModel(itemModelId, new reika.geostrata.rendering.GeoItemTints.OpalItemTint())
+                            : ItemModelUtils.plainModel(itemModelId));
                     blockItemsHandled.add(asItem);
                 }
                 continue;
@@ -204,7 +209,9 @@ public class GeoModelProvider extends ModelProvider {
 
             Item asItem = block.asItem();
             if (asItem != Items.AIR) {
-                itemModelOut.accept(asItem, ItemModelUtils.plainModel(blockModelId));
+                itemModelOut.accept(asItem, isOpal(block)
+                        ? ItemModelUtils.tintedModel(blockModelId, new reika.geostrata.rendering.GeoItemTints.OpalItemTint())
+                        : ItemModelUtils.plainModel(blockModelId));
                 blockItemsHandled.add(asItem);
             }
         }
@@ -214,7 +221,14 @@ public class GeoModelProvider extends ModelProvider {
             Item item = holder.get();
             if (blockItemsHandled.contains(item)) continue;
             // Damage-variant block items point at their hand-authored block models — the default
-            // flat item/<name> textures don't exist.
+            // flat item/<name> textures don't exist. Luminous crystal variants carry their colour
+            // via a per-index item tint source (the block model's quads are tintindex 0).
+            Integer crystalIdx = crystalVariantIndex(item);
+            if (crystalIdx != null) {
+                itemModelOut.accept(item, ItemModelUtils.tintedModel(geoBlockModel("luminous_crystal"),
+                        new reika.geostrata.rendering.GeoItemTints.CrystalItemTint(crystalIdx)));
+                continue;
+            }
             Identifier blockModel = variantBlockModel(item);
             if (blockModel != null) {
                 itemModelOut.accept(item, ItemModelUtils.plainModel(blockModel));
@@ -265,15 +279,21 @@ public class GeoModelProvider extends ModelProvider {
                 || block == GeoBlocks.VOID_OPALS.get();
     }
 
-    /** Block model for the lava-rock / luminous-crystal damage-variant items; null for normal items. */
+    /** Block model for the lava-rock damage-variant items; null for normal items. */
     private static Identifier variantBlockModel(Item item) {
         if (item == GeoBlocks.LAVAROCK_ITEM_0.get()) return geoBlockModel("lava_rock_0");
         if (item == GeoBlocks.LAVAROCK_ITEM_1.get()) return geoBlockModel("lava_rock_1");
         if (item == GeoBlocks.LAVAROCK_ITEM_2.get()) return geoBlockModel("lava_rock_2");
         if (item == GeoBlocks.LAVAROCK_ITEM_3.get()) return geoBlockModel("lava_rock_3");
-        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get() || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get()
-                || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get() || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get())
-            return geoBlockModel("luminous_crystal");
+        return null;
+    }
+
+    /** COLOR_INDEX for the luminous-crystal variant items; null for anything else. */
+    private static Integer crystalVariantIndex(Item item) {
+        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get()) return 0;
+        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get()) return 1;
+        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get()) return 2;
+        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get()) return 3;
         return null;
     }
 

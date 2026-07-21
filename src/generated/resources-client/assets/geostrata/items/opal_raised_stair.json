@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_raised_stair"
+    "model": "geostrata:block/opal_raised_stair",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

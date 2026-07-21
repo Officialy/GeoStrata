@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_mossy"
+    "model": "geostrata:block/opal_mossy",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

@@ -80,14 +80,23 @@ public class GeoEvents {
             opalStairMapping.forEach((stairBlock, e) -> event.register(opalSources, stairBlock));
             opalOreMapping.forEach((oreBlock, e) -> event.register(opalSources, oreBlock));
 
+            // Connected opal: the dragonapi:connected_overlay model bakes tintindex-0 quads when its
+            // blockstate sets "tint": true, so the same rainbow source applies.
+            GeoBlocks.connectedBlockMapping.entrySet().stream()
+                    .filter(entry -> entry.getValue().getLeft() == RockTypes.OPAL)
+                    .forEach(entry -> event.register(opalSources, entry.getKey()));
+
             event.register(List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTAL.get());
         }
 
-        // 26.1: item tint sources are declared in resource-pack JSON (item model files,
-        // "tint_sources" field) — not in Java. The legacy RegisterColorHandlersEvent.Item path is
-        // gone. We keep this empty handler stub for symmetry with the block-tint registration
-        // above; opal + crystal item tints live in assets/geostrata/items/<name>.json.
+        // 26.x: item tints are data-driven — the item model JSON declares "tints" whose types are
+        // codec-registered here. GeoModelProvider emits ItemModelUtils.tintedModel(...) with these
+        // sources for opal items and the luminous crystal variants.
         public static void registerItemColors(RegisterColorHandlersEvent.ItemTintSources event) {
+            event.register(net.minecraft.resources.Identifier.fromNamespaceAndPath(GeoStrata.MODID, "opal"),
+                    reika.geostrata.rendering.GeoItemTints.OpalItemTint.CODEC);
+            event.register(net.minecraft.resources.Identifier.fromNamespaceAndPath(GeoStrata.MODID, "crystal"),
+                    reika.geostrata.rendering.GeoItemTints.CrystalItemTint.CODEC);
         }
     }
 

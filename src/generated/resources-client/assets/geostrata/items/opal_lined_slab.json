@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_lined_slab"
+    "model": "geostrata:block/opal_lined_slab",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

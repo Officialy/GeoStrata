@@ -51,8 +51,21 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
         var iron = tag(BlockTags.NEEDS_IRON_TOOL);
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
-            if (!block.defaultBlockState().requiresCorrectToolForDrops())
+            if (!block.defaultBlockState().requiresCorrectToolForDrops()) {
+                // Stone-like blocks that don't gate their drops behind a tool still deserve
+                // pickaxe mining SPEED (vents, lava rock, ore veins, deco spikes, crystals).
+                if (block instanceof reika.geostrata.block.BlockVent
+                        || block instanceof reika.geostrata.block.BlockLavaRock
+                        || block instanceof reika.geostrata.block.BlockOreVein
+                        || block instanceof reika.geostrata.block.BlockOceanSpike
+                        || block == GeoBlocks.ICICLE.get()
+                        || block == GeoBlocks.VOID_OPALS.get()
+                        || block == GeoBlocks.LUMINOUS_CRYSTAL.get()
+                        || block == GeoBlocks.RF_CRYSTAL.get()
+                        || block == GeoBlocks.RF_CRYSTAL_SEED.get())
+                    pickaxe.add(holder.getKey());
                 continue;
+            }
             pickaxe.add(holder.getKey());
             ToolMaterial t = tier.get(block);
             // WOOD (or an unmapped correct-tool block) stays pickaxe-only — a wooden pickaxe drops it.

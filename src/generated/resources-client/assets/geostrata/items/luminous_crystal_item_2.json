@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/luminous_crystal"
+    "model": "geostrata:block/luminous_crystal",
+    "tints": [
+      {
+        "type": "geostrata:crystal",
+        "index": 2
+      }
+    ]
   }
 }

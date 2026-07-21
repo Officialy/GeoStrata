@@ -116,8 +116,11 @@ public class BlockLavaRock extends Block {
 
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState p_60569_, boolean p_60570_) {
-//	todo	if (LavaRockGenerator.instance.doingLavaRockGen || !ReikaWorldHelper.isChunkPastCompletelyFinishedGenerating(world, x >> 4, z >> 4))
-//			return;
+        // Legacy skipped conversion during worldgen (doingLavaRockGen / chunk-finished guard).
+        // Modern equivalent: only run on a live server level — WorldGenRegion placements and
+        // client-side calls bail here, so gen-time water contact doesn't instantly quench.
+        if (!(world instanceof net.minecraft.server.level.ServerLevel))
+            return;
         if (world.getBlockState(pos.above()).isSolid()) {
             world.setBlock(pos, world.getBlockState(pos).setValue(CONNECTED_STATE, true), 3);
         }else if (world.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState() || world.getBlockState(pos.above()) == Blocks.CAVE_AIR.defaultBlockState() || !world.getBlockState(pos.above()).isSolid()) {

@@ -78,10 +78,23 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         ItemStack is = new ItemStack(this);
         BlockEntity te = builder.getLevel().getBlockEntity(BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN)));
-        if (te instanceof TileRFCrystal) {
-            //is.getOrCreateTag().putBoolean("activated", true);
+        // Legacy: an activated seed keeps its activation across break/replace (only meaningful
+        // with the RFACTIVATE option on). 1.21 stack-tag convention per ElectriCraft: CUSTOM_DATA
+        // via ReikaItemHelper.updateStackTag; read back in setPlacedBy.
+        if (te instanceof TileRFCrystal tile && tile.isActivated && GeoOptions.RFACTIVATE.getState()) {
+            reika.dragonapi.libraries.registry.ReikaItemHelper.updateStackTag(is, t -> t.putBoolean("activated", true));
         }
         return ReikaJavaLibrary.makeListFrom(is);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        var tag = reika.dragonapi.libraries.registry.ReikaItemHelper.getStackTag(stack);
+        if (tag != null && tag.getBooleanOr("activated", false)
+                && level.getBlockEntity(pos) instanceof TileRFCrystal tile) {
+            tile.isActivated = true;
+        }
     }
 
     public static class TileRFCrystal extends BlockEntity implements CurvedTrajectory.TrailShape, CurvedTrajectory.InitialAngleProvider {

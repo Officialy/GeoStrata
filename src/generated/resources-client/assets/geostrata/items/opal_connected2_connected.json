@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:item/opal_connected2_connected"
+    "model": "geostrata:item/opal_connected2_connected",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }

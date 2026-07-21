@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:block/opal_embossed_slab"
+    "model": "geostrata:block/opal_embossed_slab",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
   }
 }
