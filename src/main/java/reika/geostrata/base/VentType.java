@@ -186,11 +186,18 @@ public enum VentType implements StringRepresentable {
                     double ry = ReikaRandomHelper.getRandomPlusMinus(oy, 1);
                     double rz = ReikaRandomHelper.getRandomPlusMinus(oz, 6);
                     e.teleportTo(rx, ry, rz); //setpositionandupdate
+                    // Legacy: retry while the destination collides with blocks OR liquid; stop at the
+                    // first free spot. The port only wrote flag when a collision existed, so a
+                    // successful teleport kept looping all 40 tries and left the entity at an
+                    // unvalidated final position.
+                    boolean collides = false;
                     for (VoxelShape voxelshape : e.level().getBlockCollisions(e, e.getBoundingBox())) {
                         if (!voxelshape.isEmpty()) {
-                            flag = e.level().containsAnyLiquid(e.getBoundingBox());
+                            collides = true;
+                            break;
                         }
                     }
+                    flag = collides || e.level().containsAnyLiquid(e.getBoundingBox());
                     tries++;
                 }
                 if (!flag) {

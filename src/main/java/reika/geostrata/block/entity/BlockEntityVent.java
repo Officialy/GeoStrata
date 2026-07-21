@@ -89,17 +89,16 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
                         }
                     }
 
+                    // Legacy gate is box != null — getEffectBox returns null for types without an
+                    // entity effect. The port had garbled this into an instanceof FarmlandBlock
+                    // check (never true for a vent), so no vent's entity effect (ender teleport,
+                    // gas poison, pyro ignite...) ever ran. The legacy smoke air-drain branch was
+                    // already commented out upstream, so it is dropped here.
                     AABB box = ventType.getEffectBox(this);
-                    if (level.getBlockState(pos).getBlock() instanceof FarmlandBlock) {
+                    if (box != null) {
                         List<LivingEntity> li = level.getEntitiesOfClass(LivingEntity.class, box);
                         for (LivingEntity e : li) {
                             ventType.applyEntityEffect(e);
-                        }
-                    } else if (ventType == VentType.SMOKE) {
-                        assert false;
-                        List<LivingEntity> li = level.getEntitiesOfClass(LivingEntity.class, box);
-                        for (LivingEntity e : li) {
-                            e.setAirSupply(Math.max(0, e.getAirSupply() - 1));
                         }
                     }
                     ventType.doAoE(level, pos, rand);
