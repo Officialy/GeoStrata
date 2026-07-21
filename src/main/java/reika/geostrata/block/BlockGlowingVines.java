@@ -166,7 +166,7 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
                 Direction fill = null;
                 ArrayList<Direction> li = ReikaDirectionHelper.getRandomOrderedDirections(true);
                 for (Direction dir : li) {
-                    if (!this.hasSide(dir) && isAcceptableNeighbour(world, pos.relative(dir), dir)) {
+                    if (!hasSide(state, dir) && isAcceptableNeighbour(world, pos.relative(dir), dir)) {
                         fill = dir;
                         break;
                     }
@@ -204,30 +204,33 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_60512_, Orientation p_60513_, boolean p_60514_) {
+        // updateAndDropSides removes the block itself once no sides remain; do NOT consult
+        // PROPERTY_BY_DIRECTION for emptiness (it is VineBlock's shared static, never empty).
         this.updateAndDropSides(level, pos);
-        if (PROPERTY_BY_DIRECTION.isEmpty()) {
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        }
     }
 
-    public  List<ItemStack> onSheared( Player player,  ItemStack item, Level level, BlockPos pos, int fortune) {
-         super.neighborChanged(null, level, pos, null, null, false);
-         return null;
+    public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos, int fortune) {
+        this.updateAndDropSides(level, pos);
+        return null;
     }
 
     public void shearAll(Level world, BlockPos pos, Player ep) {
-        ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, PROPERTY_BY_DIRECTION.size()));
+        BlockState state = world.getBlockState(pos);
+        ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this, Math.max(1, countSides(state))));
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
 
     public void shearSide(Level world, BlockPos pos, Direction dir, Player ep) {
-        if (PROPERTY_BY_DIRECTION.containsKey(dir)) {
-            PROPERTY_BY_DIRECTION.remove(dir);
-            world.sendBlockUpdated(pos, this.defaultBlockState(), this.defaultBlockState(), 3);
-            ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this));
-            if (PROPERTY_BY_DIRECTION.isEmpty())
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        }
+        BooleanProperty prop = getPropertyForFace(dir); // null for DOWN (vines have no down face)
+        BlockState state = world.getBlockState(pos);
+        if (prop == null || !state.is(this) || !state.getValue(prop))
+            return;
+        state = state.setValue(prop, Boolean.FALSE);
+        ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(this));
+        if (countSides(state) == 0)
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        else
+            world.setBlock(pos, state, 3);
     }
 
     /*
@@ -253,32 +256,44 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
     }
      */
 
+    // Drop any side whose supporting neighbour is gone, in the BLOCK STATE (not by mutating the
+    // shared static PROPERTY_BY_DIRECTION map — doing so corrupts VineBlock globally and crashes
+    // getUpdatedState with "Cannot get property null"). Removes the block once no sides remain.
     public void updateAndDropSides(Level world, BlockPos pos) {
         if (world.isClientSide())
             return;
-        Iterator<Direction> it = PROPERTY_BY_DIRECTION.keySet().iterator();
-        boolean flag = false;
-        while (it.hasNext()) {
-            Direction dir = it.next();
-            if (isAcceptableNeighbour(world, pos.relative(dir), dir)) {
-
-            } else {
-                it.remove();
+        BlockState state = world.getBlockState(pos);
+        if (!state.is(this))
+            return;
+        boolean changed = false;
+        for (Direction dir : PROPERTY_BY_DIRECTION.keySet()) {
+            BooleanProperty prop = getPropertyForFace(dir);
+            if (state.getValue(prop) && !isAcceptableNeighbour(world, pos.relative(dir), dir)) {
+                state = state.setValue(prop, Boolean.FALSE);
                 ReikaItemHelper.dropItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(GeoBlocks.GLOWING_VINES.get()));
-                flag = true;
+                changed = true;
             }
         }
-        if (flag) {
-            world.sendBlockUpdated(pos, this.defaultBlockState(), this.defaultBlockState(), 3);
+        if (changed) {
+            if (countSides(state) == 0)
+                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            else
+                world.setBlock(pos, state, 3);
         }
     }
 
-    public boolean hasSide(int side) {
-        return this.hasSide(Direction.values()[side]);
+    /** Number of faces this vine occupies, read from its block state (never the static map). */
+    private static int countSides(BlockState state) {
+        int n = 0;
+        for (Direction dir : PROPERTY_BY_DIRECTION.keySet())
+            if (state.getValue(getPropertyForFace(dir)))
+                n++;
+        return n;
     }
 
-    public boolean hasSide(Direction dir) {
-        return PROPERTY_BY_DIRECTION.containsKey(dir);
+    public static boolean hasSide(BlockState state, Direction dir) {
+        BooleanProperty prop = getPropertyForFace(dir);
+        return prop != null && state.getValue(prop);
     }
 
 
