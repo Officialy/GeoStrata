@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:migmatite_lined"
+  },
+  "pattern": [
+    "  B",
+    " BB",
+    "BBB"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:migmatite_lined_stair"
+  }
+}

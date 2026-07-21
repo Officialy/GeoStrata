@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:peridotite_centered_slab"
+  },
+  "pattern": [
+    "B",
+    "B"
+  ],
+  "result": {
+    "id": "geostrata:peridotite_centered"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:onyx_mossy"
+  },
+  "pattern": [
+    "  B",
+    " BB",
+    "BBB"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:onyx_mossy_stair"
+  }
+}

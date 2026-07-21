@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:pumice_tile",
+  "result": {
+    "id": "geostrata:pumice_smooth"
+  }
+}

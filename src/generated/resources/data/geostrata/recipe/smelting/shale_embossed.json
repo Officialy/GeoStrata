@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:shale_embossed",
+  "result": {
+    "id": "geostrata:shale_smooth"
+  }
+}

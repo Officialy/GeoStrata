@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:gneiss_raised",
+  "result": {
+    "id": "geostrata:gneiss_smooth"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:migmatite_engraved",
+  "result": {
+    "id": "geostrata:migmatite_smooth"
+  }
+}

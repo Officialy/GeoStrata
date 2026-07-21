@@ -167,4 +167,16 @@ public enum RockShapes {
             return map.get(r);
     }
 
+    /** The stair block for this (shape, type), or null — CONNECTED/CONNECTED2 have no stairs. */
+    public StairBlock getStair(RockTypes r) {
+        EnumMap<RockTypes, StairBlock> map = stairBlockMap.get(this);
+        return map == null ? null : map.get(r);
+    }
+
+    /** The slab block for this (shape, type), or null — CONNECTED/CONNECTED2 have no slabs. */
+    public SlabBlock getSlab(RockTypes r) {
+        EnumMap<RockTypes, SlabBlock> map = slabBlockMap.get(this);
+        return map == null ? null : map.get(r);
+    }
+
 }

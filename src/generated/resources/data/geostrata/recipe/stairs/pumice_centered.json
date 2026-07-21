@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:pumice_centered"
+  },
+  "pattern": [
+    "  B",
+    " BB",
+    "BBB"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:pumice_centered_stair"
+  }
+}

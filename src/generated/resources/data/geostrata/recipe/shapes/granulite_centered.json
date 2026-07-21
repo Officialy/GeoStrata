@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "geostrata:granulite_round",
+    "S": "geostrata:granulite_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:granulite_centered"
+  }
+}

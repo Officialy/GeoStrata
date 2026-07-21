@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:limestone_centered",
+  "result": {
+    "id": "geostrata:limestone_smooth"
+  }
+}

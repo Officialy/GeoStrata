@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "geostrata:slate_round",
+    "S": "geostrata:slate_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:slate_centered"
+  }
+}

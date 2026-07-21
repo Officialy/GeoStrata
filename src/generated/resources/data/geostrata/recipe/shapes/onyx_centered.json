@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "geostrata:onyx_round",
+    "S": "geostrata:onyx_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:onyx_centered"
+  }
+}

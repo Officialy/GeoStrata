@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:onyx_brick",
+    "S": "geostrata:onyx_smooth"
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:onyx_engraved"
+  }
+}

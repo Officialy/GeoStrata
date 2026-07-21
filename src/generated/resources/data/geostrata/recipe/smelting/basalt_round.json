@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:basalt_round",
+  "result": {
+    "id": "geostrata:basalt_smooth"
+  }
+}

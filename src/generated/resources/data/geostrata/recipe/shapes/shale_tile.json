@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "geostrata:shale_smooth"
+  },
+  "pattern": [
+    " S ",
+    "S S",
+    " S "
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:shale_tile"
+  }
+}

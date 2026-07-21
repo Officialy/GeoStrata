@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "geostrata:quartz_round",
+    "S": "geostrata:quartz_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:quartz_centered"
+  }
+}

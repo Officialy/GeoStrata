@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:onyx_lined",
+  "result": {
+    "id": "geostrata:onyx_smooth"
+  }
+}

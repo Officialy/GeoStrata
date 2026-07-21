@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:opal_mossy",
+  "result": {
+    "id": "geostrata:opal_smooth"
+  }
+}

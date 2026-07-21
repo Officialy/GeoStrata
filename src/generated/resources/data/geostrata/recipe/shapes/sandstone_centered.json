@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "geostrata:sandstone_round",
+    "S": "geostrata:sandstone_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:sandstone_centered"
+  }
+}

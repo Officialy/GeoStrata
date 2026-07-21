@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "E": "geostrata:granite_engraved",
+    "S": "geostrata:granite_smooth"
+  },
+  "pattern": [
+    " S ",
+    "SES",
+    " S "
+  ],
+  "result": {
+    "count": 5,
+    "id": "geostrata:granite_lined"
+  }
+}

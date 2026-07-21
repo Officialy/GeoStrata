@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "geostrata:peridotite_smooth",
+    "T": "geostrata:peridotite_tile"
+  },
+  "pattern": [
+    "S",
+    "T",
+    "S"
+  ],
+  "result": {
+    "count": 3,
+    "id": "geostrata:peridotite_embossed"
+  }
+}

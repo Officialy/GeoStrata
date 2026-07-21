@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:marble_brick",
+    "S": "geostrata:marble_smooth"
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:marble_engraved"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "geostrata:quartz_smooth",
+    "T": "geostrata:quartz_tile"
+  },
+  "pattern": [
+    "S",
+    "T",
+    "S"
+  ],
+  "result": {
+    "count": 3,
+    "id": "geostrata:quartz_embossed"
+  }
+}

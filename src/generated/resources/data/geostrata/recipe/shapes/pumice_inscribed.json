@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:pumice_brick",
+    "S": "geostrata:pumice_smooth"
+  },
+  "pattern": [
+    "B",
+    "S",
+    "B"
+  ],
+  "result": {
+    "count": 3,
+    "id": "geostrata:pumice_inscribed"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:peridotite_etched",
+  "result": {
+    "id": "geostrata:peridotite_smooth"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:slate_fitted",
+  "result": {
+    "id": "geostrata:slate_smooth"
+  }
+}

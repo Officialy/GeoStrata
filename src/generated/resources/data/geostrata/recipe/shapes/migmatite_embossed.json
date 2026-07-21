@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "geostrata:migmatite_smooth",
+    "T": "geostrata:migmatite_tile"
+  },
+  "pattern": [
+    "S",
+    "T",
+    "S"
+  ],
+  "result": {
+    "count": 3,
+    "id": "geostrata:migmatite_embossed"
+  }
+}

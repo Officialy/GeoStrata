@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:schist_cobble",
+  "result": {
+    "id": "geostrata:schist_smooth"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:marble_pillar",
+  "result": {
+    "id": "geostrata:marble_smooth"
+  }
+}

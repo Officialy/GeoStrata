@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:shale_brick",
+    "S": "geostrata:shale_smooth"
+  },
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "geostrata:shale_engraved"
+  }
+}

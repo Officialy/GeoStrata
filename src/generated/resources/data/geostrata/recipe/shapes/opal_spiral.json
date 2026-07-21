@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "geostrata:opal_smooth",
+    "B": "geostrata:opal_brick"
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "result": {
+    "count": 8,
+    "id": "geostrata:opal_spiral"
+  }
+}

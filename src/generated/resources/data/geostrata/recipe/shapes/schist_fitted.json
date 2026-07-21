@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "geostrata:schist_brick"
+  },
+  "pattern": [
+    "SS"
+  ],
+  "result": {
+    "count": 2,
+    "id": "geostrata:schist_fitted"
+  }
+}

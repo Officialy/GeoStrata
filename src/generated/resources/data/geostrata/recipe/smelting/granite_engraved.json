@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:granite_engraved",
+  "result": {
+    "id": "geostrata:granite_smooth"
+  }
+}

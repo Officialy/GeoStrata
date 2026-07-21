@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:quartz_cubed",
+  "result": {
+    "id": "geostrata:quartz_smooth"
+  }
+}

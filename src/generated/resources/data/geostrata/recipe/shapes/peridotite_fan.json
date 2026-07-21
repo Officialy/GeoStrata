@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "geostrata:peridotite_smooth",
+    "B": "geostrata:peridotite_brick"
+  },
+  "pattern": [
+    "AAB",
+    "B B",
+    "BAA"
+  ],
+  "result": {
+    "count": 8,
+    "id": "geostrata:peridotite_fan"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rock": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:slate_smooth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "geostrata:shapes/slate_spiral"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rock"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "geostrata:shapes/slate_spiral"
+    ]
+  }
+}

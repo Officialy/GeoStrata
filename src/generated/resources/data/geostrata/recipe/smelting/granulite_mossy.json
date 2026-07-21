@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:granulite_mossy",
+  "result": {
+    "id": "geostrata:granulite_smooth"
+  }
+}

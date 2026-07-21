@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:sandstone_tile",
+  "result": {
+    "id": "geostrata:sandstone_smooth"
+  }
+}

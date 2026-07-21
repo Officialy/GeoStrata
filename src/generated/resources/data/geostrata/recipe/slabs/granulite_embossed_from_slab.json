@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:granulite_embossed_slab"
+  },
+  "pattern": [
+    "B",
+    "B"
+  ],
+  "result": {
+    "id": "geostrata:granulite_embossed"
+  }
+}

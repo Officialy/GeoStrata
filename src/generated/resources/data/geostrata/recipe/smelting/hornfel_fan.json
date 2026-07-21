@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": "geostrata:hornfel_fan",
+  "result": {
+    "id": "geostrata:hornfel_smooth"
+  }
+}

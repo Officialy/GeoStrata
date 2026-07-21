@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:opal_round_slab"
+  },
+  "pattern": [
+    "B",
+    "B"
+  ],
+  "result": {
+    "id": "geostrata:opal_round"
+  }
+}

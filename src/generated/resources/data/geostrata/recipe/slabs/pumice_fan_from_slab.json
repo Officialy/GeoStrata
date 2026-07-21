@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "geostrata:pumice_fan_slab"
+  },
+  "pattern": [
+    "B",
+    "B"
+  ],
+  "result": {
+    "id": "geostrata:pumice_fan"
+  }
+}
