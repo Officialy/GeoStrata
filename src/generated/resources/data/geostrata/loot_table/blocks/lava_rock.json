@@ -10,6 +10,54 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "geostrata:lava_rock",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "height": "0"
+              }
+            }
+          ],
+          "name": "geostrata:lava_rock_item_0"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "geostrata:lava_rock",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "height": "1"
+              }
+            }
+          ],
+          "name": "geostrata:lava_rock_item_1"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "geostrata:lava_rock",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "height": "2"
+              }
+            }
+          ],
+          "name": "geostrata:lava_rock_item_2"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "geostrata:lava_rock",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "height": "3"
+              }
+            }
+          ],
           "name": "geostrata:lava_rock_item_3"
         }
       ],

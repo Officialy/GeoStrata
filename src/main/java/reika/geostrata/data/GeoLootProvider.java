@@ -1,14 +1,26 @@
 package reika.geostrata.data;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.advancements.predicates.StatePropertiesPredicate;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.OreTypes;
@@ -57,6 +69,31 @@ public final class GeoLootProvider extends LootTableProvider {
                 } else if (block instanceof reika.geostrata.block.BlockCreepvine) {
                     // Legacy: the plant itself never drops; seeds come from right-click harvesting cores.
                     this.add(block, noDrop());
+                } else if (block instanceof reika.geostrata.block.BlockVent) {
+                    // Legacy: mining a vent yields cobblestone (Blocks.stone.getItemDropped); silk
+                    // touch yields the vent block itself (canSilkHarvest = true).
+                    this.add(block, this.createSilkTouchDispatchTable(block,
+                            this.applyExplosionCondition(block, LootItem.lootTableItem(net.minecraft.world.level.block.Blocks.COBBLESTONE))));
+                } else if (block == GeoBlocks.LUMINOUS_CRYSTAL.get()) {
+                    // Block is item-less (variants are the standalone luminous_crystal_item_N);
+                    // legacy dropped the metadata item, so drop the base variant.
+                    this.dropOther(block, GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
+                } else if (block instanceof reika.geostrata.block.BlockLavaRock) {
+                    // Legacy dropped the height-variant metadata item; the port splits those into
+                    // four items, so pick by the block's height state.
+                    this.add(block, LootTable.lootTable()
+                            .withPool(this.applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                                    .add(lavaRockVariant(block, 0)).add(lavaRockVariant(block, 1))
+                                    .add(lavaRockVariant(block, 2)).add(lavaRockVariant(block, 3)))));
+                } else if (block == GeoBlocks.RF_CRYSTAL.get()) {
+                    // Legacy: redstone-ore-style drop, (1+rand(6)) x (1+rand(1+fortune)); the block
+                    // has no item form upstream, so there is no silk-touch self-drop.
+                    this.add(block, LootTable.lootTable()
+                            .withPool(this.applyExplosionCondition(Items.REDSTONE, LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                                    .add(LootItem.lootTableItem(Items.REDSTONE)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6)))
+                                            .apply(ApplyBonusCount.addUniformBonusCount(
+                                                    registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))))));
                 } else if (block instanceof DropExperienceBlock && GeoBlocks.oreMapping.containsKey(block)) {
                     // GeoStrata ores are 1.7.10 camouflage ores: mining yields the underlying resource
                     // (silk-touch drops the ore block, fortune multiplies), not the decorative block.
@@ -88,6 +125,20 @@ public final class GeoLootProvider extends LootTableProvider {
                 case EMERALD -> createOreDrop(block, Items.EMERALD);
                 default -> createSingleItemTable(block); // modded metal: drop-self interim
             };
+        }
+
+        /** One lava-rock height variant, conditioned on the block's height state. */
+        private LootPoolEntryContainer.Builder<?> lavaRockVariant(Block block, int height) {
+            net.minecraft.world.item.Item item = switch (height) {
+                case 0 -> GeoBlocks.LAVAROCK_ITEM_0.get();
+                case 1 -> GeoBlocks.LAVAROCK_ITEM_1.get();
+                case 2 -> GeoBlocks.LAVAROCK_ITEM_2.get();
+                default -> GeoBlocks.LAVAROCK_ITEM_3.get();
+            };
+            return LootItem.lootTableItem(item).when(LootItemBlockStatePropertyCondition
+                    .hasBlockStateProperties(block)
+                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                            .hasProperty(reika.geostrata.block.BlockLavaRock.BLOCK_HEIGHT_STATE, height)));
         }
 
         @Override
