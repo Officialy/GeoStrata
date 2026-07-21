@@ -10,6 +10,7 @@ import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
@@ -47,6 +48,29 @@ import java.util.stream.Stream;
  * so the filter against {@code GeoStrata.MODID} picks them up automatically.
  */
 public class GeoModelProvider extends ModelProvider {
+
+    // Opal is rainbow-tinted in-world (OPAL_TINT colour handler, per-position hue). Tint only applies
+    // to quads baked with a tintindex, which no vanilla cube/stair/slab template has — so opal blocks
+    // use these hand-authored tinted parents (assets/geostrata/models/block/tinted_*.json, every face
+    // tintindex 0) instead of the vanilla parents.
+    private static final ModelTemplate TINTED_BLOCK = tintedTemplate("tinted_block", java.util.Optional.empty(), TextureSlot.ALL);
+    private static final ModelTemplate TINTED_STAIR = tintedTemplate("tinted_stair", java.util.Optional.empty(), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE);
+    private static final ModelTemplate TINTED_STAIR_INNER = tintedTemplate("tinted_inner_stair", java.util.Optional.of("_inner"), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE);
+    private static final ModelTemplate TINTED_STAIR_OUTER = tintedTemplate("tinted_outer_stair", java.util.Optional.of("_outer"), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE);
+    private static final ModelTemplate TINTED_SLAB = tintedTemplate("tinted_slab", java.util.Optional.empty(), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE);
+    private static final ModelTemplate TINTED_SLAB_TOP = tintedTemplate("tinted_slab_top", java.util.Optional.of("_top"), TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE);
+
+    private static ModelTemplate tintedTemplate(String parent, java.util.Optional<String> suffix, TextureSlot... slots) {
+        return new ModelTemplate(java.util.Optional.of(Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + parent)), suffix, slots);
+    }
+
+    /** Whether this block is opal-hosted and therefore needs tintindex-carrying models. */
+    private static boolean isOpal(Block block) {
+        var b = GeoBlocks.blockMapping.get(block);
+        if (b != null && b.getLeft() == reika.geostrata.registry.RockTypes.OPAL) return true;
+        var o = GeoBlocks.oreMapping.get(block);
+        return o != null && o.getLeft() == reika.geostrata.registry.RockTypes.OPAL;
+    }
 
     public GeoModelProvider(PackOutput output) {
         super(output, GeoStrata.MODID);
@@ -129,19 +153,22 @@ public class GeoModelProvider extends ModelProvider {
                 TextureMapping tm = new TextureMapping()
                         .put(TextureSlot.BOTTOM, mat).put(TextureSlot.TOP, mat).put(TextureSlot.SIDE, mat);
 
+                // Opal stairs/slabs need tintindex-carrying models for the rainbow tint to apply.
+                boolean opal = pair.getLeft() == reika.geostrata.registry.RockTypes.OPAL;
+
                 Identifier itemModelId;
                 if (stair) {
-                    Identifier inner = ModelTemplates.STAIRS_INNER.create(block, tm, modelOut);
-                    Identifier straight = ModelTemplates.STAIRS_STRAIGHT.create(block, tm, modelOut);
-                    Identifier outer = ModelTemplates.STAIRS_OUTER.create(block, tm, modelOut);
+                    Identifier inner = (opal ? TINTED_STAIR_INNER : ModelTemplates.STAIRS_INNER).create(block, tm, modelOut);
+                    Identifier straight = (opal ? TINTED_STAIR : ModelTemplates.STAIRS_STRAIGHT).create(block, tm, modelOut);
+                    Identifier outer = (opal ? TINTED_STAIR_OUTER : ModelTemplates.STAIRS_OUTER).create(block, tm, modelOut);
                     blockStateOut.accept(BlockModelGenerators.createStairs(block,
                             BlockModelGenerators.plainVariant(inner),
                             BlockModelGenerators.plainVariant(straight),
                             BlockModelGenerators.plainVariant(outer)));
                     itemModelId = straight;
                 } else {
-                    Identifier bottom = ModelTemplates.SLAB_BOTTOM.create(block, tm, modelOut);
-                    Identifier top = ModelTemplates.SLAB_TOP.create(block, tm, modelOut);
+                    Identifier bottom = (opal ? TINTED_SLAB : ModelTemplates.SLAB_BOTTOM).create(block, tm, modelOut);
+                    Identifier top = (opal ? TINTED_SLAB_TOP : ModelTemplates.SLAB_TOP).create(block, tm, modelOut);
                     // Double slab = the base rock block's own model (same registry-name convention).
                     blockStateOut.accept(BlockModelGenerators.createSlab(block,
                             BlockModelGenerators.plainVariant(bottom),
@@ -157,11 +184,12 @@ public class GeoModelProvider extends ModelProvider {
                 continue;
             }
 
-            // Plant-type blocks render as crossed planes, not cubes.
+            // Plant-type blocks render as crossed planes, not cubes. Opal full blocks + the
+            // opal-hosted ore use the tinted cube parent so the rainbow tint applies.
             boolean cross = block instanceof reika.geostrata.block.BlockCreepvine;
             Identifier blockModelId = cross
                     ? ModelTemplates.CROSS.create(block, TextureMapping.cross(block), modelOut)
-                    : ModelTemplates.CUBE_ALL.create(block, TextureMapping.cube(block), modelOut);
+                    : (isOpal(block) ? TINTED_BLOCK : ModelTemplates.CUBE_ALL).create(block, TextureMapping.cube(block), modelOut);
             MultiVariant single = new MultiVariant(
                     WeightedList.of(new Variant(blockModelId)));
             blockStateOut.accept(MultiVariantGenerator.dispatch(block, single));
@@ -208,7 +236,10 @@ public class GeoModelProvider extends ModelProvider {
                 || block instanceof reika.geostrata.block.BlockOceanSpike
                 // Icicle is a plain Block drawn by the geostrata:icicle DynamicBlockStateModel; keep its
                 // hand-authored blockstate (custom model type) instead of the generated cube stub.
-                || block == GeoBlocks.ICICLE.get();
+                || block == GeoBlocks.ICICLE.get()
+                // Luminous crystal's hand-authored model carries the tintindex CRYSTAL_TINT needs;
+                // the cube_all stub was clobbering it (block is item-less; items 0-3 are standalone).
+                || block == GeoBlocks.LUMINOUS_CRYSTAL.get();
     }
 
     @Override

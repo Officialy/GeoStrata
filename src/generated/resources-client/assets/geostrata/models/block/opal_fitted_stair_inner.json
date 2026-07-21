@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/inner_stairs",
+  "parent": "geostrata:block/tinted_inner_stair",
   "textures": {
     "bottom": "geostrata:block/opal_fitted",
     "side": "geostrata:block/opal_fitted",

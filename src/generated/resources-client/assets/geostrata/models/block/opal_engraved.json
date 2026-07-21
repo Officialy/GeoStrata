@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/tinted_block",
   "textures": {
     "all": "geostrata:block/opal_engraved"
   }

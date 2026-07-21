@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "geostrata:block/tinted_slab",
   "textures": {
     "bottom": "geostrata:block/opal_tile",
     "side": "geostrata:block/opal_tile",
