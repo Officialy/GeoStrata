@@ -12,6 +12,7 @@ import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -106,6 +107,48 @@ public class GeoModelProvider extends ModelProvider {
                         TextureMapping.cube(new net.minecraft.client.resources.model.sprite.Material(
                                 Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + rock + "_smooth"))),
                         modelOut);
+                Item asItem = block.asItem();
+                if (asItem != Items.AIR) {
+                    itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));
+                    blockItemsHandled.add(asItem);
+                }
+                continue;
+            }
+
+            // Stairs and slabs: a cube_all stub is doubly wrong — the flat block/<name>_stair|_slab
+            // texture doesn't exist (they reuse their base rock's texture), and a single ""-variant
+            // blockstate can't express facing/half/shape. Emit the proper vanilla stair/slab model
+            // trio + blockstate generators, textured with the (rock, shape) base texture.
+            if (GeoBlocks.stairMapping.containsKey(block) || GeoBlocks.slabMapping.containsKey(block)) {
+                boolean stair = GeoBlocks.stairMapping.containsKey(block);
+                var pair = stair ? GeoBlocks.stairMapping.get(block) : GeoBlocks.slabMapping.get(block);
+                String baseName = pair.getLeft().name().toLowerCase(java.util.Locale.ROOT)
+                        + "_" + pair.getRight().name().toLowerCase(java.util.Locale.ROOT);
+                Identifier baseId = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + baseName);
+                var mat = new net.minecraft.client.resources.model.sprite.Material(baseId);
+                TextureMapping tm = new TextureMapping()
+                        .put(TextureSlot.BOTTOM, mat).put(TextureSlot.TOP, mat).put(TextureSlot.SIDE, mat);
+
+                Identifier itemModelId;
+                if (stair) {
+                    Identifier inner = ModelTemplates.STAIRS_INNER.create(block, tm, modelOut);
+                    Identifier straight = ModelTemplates.STAIRS_STRAIGHT.create(block, tm, modelOut);
+                    Identifier outer = ModelTemplates.STAIRS_OUTER.create(block, tm, modelOut);
+                    blockStateOut.accept(BlockModelGenerators.createStairs(block,
+                            BlockModelGenerators.plainVariant(inner),
+                            BlockModelGenerators.plainVariant(straight),
+                            BlockModelGenerators.plainVariant(outer)));
+                    itemModelId = straight;
+                } else {
+                    Identifier bottom = ModelTemplates.SLAB_BOTTOM.create(block, tm, modelOut);
+                    Identifier top = ModelTemplates.SLAB_TOP.create(block, tm, modelOut);
+                    // Double slab = the base rock block's own model (same registry-name convention).
+                    blockStateOut.accept(BlockModelGenerators.createSlab(block,
+                            BlockModelGenerators.plainVariant(bottom),
+                            BlockModelGenerators.plainVariant(top),
+                            BlockModelGenerators.plainVariant(baseId)));
+                    itemModelId = bottom;
+                }
                 Item asItem = block.asItem();
                 if (asItem != Items.AIR) {
                     itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));

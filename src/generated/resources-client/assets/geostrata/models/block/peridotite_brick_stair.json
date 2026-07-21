@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/stairs",
   "textures": {
-    "all": "geostrata:block/peridotite_brick_stair"
+    "bottom": "geostrata:block/peridotite_brick",
+    "side": "geostrata:block/peridotite_brick",
+    "top": "geostrata:block/peridotite_brick"
   }
 }

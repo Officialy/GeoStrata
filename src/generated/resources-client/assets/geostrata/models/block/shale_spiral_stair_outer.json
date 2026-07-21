@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "geostrata:block/shale_spiral",
+    "side": "geostrata:block/shale_spiral",
+    "top": "geostrata:block/shale_spiral"
+  }
+}

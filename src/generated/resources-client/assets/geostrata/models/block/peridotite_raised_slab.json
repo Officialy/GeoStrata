@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "geostrata:block/peridotite_raised_slab"
+    "bottom": "geostrata:block/peridotite_raised",
+    "side": "geostrata:block/peridotite_raised",
+    "top": "geostrata:block/peridotite_raised"
   }
 }

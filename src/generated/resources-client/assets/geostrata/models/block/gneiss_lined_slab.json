@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "geostrata:block/gneiss_lined_slab"
+    "bottom": "geostrata:block/gneiss_lined",
+    "side": "geostrata:block/gneiss_lined",
+    "top": "geostrata:block/gneiss_lined"
   }
 }

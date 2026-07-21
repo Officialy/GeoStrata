@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "geostrata:block/granulite_spiral_slab"
+    "bottom": "geostrata:block/granulite_spiral",
+    "side": "geostrata:block/granulite_spiral",
+    "top": "geostrata:block/granulite_spiral"
   }
 }

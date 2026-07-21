@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/stairs",
   "textures": {
-    "all": "geostrata:block/sandstone_etched_stair"
+    "bottom": "geostrata:block/sandstone_etched",
+    "side": "geostrata:block/sandstone_etched",
+    "top": "geostrata:block/sandstone_etched"
   }
 }

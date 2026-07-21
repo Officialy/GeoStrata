@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "geostrata:block/slate_engraved",
+    "side": "geostrata:block/slate_engraved",
+    "top": "geostrata:block/slate_engraved"
+  }
+}

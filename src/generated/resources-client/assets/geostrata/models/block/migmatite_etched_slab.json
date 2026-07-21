@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "geostrata:block/migmatite_etched_slab"
+    "bottom": "geostrata:block/migmatite_etched",
+    "side": "geostrata:block/migmatite_etched",
+    "top": "geostrata:block/migmatite_etched"
   }
 }

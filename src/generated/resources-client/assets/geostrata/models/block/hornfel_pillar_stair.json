@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/stairs",
   "textures": {
-    "all": "geostrata:block/hornfel_pillar_stair"
+    "bottom": "geostrata:block/hornfel_pillar",
+    "side": "geostrata:block/hornfel_pillar",
+    "top": "geostrata:block/hornfel_pillar"
   }
 }

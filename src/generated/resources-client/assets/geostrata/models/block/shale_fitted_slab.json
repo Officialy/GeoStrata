@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "geostrata:block/shale_fitted_slab"
+    "bottom": "geostrata:block/shale_fitted",
+    "side": "geostrata:block/shale_fitted",
+    "top": "geostrata:block/shale_fitted"
   }
 }

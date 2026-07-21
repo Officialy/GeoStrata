@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "geostrata:block/gneiss_pillar",
+    "side": "geostrata:block/gneiss_pillar",
+    "top": "geostrata:block/gneiss_pillar"
+  }
+}

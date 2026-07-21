@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "geostrata:block/granulite_tile",
+    "side": "geostrata:block/granulite_tile",
+    "top": "geostrata:block/granulite_tile"
+  }
+}
