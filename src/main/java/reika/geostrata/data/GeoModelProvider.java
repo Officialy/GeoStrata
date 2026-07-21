@@ -109,15 +109,23 @@ public class GeoModelProvider extends ModelProvider {
             Block block = holder.get();
 
             // Blocks that ship hand-authored blockstates/models under src/main/resources (vents,
-            // lava rock, and the BER-drawn ocean spike). Their textures live in sub-folders
-            // (block/vent/*, block/semilava/*) so the generated cube_all's flat block/<name> texture
-            // is missing — and since the generated copy wins the resource merge (build.gradle
-            // DuplicatesStrategy.INCLUDE), it clobbers the correct static JSON. Skip them here so the
-            // static blockstate is authoritative, exactly like BlockConnectedRock below. These are
-            // all item-less (vents, ocean spike) or have their item models registered separately
-            // (lava rock 0..3), so skipping doesn't orphan any item model.
-            if (shipsStaticBlockState(block))
+            // lava rock, ocean spike, icicle, luminous crystal, glowing vines, rf crystals, void
+            // opals). Their textures live in sub-folders or need custom geometry, so the generated
+            // cube_all's flat block/<name> texture is missing — and since the generated copy wins
+            // the resource merge (build.gradle DuplicatesStrategy.INCLUDE), it clobbers the correct
+            // static JSON. Skip the blockstate/block-model here (static JSON is authoritative, like
+            // BlockConnectedRock below) but still emit an ITEM model pointing at the real art —
+            // these blocks all have BlockItems, which otherwise reference nonexistent item/<name>
+            // flat textures (the "checkerboard item" bug).
+            if (shipsStaticBlockState(block)) {
+                Item asItem = block.asItem();
+                if (asItem != Items.AIR) {
+                    Identifier itemModelId = staticBlockItemModel(block, asItem, modelOut);
+                    itemModelOut.accept(asItem, ItemModelUtils.plainModel(itemModelId));
+                    blockItemsHandled.add(asItem);
+                }
                 continue;
+            }
 
             if (block instanceof reika.geostrata.block.BlockConnectedRock) {
                 // Connected rocks: the in-world model is DragonAPI's dragonapi:connected_overlay custom
@@ -205,6 +213,13 @@ public class GeoModelProvider extends ModelProvider {
         for (var holder : GeoBlocks.ITEMS.getEntries()) {
             Item item = holder.get();
             if (blockItemsHandled.contains(item)) continue;
+            // Damage-variant block items point at their hand-authored block models — the default
+            // flat item/<name> textures don't exist.
+            Identifier blockModel = variantBlockModel(item);
+            if (blockModel != null) {
+                itemModelOut.accept(item, ItemModelUtils.plainModel(blockModel));
+                continue;
+            }
             Identifier itemModelId = ModelTemplates.FLAT_ITEM.create(
                     ModelLocationUtils.getModelLocation(item),
                     TextureMapping.layer0(item),
@@ -239,7 +254,60 @@ public class GeoModelProvider extends ModelProvider {
                 || block == GeoBlocks.ICICLE.get()
                 // Luminous crystal's hand-authored model carries the tintindex CRYSTAL_TINT needs;
                 // the cube_all stub was clobbering it (block is item-less; items 0-3 are standalone).
-                || block == GeoBlocks.LUMINOUS_CRYSTAL.get();
+                || block == GeoBlocks.LUMINOUS_CRYSTAL.get()
+                // Vine multipart blockstate + animated glowvine_anim4 texture (stub referenced the
+                // nonexistent flat block/glowing_vines and rendered a missing-texture cube).
+                || block == GeoBlocks.GLOWING_VINES.get()
+                // Hand models reference block/rf_crystal (animated) and block/deco/0; the stubs
+                // referenced nonexistent block/rf_crystal_seed and block/void_opals.
+                || block == GeoBlocks.RF_CRYSTAL_SEED.get()
+                || block == GeoBlocks.RF_CRYSTAL.get()
+                || block == GeoBlocks.VOID_OPALS.get();
+    }
+
+    /** Block model for the lava-rock / luminous-crystal damage-variant items; null for normal items. */
+    private static Identifier variantBlockModel(Item item) {
+        if (item == GeoBlocks.LAVAROCK_ITEM_0.get()) return geoBlockModel("lava_rock_0");
+        if (item == GeoBlocks.LAVAROCK_ITEM_1.get()) return geoBlockModel("lava_rock_1");
+        if (item == GeoBlocks.LAVAROCK_ITEM_2.get()) return geoBlockModel("lava_rock_2");
+        if (item == GeoBlocks.LAVAROCK_ITEM_3.get()) return geoBlockModel("lava_rock_3");
+        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get() || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get()
+                || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get() || item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get())
+            return geoBlockModel("luminous_crystal");
+        return null;
+    }
+
+    private static Identifier geoBlockModel(String name) {
+        return Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/" + name);
+    }
+
+    /**
+     * Item model for a static-blockstate block: cube-model blocks reference their hand-authored
+     * block model directly; blocks with no usable 3D model (BER/dynamic-model/vine) get a flat item
+     * of their signature texture. Returns the model Identifier registered for the item.
+     */
+    private static Identifier staticBlockItemModel(Block block, Item item, BiConsumer<Identifier, ModelInstance> modelOut) {
+        Identifier itemLoc = ModelLocationUtils.getModelLocation(item);
+        if (block instanceof reika.geostrata.block.BlockVent vent) {
+            // Hand-authored vent models are named block/vent_<type> (block registry name is <type>_vent).
+            String type = vent.type.name().toLowerCase(java.util.Locale.ROOT);
+            return Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/vent_" + type);
+        }
+        if (block == GeoBlocks.RF_CRYSTAL_SEED.get() || block == GeoBlocks.RF_CRYSTAL.get() || block == GeoBlocks.VOID_OPALS.get()) {
+            // Plain cube hand models — usable directly as the item model.
+            return Identifier.fromNamespaceAndPath(GeoStrata.MODID,
+                    "block/" + BuiltInRegistries.BLOCK.getKey(block).getPath());
+        }
+        // Flat items for geometry that has no standalone cube model.
+        Identifier tex;
+        if (block instanceof reika.geostrata.block.BlockOceanSpike)
+            tex = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/deco/0");
+        else if (block == GeoBlocks.GLOWING_VINES.get())
+            tex = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/glowvine_anim4");
+        else // icicle
+            tex = Identifier.fromNamespaceAndPath(GeoStrata.MODID, "block/icicle");
+        return ModelTemplates.FLAT_ITEM.create(itemLoc,
+                TextureMapping.layer0(new net.minecraft.client.resources.model.sprite.Material(tex)), modelOut);
     }
 
     @Override

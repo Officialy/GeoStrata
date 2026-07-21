@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:item/luminous_crystal_item_1"
+    "model": "geostrata:block/luminous_crystal"
   }
 }

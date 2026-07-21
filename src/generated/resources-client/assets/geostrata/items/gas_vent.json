@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "geostrata:item/gas_vent"
+    "model": "geostrata:block/vent_gas"
   }
 }
