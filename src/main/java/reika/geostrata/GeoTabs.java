@@ -149,10 +149,22 @@ public class GeoTabs {
      * camouflage ore only ever wrapped ores that already existed. Fails open (shows the ore) if the tag
      * data isn't available yet, so a mis-timed tab rebuild can't blank the whole tab.
      */
+    /**
+     * GeoStrata ores have no textures yet. 1.7.10 never shipped ore art: it composited the host
+     * rock icon with an overlay generated at runtime by clipping the stone background out of the
+     * vanilla/modded ore icon ({@code ReikaIconHelper.clipFrom}, see OreRenderer). Until that
+     * two-layer scheme is rebuilt the blocks would render as missing-texture cubes — and nothing
+     * generates them anyway — so they stay out of creative/JEI. Flip this to true once the layered
+     * model lands. See SURVIVAL_TODO.md.
+     */
+    private static final boolean ORES_HAVE_TEXTURES = false;
+
     private static boolean oreEnabled(HolderLookup.Provider holders, Block ore) {
         Pair<RockTypes, OreTypes> pair = GeoBlocks.oreMapping.get(ore);
         if (pair == null)
             return true;
+        if (!ORES_HAVE_TEXTURES)
+            return false;
         OreTypes t = pair.getRight();
         if (VANILLA_ORES.contains(t))
             return true;

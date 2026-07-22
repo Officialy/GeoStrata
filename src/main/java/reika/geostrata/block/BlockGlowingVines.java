@@ -209,9 +209,26 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
         this.updateAndDropSides(level, pos);
     }
 
-    public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos, int fortune) {
-        this.updateAndDropSides(level, pos);
-        return null;
+    // NeoForge's IShearable contract is (player, item, level, pos) — the port had an extra
+    // `fortune` param, so this never overrode anything and shears silently did nothing.
+    // onSheared performs the removal and RETURNS the drops; the caller spawns them.
+
+    @Override
+    public boolean isShearable(Player player, ItemStack item, Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        return state.is(this) && countSides(state) > 0;
+    }
+
+    @Override
+    public List<ItemStack> onSheared(Player player, ItemStack item, Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (!state.is(this))
+            return Collections.emptyList();
+        // Legacy shearAll: one vine per occupied face, then the block goes away.
+        int n = Math.max(1, countSides(state));
+        if (!level.isClientSide())
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        return List.of(new ItemStack(this, n));
     }
 
     public void shearAll(Level world, BlockPos pos, Player ep) {
