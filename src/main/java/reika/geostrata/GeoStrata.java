@@ -77,10 +77,11 @@ public class GeoStrata extends DragonAPIMod {
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
             modEventBus.addListener(this::registerEntityRenderers);
         }
-        if (FMLEnvironment.getDist() == Dist.DEDICATED_SERVER) {
-            NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
-            NeoForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
-        }
+        // Game-bus listeners, NOT dist-gated: these run on the LOGICAL server, which also exists
+        // inside a singleplayer client. Registering them only on a dedicated server meant the smoke
+        // vent's suffocation grace and the crystal-spike fall multiplier never fired in singleplayer.
+        NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
+        NeoForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
 
         GeoBlocks.initialise(modEventBus);
         GeoItems.init(); //classload standalone items before the item registry event

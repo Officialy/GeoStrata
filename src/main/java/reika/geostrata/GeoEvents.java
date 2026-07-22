@@ -109,11 +109,15 @@ public class GeoEvents {
         }
     }
 
+    /**
+     * Landing on a crystal spike hurts 50% more. Upstream keyed this on {@code DECOGEN} metadata 0
+     * ({@code Types.CRYSTALSPIKE}) — which is exactly what the port registers as OCEAN_SPIKE, since
+     * {@code DecoGenerator.OCEANSPIKE} placed DECOGEN meta 0 (hence its deco/0 texture).
+     */
     public static void spikyFall(LivingFallEvent evt) {
-        BlockPos c = new BlockPos((int) evt.getEntity().position().x, (int) evt.getEntity().position().y, (int) evt.getEntity().position().z).offset(0, -1, 0);
+        BlockPos c = evt.getEntity().blockPosition().below();
         Block b = evt.getEntity().level().getBlockState(c).getBlock();
-//        if (b == GeoBlocks.CRYSTAL_SPIKE.get())
-//            evt.setDistance(evt.getDistance() * 1.5F);
-
+        if (b == GeoBlocks.OCEAN_SPIKE.get())
+            evt.setDistance(evt.getDistance() * 1.5F);
     }
 }
