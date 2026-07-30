@@ -9,6 +9,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.joml.Matrix4f;
@@ -44,6 +46,69 @@ public class OceanSpikeRenderer implements IBlockRenderer {
         int j = ((y % crystalShapes[i].length) + crystalShapes[i].length) % crystalShapes[i].length;
         int k = ((z % crystalShapes[i][j].length) + crystalShapes[i][j].length) % crystalShapes[i][j].length;
         return crystalShapes[i][j][k];
+    }
+
+    /**
+     * The number of distinct random cross-section tables along each axis (see {@link #crystalShapes}).
+     * The full per-position geometry (bottom/top corners, hence collision shape and hover outline) is
+     * therefore a pure function of {@code (x mod TABLE_SIZE, y mod TABLE_SIZE, z mod TABLE_SIZE)} plus
+     * the two same-block-neighbour booleans below — a small, fully bounded key space.
+     */
+    public static final int TABLE_SIZE = crystalShapes.length;
+
+    /**
+     * The four (x, z) corner offsets from the block centre for the bottom (y=0) and top (y=1)
+     * cross-sections of one spike segment, after the tip-pinch (no same-type block above) and
+     * root-splay (no same-type block below) adjustments. This is the single source of truth for the
+     * spike's visible silhouette: {@code OceanSpikeBER} draws it, {@code BlockOceanSpike} builds its
+     * collision/selection {@code VoxelShape} from it, and the hover-outline renderer draws its wireframe
+     * from it, so all three can never disagree.
+     */
+    public static final class SpikeCorners {
+        public final float[] bottomX = new float[4];
+        public final float[] bottomZ = new float[4];
+        public final float[] topX = new float[4];
+        public final float[] topZ = new float[4];
+    }
+
+    public static SpikeCorners computeCorners(RotatedQuad bottom, RotatedQuad top, boolean hasAbove, boolean hasBelow) {
+        SpikeCorners c = new SpikeCorners();
+        for (int i = 0; i < 4; i++) {
+            c.bottomX[i] = (float) bottom.getPosX(i);
+            c.bottomZ[i] = (float) bottom.getPosZ(i);
+            c.topX[i] = (float) top.getPosX(i);
+            c.topZ[i] = (float) top.getPosZ(i);
+        }
+        // No spike above → pinch the top corners to a point (crystal tip).
+        if (!hasAbove) {
+            float d = 0.125f;
+            for (int i = 0; i < 4; i++) {
+                c.topX[i] *= d;
+                c.topZ[i] *= d;
+            }
+        }
+        // No spike below → splay the bottom corners outward (crystal root anchored to the floor).
+        if (!hasBelow) {
+            float d = 0.75F;
+            for (int i = 0; i < 4; i++) {
+                c.bottomX[i] = splay(c.bottomX[i], d);
+                c.bottomZ[i] = splay(c.bottomZ[i], d);
+            }
+        }
+        return c;
+    }
+
+    /** Real per-position overload: looks up the two neighbour booleans from the world itself. */
+    public static SpikeCorners computeCorners(BlockGetter level, BlockPos pos, Block spikeBlock) {
+        RotatedQuad r1 = getCrystalShape(pos.getX(), pos.getY(), pos.getZ());
+        RotatedQuad r2 = getCrystalShape(pos.getX(), pos.getY() + 1, pos.getZ());
+        boolean hasAbove = level.getBlockState(pos.above()).getBlock() == spikeBlock;
+        boolean hasBelow = level.getBlockState(pos.below()).getBlock() == spikeBlock;
+        return computeCorners(r1, r2, hasAbove, hasBelow);
+    }
+
+    private static float splay(float v, float d) {
+        return Math.signum(v) * (1 - (d * (1 - Math.abs(v))));
     }
 
     @Override

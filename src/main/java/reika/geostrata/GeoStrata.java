@@ -31,6 +31,7 @@ import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.level.GeoPlacedFeatures;
 import reika.geostrata.registry.*;
 import reika.geostrata.rendering.OceanSpikeBER;
+import reika.geostrata.rendering.OceanSpikeOutlineRenderer;
 
 import java.awt.*;
 import java.io.File;
@@ -76,6 +77,9 @@ public class GeoStrata extends DragonAPIMod {
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
             modEventBus.addListener(this::registerEntityRenderers);
+            // Exact diagonal ocean-spike hover/mining outline, ChromatiCraft-ChromaModelOutlineRenderer
+            // style (see OceanSpikeOutlineRenderer) — client-only, so gated the same as the BER hook.
+            NeoForge.EVENT_BUS.addListener(OceanSpikeOutlineRenderer::extract);
         }
         // Game-bus listeners, NOT dist-gated: these run on the LOGICAL server, which also exists
         // inside a singleplayer client. Registering them only on a dedicated server meant the smoke

@@ -23,7 +23,6 @@ import net.minecraft.world.phys.Vec3;
 
 import org.joml.Matrix4f;
 
-import reika.dragonapi.instantiable.rendering.RotatedQuad;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
 import reika.dragonapi.libraries.rendering.ReikaColorAPI;
 import reika.geostrata.GeoStrata;
@@ -93,56 +92,31 @@ public class OceanSpikeBER implements BlockEntityRenderer<BlockEntityOceanSpike,
             return;
         BlockState self = be.getBlockState();
 
-        RotatedQuad r1 = OceanSpikeRenderer.getCrystalShape(pos.getX(), pos.getY(), pos.getZ());
-        RotatedQuad r2 = OceanSpikeRenderer.getCrystalShape(pos.getX(), pos.getY() + 1, pos.getZ());
+        // Shared with the collision shape (BlockOceanSpike) and the hover-outline renderer, so all
+        // three can never disagree about the spike's geometry.
+        OceanSpikeRenderer.SpikeCorners corners = OceanSpikeRenderer.computeCorners(level, pos, self.getBlock());
 
         // Count how many spike blocks stack above this one — drives the height-based colour falloff.
         int n = 0;
         while (level.getBlockState(pos.offset(0, n + 1, 0)).getBlock() == self.getBlock())
             n++;
 
-        float r10x = (float) r1.getPosX(0);
-        float r11x = (float) r1.getPosX(1);
-        float r12x = (float) r1.getPosX(2);
-        float r13x = (float) r1.getPosX(3);
-        float r20x = (float) r2.getPosX(0);
-        float r21x = (float) r2.getPosX(1);
-        float r22x = (float) r2.getPosX(2);
-        float r23x = (float) r2.getPosX(3);
-        float r10z = (float) r1.getPosZ(0);
-        float r11z = (float) r1.getPosZ(1);
-        float r12z = (float) r1.getPosZ(2);
-        float r13z = (float) r1.getPosZ(3);
-        float r20z = (float) r2.getPosZ(0);
-        float r21z = (float) r2.getPosZ(1);
-        float r22z = (float) r2.getPosZ(2);
-        float r23z = (float) r2.getPosZ(3);
-
-        // No spike above → pinch the top corners to a point (crystal tip).
-        if (level.getBlockState(pos.offset(0, 1, 0)).getBlock() != self.getBlock()) {
-            float d = 0.125f;
-            r20x *= d;
-            r21x *= d;
-            r22x *= d;
-            r23x *= d;
-            r20z *= d;
-            r21z *= d;
-            r22z *= d;
-            r23z *= d;
-        }
-
-        // No spike below → splay the bottom corners outward (crystal root anchored to the floor).
-        if (level.getBlockState(pos.offset(0, -1, 0)).getBlock() != self.getBlock()) {
-            float d = 0.75F;
-            r10x = Math.signum(r10x) * (1 - (d * (1 - Math.abs(r10x))));
-            r11x = Math.signum(r11x) * (1 - (d * (1 - Math.abs(r11x))));
-            r12x = Math.signum(r12x) * (1 - (d * (1 - Math.abs(r12x))));
-            r13x = Math.signum(r13x) * (1 - (d * (1 - Math.abs(r13x))));
-            r10z = Math.signum(r10z) * (1 - (d * (1 - Math.abs(r10z))));
-            r11z = Math.signum(r11z) * (1 - (d * (1 - Math.abs(r11z))));
-            r12z = Math.signum(r12z) * (1 - (d * (1 - Math.abs(r12z))));
-            r13z = Math.signum(r13z) * (1 - (d * (1 - Math.abs(r13z))));
-        }
+        float r10x = corners.bottomX[0];
+        float r11x = corners.bottomX[1];
+        float r12x = corners.bottomX[2];
+        float r13x = corners.bottomX[3];
+        float r20x = corners.topX[0];
+        float r21x = corners.topX[1];
+        float r22x = corners.topX[2];
+        float r23x = corners.topX[3];
+        float r10z = corners.bottomZ[0];
+        float r11z = corners.bottomZ[1];
+        float r12z = corners.bottomZ[2];
+        float r13z = corners.bottomZ[3];
+        float r20z = corners.topZ[0];
+        float r21z = corners.topZ[1];
+        float r22z = corners.topZ[2];
+        float r23z = corners.topZ[3];
 
         // ARGB grey ramp — brighter near the tip (small n), matching the legacy formula (alpha 255).
         int color = ReikaColorAPI.GStoHex(Math.max(32 + (int) (16 * Math.sin((pos.getX() + pos.getY() * 8 + pos.getZ() * 2) / 8D)), 255 - 6 * ReikaMathLibrary.intpow2(n + 1, 2)));
