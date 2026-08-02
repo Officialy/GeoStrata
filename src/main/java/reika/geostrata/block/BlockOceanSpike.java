@@ -127,6 +127,30 @@ public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, En
         return p_153759_.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_153759_);
     }
 
+    // A spike is a stack of these blocks, so without this the lower blocks are boxed in by their own
+    // neighbours: they occlude each other, block skylight, and take the darkened shade factor, which
+    // is why the bottom half of a tall spike rendered near-black while the exposed tip stayed lit.
+    // The physical silhouette below is unaffected; only light and occlusion open up.
+    @Override
+    protected VoxelShape getOcclusionShape(BlockState state) {
+        return Shapes.empty();
+    }
+
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
+    }
+
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return 1F;
+    }
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         int i = Math.floorMod(pos.getX(), TABLE_SIZE);
