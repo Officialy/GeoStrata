@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "geostrata:block/opal_tungsten_ore",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
+  }
+}

@@ -60,7 +60,7 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
                         || block instanceof reika.geostrata.block.BlockOceanSpike
                         || block == GeoBlocks.ICICLE.get()
                         || block == GeoBlocks.VOID_OPALS.get()
-                        || block == GeoBlocks.LUMINOUS_CRYSTAL.get()
+                        || block instanceof reika.geostrata.block.BlockGlowCrystal
                         || block == GeoBlocks.RF_CRYSTAL.get()
                         || block == GeoBlocks.RF_CRYSTAL_SEED.get())
                     pickaxe.add(holder.getKey());

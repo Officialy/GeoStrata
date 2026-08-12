@@ -58,13 +58,13 @@ public class GeoEvents {
         private static final BlockTintSource CRYSTAL_TINT = new BlockTintSource() {
             @Override
             public int color(BlockState state) {
-                return BlockGlowCrystal.getRenderColor(BlockPos.ZERO, state.getValue(BlockGlowCrystal.COLOR_INDEX));
+                return ((BlockGlowCrystal)state.getBlock()).getRenderColor(BlockPos.ZERO);
             }
             @Override
             public int colorInWorld(BlockState state,
                                     BlockAndTintGetter level,
                                     BlockPos pos) {
-                return BlockGlowCrystal.getRenderColor(pos, state.getValue(BlockGlowCrystal.COLOR_INDEX));
+                return ((BlockGlowCrystal)state.getBlock()).getRenderColor(pos);
             }
         };
 
@@ -86,7 +86,7 @@ public class GeoEvents {
                     .filter(entry -> entry.getValue().getLeft() == RockTypes.OPAL)
                     .forEach(entry -> event.register(opalSources, entry.getKey()));
 
-            event.register(List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTAL.get());
+            event.register(List.of(CRYSTAL_TINT), GeoBlocks.LUMINOUS_CRYSTALS.stream().map(net.neoforged.neoforge.registries.DeferredHolder::get).toArray(Block[]::new));
         }
 
         // 26.x: item tints are data-driven — the item model JSON declares "tints" whose types are

@@ -42,7 +42,7 @@ public final class GeoItemTints {
         }
     }
 
-    /** Luminous crystal colour, per item variant index (the COLOR_INDEX the placed block gets). */
+    /** Luminous-crystal inventory tint; each concrete registry identity supplies its own hue range. */
     public record CrystalItemTint(int index) implements ItemTintSource {
         public static final MapCodec<CrystalItemTint> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
                 com.mojang.serialization.Codec.INT.fieldOf("index").forGetter(CrystalItemTint::index)

@@ -10,90 +10,77 @@
 package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HalfTransparentBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-
 import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.phys.HitResult;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
 import reika.dragonapi.libraries.rendering.ReikaColorAPI;
 import reika.geostrata.registry.GeoBlocks;
 
-//@Strippable(value={"com.carpentersblocks.api.IWrappableBlock"})
-public class BlockGlowCrystal extends HalfTransparentBlock {//implements IWrappableBlock {
+/** One concrete registry block for one of the four legacy luminous-crystal colour families. */
+public class BlockGlowCrystal extends HalfTransparentBlock {
 
-    public static final IntegerProperty COLOR_INDEX = IntegerProperty.create("color_index", 0, 3);
-    private static final ImmutablePair<Integer, Integer>[] hueRanges = new ImmutablePair[4];
+    private static final ImmutablePair<Integer, Integer>[] HUE_RANGES = new ImmutablePair[] {
+            new ImmutablePair<>(205, 25), // cyan through blue
+            new ImmutablePair<>(25, 25),  // red through warm yellow/orange
+            new ImmutablePair<>(113, 37), // chartreuse through foam green
+            new ImmutablePair<>(283, 27)  // deep purple through hot magenta
+    };
 
+    private static final SimplexNoiseGenerator HUE_NOISE = new SimplexNoiseGenerator(System.currentTimeMillis());
+    private static final SimplexNoiseGenerator HUE_NOISE_2 = new SimplexNoiseGenerator(-System.currentTimeMillis());
+
+    private final int colorIndex;
     private final SimplexNoiseGenerator lightNoise = new SimplexNoiseGenerator(~System.currentTimeMillis());
 
-    private static final SimplexNoiseGenerator hueNoise = new SimplexNoiseGenerator(System.currentTimeMillis());
-    private static final SimplexNoiseGenerator hueNoise2 = new SimplexNoiseGenerator(-System.currentTimeMillis());
-
-    private final SimplexNoiseGenerator hueNoiseMix = new SimplexNoiseGenerator(2 * System.currentTimeMillis());
-
-    public BlockGlowCrystal() {
-        super(GeoBlocks.blockProperties().mapColor(MapColor.COLOR_PURPLE).strength(0.8F, 5).friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion().isValidSpawn((blockState, getter, pos, entityType) -> false));
-        this.registerDefaultState(this.stateDefinition.any().setValue(COLOR_INDEX, 0));
-        hueRanges[0] = new ImmutablePair<>(205, 25); //180 (cyan) - 230 (blue)
-        hueRanges[1] = new ImmutablePair<>(25, 25); //0 (red) to 50 (yellow w bit of red)
-        hueRanges[2] = new ImmutablePair<>(113, 37); //76 (chartreuse) to 150 (foam green)
-        hueRanges[3] = new ImmutablePair<>(283, 27); //256 (deep purple) to 310 (hot magenta)
+    public BlockGlowCrystal(int colorIndex) {
+        super(GeoBlocks.blockProperties().mapColor(mapColor(colorIndex)).strength(0.8F, 5)
+                .friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion()
+                .isValidSpawn((state, getter, pos, entityType) -> false));
+        if (colorIndex < 0 || colorIndex >= HUE_RANGES.length) {
+            throw new IllegalArgumentException("Invalid luminous crystal colour index " + colorIndex);
+        }
+        this.colorIndex = colorIndex;
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(COLOR_INDEX);
-    }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack tool, boolean willHarvest, FluidState fluid) {
-        return super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
+    public int getColorIndex() {
+        return colorIndex;
     }
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return (int) ReikaMathLibrary.normalizeToBounds(lightNoise.getValue(pos.getX() / 8D, pos.getZ() / 8D), 7, 15);
+        return (int)ReikaMathLibrary.normalizeToBounds(lightNoise.getValue(pos.getX() / 8D, pos.getZ() / 8D), 7, 15);
     }
 
-    public static int getRenderColor(BlockPos pos, int i) {
+    public int getRenderColor(BlockPos pos) {
+        return getRenderColor(pos, colorIndex);
+    }
+
+    public static int getRenderColor(BlockPos pos, int colorIndex) {
         double d = System.currentTimeMillis() / 200D;
-        return getColor(pos.getX() + d, pos.getY() + d, pos.getZ() + d, i);
+        return getColor(pos.getX() + d, pos.getY() + d, pos.getZ() + d, colorIndex);
     }
-    @Override
-    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        return switch (state.getValue(COLOR_INDEX)) {
-            case 0 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
-            case 1 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get());
-            case 2 -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get());
-            default -> new ItemStack(GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get());
-        };
-    }
-    public static int getColor(double x, double y, double z, int i) {
-        ImmutablePair<Integer, Integer> hueRange = hueRanges[i];
-        double n0 = hueNoise.getValue(x / 8D, z / 8D);
-        double n1 = hueNoise2.getValue(x / 8D, z / 8D);
-        double f = 0.5 + 0.5 * Math.sin(Math.toRadians(y * 360 / 12D));//y%16 >= 8 ? y%8/8D : 1-(((y-8)%8)/8D);
+
+    public static int getColor(double x, double y, double z, int colorIndex) {
+        ImmutablePair<Integer, Integer> range = HUE_RANGES[colorIndex];
+        double n0 = HUE_NOISE.getValue(x / 8D, z / 8D);
+        double n1 = HUE_NOISE_2.getValue(x / 8D, z / 8D);
+        double f = 0.5 + 0.5 * Math.sin(Math.toRadians(y * 360 / 12D));
         double n = f * n0 + (1 - f) * n1;
-        int hue = hueRange.left + (int) (hueRange.right * n * 1);//hueNoiseY.getValue(0, y/4D));
+        int hue = range.left + (int)(range.right * n);
         return ReikaColorAPI.getModifiedHue(0xff0000, hue);
     }
 
+    private static MapColor mapColor(int colorIndex) {
+        return switch (colorIndex) {
+            case 0 -> MapColor.COLOR_BLUE;
+            case 1 -> MapColor.COLOR_ORANGE;
+            case 2 -> MapColor.COLOR_GREEN;
+            case 3 -> MapColor.COLOR_PURPLE;
+            default -> throw new IllegalArgumentException("Invalid luminous crystal colour index " + colorIndex);
+        };
+    }
 }

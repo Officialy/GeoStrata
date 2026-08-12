@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "geostrata:block/opal_ruby_ore",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
+  }
+}

@@ -28,10 +28,10 @@ import reika.geostrata.base.VentType;
 import reika.geostrata.block.*;
 import reika.geostrata.block.entity.BlockRFCrystal;
 import reika.geostrata.block.entity.BlockRFCrystalSeed;
-import reika.geostrata.item.BlockItemGlowCrystal;
 import reika.geostrata.item.BlockItemLavaRock;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class GeoBlocks {
@@ -154,12 +154,16 @@ public class GeoBlocks {
         }
     }
 
-    public static final DeferredBlock<Block> LUMINOUS_CRYSTAL = registerBlockOnly("luminous_crystal", BlockGlowCrystal::new);
+    public static final DeferredBlock<BlockGlowCrystal> BLUE_LUMINOUS_CRYSTAL = register("blue_luminous_crystal", () -> new BlockGlowCrystal(0), false, false, false);
+    public static final DeferredBlock<BlockGlowCrystal> ORANGE_LUMINOUS_CRYSTAL = register("orange_luminous_crystal", () -> new BlockGlowCrystal(1), false, false, false);
+    public static final DeferredBlock<BlockGlowCrystal> GREEN_LUMINOUS_CRYSTAL = register("green_luminous_crystal", () -> new BlockGlowCrystal(2), false, false, false);
+    public static final DeferredBlock<BlockGlowCrystal> PURPLE_LUMINOUS_CRYSTAL = register("purple_luminous_crystal", () -> new BlockGlowCrystal(3), false, false, false);
+    public static final List<DeferredBlock<BlockGlowCrystal>> LUMINOUS_CRYSTALS = List.of(
+            BLUE_LUMINOUS_CRYSTAL, ORANGE_LUMINOUS_CRYSTAL, GREEN_LUMINOUS_CRYSTAL, PURPLE_LUMINOUS_CRYSTAL);
 
-    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_0 = registerItemOnly("luminous_crystal_item_0", () -> new BlockItemGlowCrystal(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_1 = registerItemOnly("luminous_crystal_item_1", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal1(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_2 = registerItemOnly("luminous_crystal_item_2", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal2(GeoBlocks.LUMINOUS_CRYSTAL.get()));
-    public static final DeferredItem<Item> LUMINOUS_CRYSTAL_ITEM_3 = registerItemOnly("luminous_crystal_item_3", () -> new BlockItemGlowCrystal.BlockItemGlowCrystal3(GeoBlocks.LUMINOUS_CRYSTAL.get()));
+    public static BlockGlowCrystal getLuminousCrystal(int colorIndex) {
+        return LUMINOUS_CRYSTALS.get(colorIndex).get();
+    }
 
     public static final DeferredBlock<Block> GLOWING_VINES = register("glowing_vines", BlockGlowingVines::new, false, false, false);
     //public static final DeferredBlock<Block> RFCRYSTAL     = register("Flux Crystals",       BlockRFCrystal);
@@ -192,14 +196,18 @@ public class GeoBlocks {
      * @param bus The event bus to register the HashMaps with.
      */
     public static void initialise(final IEventBus bus) {
-        for (int i = 0; i < RockTypes.rockList.length; i++) {
-            OreTypes o = OreTypes.oreList[i];
-            RockTypes r = RockTypes.rockList[i];
-
-            // 1.21.5: ore/connected/stair/slab registrations now self-populate their maps inside
-            // the registration lambda (because block construction is deferred until RegisterEvent
-            // fires). Just trigger the registration here; the side-effects fill in the maps later.
-            o.registerOreBlock(r);
+        for (RockTypes r : RockTypes.rockList) {
+            // GeoStrata camouflage ores are a Cartesian product: every supported ore must have a
+            // variant in every host rock. The previous index-based pairing registered only one ore
+            // per rock (granite iron, basalt copper, marble lapis, ...), leaving the remaining
+            // material/ore combinations absent entirely.
+            //
+            // 1.21.5: ore registrations self-populate their maps inside the registration lambda
+            // (because block construction is deferred until RegisterEvent fires). Trigger every
+            // pair here; the side-effects fill in the maps later.
+            for (OreTypes o : OreTypes.oreList) {
+                o.registerOreBlock(r);
+            }
 
             RockShapes.CONNECTED.registerConnectedBlock(r);
             RockShapes.CONNECTED2.registerConnectedBlock(r);

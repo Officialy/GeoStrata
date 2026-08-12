@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "rotarycraft:block/blank"
+      "model": "geostrata:block/ocean_spike_empty"
     }
   }
 }

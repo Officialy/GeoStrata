@@ -108,6 +108,18 @@ public class GeoModelProvider extends ModelProvider {
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
 
+            // The four luminous-crystal registry blocks share the original tint-index model, but
+            // each block/item carries a concrete colour identity instead of a metadata-like state.
+            if (block instanceof reika.geostrata.block.BlockGlowCrystal crystal) {
+                Identifier blockModelId = geoBlockModel("luminous_crystal");
+                blockStateOut.accept(MultiVariantGenerator.dispatch(block,
+                        new MultiVariant(WeightedList.of(new Variant(blockModelId)))));
+                Item asItem = block.asItem();
+                itemModelOut.accept(asItem, ItemModelUtils.tintedModel(blockModelId,
+                        new reika.geostrata.rendering.GeoItemTints.CrystalItemTint(crystal.getColorIndex())));
+                blockItemsHandled.add(asItem);
+                continue;
+            }
             // Blocks that ship hand-authored blockstates/models under src/main/resources (vents,
             // lava rock, ocean spike, icicle, luminous crystal, glowing vines, rf crystals, void
             // opals). Their textures live in sub-folders or need custom geometry, so the generated
@@ -223,12 +235,6 @@ public class GeoModelProvider extends ModelProvider {
             // Damage-variant block items point at their hand-authored block models — the default
             // flat item/<name> textures don't exist. Luminous crystal variants carry their colour
             // via a per-index item tint source (the block model's quads are tintindex 0).
-            Integer crystalIdx = crystalVariantIndex(item);
-            if (crystalIdx != null) {
-                itemModelOut.accept(item, ItemModelUtils.tintedModel(geoBlockModel("luminous_crystal"),
-                        new reika.geostrata.rendering.GeoItemTints.CrystalItemTint(crystalIdx)));
-                continue;
-            }
             Identifier blockModel = variantBlockModel(item);
             if (blockModel != null) {
                 itemModelOut.accept(item, ItemModelUtils.plainModel(blockModel));
@@ -257,7 +263,8 @@ public class GeoModelProvider extends ModelProvider {
      * True for blocks whose in-world blockstate + models are hand-authored under
      * {@code src/main/resources} and must not be overwritten by the generated cube_all stubs:
      * vents (multi-texture, sub-folder textures), lava rock (height/connected variants) and the
-     * ocean spike (drawn by {@code OceanSpikeBER}; its model must stay the empty blank).
+     * ocean spike (drawn by {@code OceanSpikeBER}; its model must stay the geometry-free
+     * {@code geostrata:block/ocean_spike_empty}, not a {@code builtin/entity} model).
      */
     private static boolean shipsStaticBlockState(Block block) {
         return block instanceof reika.geostrata.block.BlockVent
@@ -266,9 +273,6 @@ public class GeoModelProvider extends ModelProvider {
                 // Icicle is a plain Block drawn by the geostrata:icicle DynamicBlockStateModel; keep its
                 // hand-authored blockstate (custom model type) instead of the generated cube stub.
                 || block == GeoBlocks.ICICLE.get()
-                // Luminous crystal's hand-authored model carries the tintindex CRYSTAL_TINT needs;
-                // the cube_all stub was clobbering it (block is item-less; items 0-3 are standalone).
-                || block == GeoBlocks.LUMINOUS_CRYSTAL.get()
                 // Vine multipart blockstate + animated glowvine_anim4 texture (stub referenced the
                 // nonexistent flat block/glowing_vines and rendered a missing-texture cube).
                 || block == GeoBlocks.GLOWING_VINES.get()
@@ -285,15 +289,6 @@ public class GeoModelProvider extends ModelProvider {
         if (item == GeoBlocks.LAVAROCK_ITEM_1.get()) return geoBlockModel("lava_rock_1");
         if (item == GeoBlocks.LAVAROCK_ITEM_2.get()) return geoBlockModel("lava_rock_2");
         if (item == GeoBlocks.LAVAROCK_ITEM_3.get()) return geoBlockModel("lava_rock_3");
-        return null;
-    }
-
-    /** COLOR_INDEX for the luminous-crystal variant items; null for anything else. */
-    private static Integer crystalVariantIndex(Item item) {
-        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get()) return 0;
-        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_1.get()) return 1;
-        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_2.get()) return 2;
-        if (item == GeoBlocks.LUMINOUS_CRYSTAL_ITEM_3.get()) return 3;
         return null;
     }
 

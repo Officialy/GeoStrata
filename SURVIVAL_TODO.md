@@ -71,9 +71,10 @@ defaults. `BOXRECIPES` is a runtime config so datagen emits its default (OFF) la
 (`ReikaIconHelper.clipFrom(oreIcon, stoneIcon, ...)`), then drew two layers: rock underneath,
 clipped ore overlay on top.
 
-Because there is no overlay sprite to reference, the ~20 `<rock>_<metal>_ore` blocks would render
-as missing-texture cubes — and nothing generates them anyway — so they are hidden from creative/JEI
-behind `GeoTabs.ORES_HAVE_TEXTURES = false`.
+Because there is no overlay sprite to reference, the full 17-rock × 32-ore (544-block)
+`<rock>_<metal>_ore` matrix would render as missing-texture cubes. The blocks, their loot tables,
+models, language entries, and mining tags are registered/generated, but they remain hidden from
+creative/JEI behind `GeoTabs.ORES_HAVE_TEXTURES = false` until the compositing renderer returns.
 
 - [ ] Rebuild the two-layer scheme: a layered block model (base = host rock texture, overlay =
       alpha-clipped ore sprite) plus a **sprite source / runtime texture generator** that produces

@@ -8,4 +8,8 @@ ext {
 dependencies {
     implementation project(":DragonAPI")
     implementation project(":RotaryCraft")
+
+    // TerraBlender 26.2.0.0.2 (modrinth project kkmrDlKT): overworld biome injection for the
+    // Arctic Spires + Kelp Forest biomes. Runtime-required; also flows into :TestInstance runs.
+    implementation "maven.modrinth:kkmrDlKT:TzDe72Nr"
 }

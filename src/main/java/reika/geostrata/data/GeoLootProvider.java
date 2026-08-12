@@ -74,10 +74,8 @@ public final class GeoLootProvider extends LootTableProvider {
                     // touch yields the vent block itself (canSilkHarvest = true).
                     this.add(block, this.createSilkTouchDispatchTable(block,
                             this.applyExplosionCondition(block, LootItem.lootTableItem(net.minecraft.world.level.block.Blocks.COBBLESTONE))));
-                } else if (block == GeoBlocks.LUMINOUS_CRYSTAL.get()) {
-                    // Block is item-less (variants are the standalone luminous_crystal_item_N);
-                    // legacy dropped the metadata item, so drop the base variant.
-                    this.dropOther(block, GeoBlocks.LUMINOUS_CRYSTAL_ITEM_0.get());
+                } else if (block instanceof reika.geostrata.block.BlockGlowCrystal) {
+                    this.dropSelf(block);
                 } else if (block instanceof reika.geostrata.block.BlockLavaRock) {
                     // Legacy dropped the height-variant metadata item; the port splits those into
                     // four items, so pick by the block's height state.

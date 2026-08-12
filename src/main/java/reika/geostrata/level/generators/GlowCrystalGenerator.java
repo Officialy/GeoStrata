@@ -106,7 +106,7 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
         }
         int color = rand.nextInt(4);
         for (BlockPos c : li) {
-            this.setBlock(world, c, GeoBlocks.LUMINOUS_CRYSTAL.get().defaultBlockState().setValue(BlockGlowCrystal.COLOR_INDEX, color));
+            this.setBlock(world, c, GeoBlocks.getLuminousCrystal(color).defaultBlockState());
         }
 
         return true;
@@ -176,7 +176,7 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
         if (ReikaBlockHelper.isGroundType(world, pos) || /*at.isReplaceableOreGen(world, pos, Blocks.COBBLESTONE) ||
                 at.isReplaceableOreGen(world, pos, Blocks.DIRT) || at.isReplaceableOreGen(world, pos, Blocks.GRASS) ||
                 at.isReplaceableOreGen(world, pos, Blocks.GRAVEL) || at.isReplaceableOreGen(world, pos, Blocks.ICE) ||
-                at.isReplaceableOreGen(world, pos, Blocks.SNOW) ||*/ at == GeoBlocks.LUMINOUS_CRYSTAL.get().defaultBlockState() ||
+                at.isReplaceableOreGen(world, pos, Blocks.SNOW) ||*/ at.getBlock() instanceof BlockGlowCrystal ||
                 ReikaWorldHelper.softBlocks(world, new BlockPos(pos)) || ReikaBlockHelper.isLeaf(world, new BlockPos(pos)) ||
                 /*at.canBeReplacedByLeaves(world, pos) || */ at.getMapColor(world, pos) == MapColor.PLANT) {
 

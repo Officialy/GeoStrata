@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "geostrata:block/opal_lead_ore",
+    "tints": [
+      {
+        "type": "geostrata:opal"
+      }
+    ]
+  }
+}
