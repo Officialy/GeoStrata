@@ -9,11 +9,8 @@
  ******************************************************************************/
 package reika.geostrata;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,11 +24,13 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.registry.GeoBlocks;
+import reika.geostrata.registry.GeoItems;
 import reika.geostrata.registry.OreTypes;
 import reika.geostrata.registry.RockShapes;
 import reika.geostrata.registry.RockTypes;
 
 import java.util.HashSet;
+import java.util.EnumMap;
 import java.util.Map;
 
 /**
@@ -107,10 +106,17 @@ public class GeoTabs {
                 accept(event, seen, block.asItem());
             }
         } else if (event.getTab() == ORES.get()) {
-            HolderLookup.Provider holders = event.getParameters().holders();
-            for (Block block : GeoBlocks.oreMapping.keySet()) {
-                if (oreEnabled(holders, block))
-                    accept(event, seen, block.asItem());
+            EnumMap<RockTypes, EnumMap<OreTypes, Block>> grouped = new EnumMap<>(RockTypes.class);
+            GeoBlocks.oreMapping.forEach((block, pair) -> grouped
+                    .computeIfAbsent(pair.getLeft(), ignored -> new EnumMap<>(OreTypes.class))
+                    .put(pair.getRight(), block));
+            for (RockTypes rock : RockTypes.rockList) {
+                Map<OreTypes, Block> ores = grouped.get(rock);
+                if (ores == null) continue;
+                for (OreTypes ore : OreTypes.oreList) {
+                    Block block = ores.get(ore);
+                    if (block != null) accept(event, seen, block.asItem());
+                }
             }
         } else if (event.getTab() == STONES.get()) {
             for (Block block : GeoBlocks.blockMapping.keySet()) {
@@ -120,6 +126,8 @@ public class GeoTabs {
                 accept(event, seen, block.asItem());
             }
         } else if (event.getTab() == GEOSTRATA.get()) {
+            accept(event, seen, GeoItems.LOW_TEMP_DIAMONDS.get());
+            accept(event, seen, GeoItems.CREEPVINE_SEEDS.get());
             // Catch-all: every registered block/item that isn't already claimed by one of the
             // category tabs above (vents, ore veins, creepvine, icicle, crystals, decorative
             // bricks, ocean spike, standalone items, and anything added later).
@@ -133,63 +141,16 @@ public class GeoTabs {
                 accept(event, seen, block.asItem());
             }
             for (var holder : GeoBlocks.ITEMS.getEntries()) {
-                accept(event, seen, holder.get());
+                Item item = holder.get();
+                if (item instanceof net.minecraft.world.item.BlockItem blockItem) {
+                    Block block = blockItem.getBlock();
+                    if (GeoBlocks.stairMapping.containsKey(block) || GeoBlocks.slabMapping.containsKey(block)
+                            || GeoBlocks.oreMapping.containsKey(block) || GeoBlocks.blockMapping.containsKey(block)
+                            || GeoBlocks.connectedBlockMapping.containsKey(block)) continue;
+                }
+                accept(event, seen, item);
             }
         }
-    }
-
-    // The six vanilla-equivalent metals always exist; the rest are only real if a mod provides them.
-    private static final java.util.EnumSet<OreTypes> VANILLA_ORES =
-            java.util.EnumSet.of(OreTypes.IRON, OreTypes.COPPER, OreTypes.GOLD, OreTypes.LAPIS, OreTypes.DIAMOND, OreTypes.EMERALD);
-
-    /**
-     * A modded-metal GeoStrata ore only appears in creative/JEI if some loaded mod actually provides
-     * that material — i.e. a {@code c:} ingot/raw/ore tag for it is populated. This keeps the ore list
-     * mod-compatible (no "uranium ore" when nothing supplies uranium), mirroring 1.7.10 where the
-     * camouflage ore only ever wrapped ores that already existed. Fails open (shows the ore) if the tag
-     * data isn't available yet, so a mis-timed tab rebuild can't blank the whole tab.
-     */
-    /**
-     * GeoStrata ores have no textures yet. 1.7.10 never shipped ore art: it composited the host
-     * rock icon with an overlay generated at runtime by clipping the stone background out of the
-     * vanilla/modded ore icon ({@code ReikaIconHelper.clipFrom}, see OreRenderer). Until that
-     * two-layer scheme is rebuilt the blocks would render as missing-texture cubes — and nothing
-     * generates them anyway — so they stay out of creative/JEI. Flip this to true once the layered
-     * model lands. See SURVIVAL_TODO.md.
-     */
-    private static final boolean ORES_HAVE_TEXTURES = false;
-
-    private static boolean oreEnabled(HolderLookup.Provider holders, Block ore) {
-        Pair<RockTypes, OreTypes> pair = GeoBlocks.oreMapping.get(ore);
-        if (pair == null)
-            return true;
-        if (!ORES_HAVE_TEXTURES)
-            return false;
-        OreTypes t = pair.getRight();
-        if (VANILLA_ORES.contains(t))
-            return true;
-        var itemLookup = holders.lookup(Registries.ITEM);
-        if (itemLookup.isEmpty())
-            return true; // tags unavailable — fail open rather than hide everything
-        for (String name : metalAliases(t)) {
-            if (tagNonEmpty(itemLookup.get(), "ingots/" + name)
-                    || tagNonEmpty(itemLookup.get(), "raw_materials/" + name)
-                    || tagNonEmpty(itemLookup.get(), "ores/" + name))
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean tagNonEmpty(HolderLookup.RegistryLookup<Item> lookup, String path) {
-        TagKey<Item> tag = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", path));
-        return lookup.get(tag).map(set -> set.size() > 0).orElse(false);
-    }
-
-    /** Candidate c:-tag metal names. Handles the aluminium/aluminum spelling split used across mods. */
-    private static String[] metalAliases(OreTypes t) {
-        if (t == OreTypes.ALUMINIUM)
-            return new String[]{"aluminum", "aluminium"};
-        return new String[]{t.name().toLowerCase(java.util.Locale.ROOT)};
     }
 
     /** Dedupes (a BlockItem can be reachable both via GeoBlocks.BLOCKS and GeoBlocks.ITEMS) and skips itemless blocks (asItem() == AIR). */

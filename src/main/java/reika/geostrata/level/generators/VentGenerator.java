@@ -17,6 +17,7 @@ import reika.dragonapi.libraries.java.ReikaRandomHelper;
 import reika.dragonapi.libraries.level.ReikaBiomeHelper;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.geostrata.base.VentType;
+import reika.geostrata.block.BlockVent;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.GeoOptions;
 
@@ -69,11 +70,12 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
             int maxy = world.getLevel().dimension() == Level.NETHER ? 128 : (world.getLevel().dimension() == Level.END ? 72 : 64);
             int posY = ReikaRandomHelper.getRandomBetween(4, maxy, random);
             if (random.nextBoolean()) {
-                posY *= random.nextFloat();
+                posY = (int) (posY * random.nextFloat());
             }
             if (canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
                 VentType v = this.getVentTypeFor(world, posX, posY, posZ, random);
-                BlockState id = GeoBlocks.getVentBlock(v).defaultBlockState();
+                BlockState id = GeoBlocks.getVentBlock(v).defaultBlockState()
+                        .setValue(BlockVent.NETHER, world.getLevel().dimension() == Level.NETHER);
                 world.setBlock(new BlockPos(posX, posY, posZ), id, 3);
             }
         }
@@ -132,7 +134,7 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
         }
 
         private void calcWeight(WorldGenLevel world, int x, int y, int z) {
-            float f = Math.min(1, Math.max(0.25F, world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) / 64F));
+            float f = Math.clamp(world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) / 64F, 0.25F, 1);
             weight = type.getSpawnWeight((int) (y / f), world.getLevel().dimension() == Level.NETHER);
             if (type == VentType.CRYO && !ReikaBiomeHelper.isSnowBiome(world.getBiome(new BlockPos(x, y, z)).unwrapKey().get())) {
                 weight = 0;

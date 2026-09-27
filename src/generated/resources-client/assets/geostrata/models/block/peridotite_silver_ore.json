@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/peridotite_silver_ore"
+    "base": "geostrata:block/peridotite_smooth",
+    "ore": "geostrata:block/ore_overlay/silver",
+    "particle": "geostrata:block/peridotite_smooth",
+    "rock": "geostrata:block/ore/peridotite"
   }
 }

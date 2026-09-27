@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:granite_smooth",
+    "geostrata:basalt_smooth",
+    "geostrata:marble_smooth",
+    "geostrata:limestone_smooth",
+    "geostrata:shale_smooth",
+    "geostrata:sandstone_smooth",
+    "geostrata:pumice_smooth",
+    "geostrata:slate_smooth",
+    "geostrata:gneiss_smooth",
+    "geostrata:peridotite_smooth",
+    "geostrata:quartz_smooth",
+    "geostrata:granulite_smooth",
+    "geostrata:hornfel_smooth",
+    "geostrata:migmatite_smooth",
+    "geostrata:schist_smooth",
+    "geostrata:onyx_smooth",
+    "geostrata:opal_smooth"
+  ]
+}

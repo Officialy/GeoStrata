@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/limestone_aluminium_ore"
+    "base": "geostrata:block/limestone_smooth",
+    "ore": "geostrata:block/ore_overlay/aluminium",
+    "particle": "geostrata:block/limestone_smooth",
+    "rock": "geostrata:block/ore/limestone"
   }
 }

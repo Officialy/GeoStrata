@@ -8,6 +8,7 @@ import reika.dragonapi.ModList;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.base.VentType;
 import reika.geostrata.block.entity.BlockEntityOceanSpike;
+import reika.geostrata.block.entity.BlockEntityPartialBounds;
 import reika.geostrata.block.entity.BlockEntityOreVein;
 import reika.geostrata.block.entity.BlockEntityVent;
 import reika.geostrata.block.entity.BlockEntityVentRoC;
@@ -58,7 +59,16 @@ public class GeoBlockEntities {
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityOceanSpike>> OCEAN_SPIKE = BLOCK_ENTITIES.register("ocean_spike", () -> new BlockEntityType<>(BlockEntityOceanSpike::new, GeoBlocks.OCEAN_SPIKE.get()));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityPartialBounds>> PARTIAL_BOUNDS = BLOCK_ENTITIES.register("partial_bounds", () -> new BlockEntityType<>(BlockEntityPartialBounds::new, GeoBlocks.PARTIAL_BOUNDS.get()));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockRFCrystalSeed.TileRFCrystal>> RF_CRYSTAL_SEED = BLOCK_ENTITIES.register("rf_crystal_seed", () -> new BlockEntityType<>(BlockRFCrystalSeed.TileRFCrystal::new, GeoBlocks.RF_CRYSTAL_SEED.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockRFCrystal.TileRFCrystalAux>> RF_CRYSTAL = BLOCK_ENTITIES.register("rf_crystal", () -> new BlockEntityType<>(BlockRFCrystal.TileRFCrystalAux::new, GeoBlocks.RF_CRYSTAL.get()));
+
+    public static void registerCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.Energy.BLOCK,
+                RF_CRYSTAL_SEED.get(), (be, side) -> be);
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.Energy.BLOCK,
+                RF_CRYSTAL.get(), (be, side) -> be);
+    }
 
 }

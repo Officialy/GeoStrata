@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/slate_zinc_ore"
+    "base": "geostrata:block/slate_smooth",
+    "ore": "geostrata:block/ore_overlay/zinc",
+    "particle": "geostrata:block/slate_smooth",
+    "rock": "geostrata:block/ore/slate"
   }
 }

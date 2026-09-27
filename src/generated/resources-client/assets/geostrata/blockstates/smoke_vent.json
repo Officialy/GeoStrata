@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "nether=false": {
+      "model": "geostrata:block/vent_smoke"
+    },
+    "nether=true": {
+      "model": "geostrata:block/vent_smoke_nether"
+    }
+  }
+}

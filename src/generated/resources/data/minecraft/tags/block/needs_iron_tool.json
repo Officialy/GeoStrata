@@ -1,5 +1,8 @@
 {
   "values": [
+    "geostrata:quartz_bricks",
+    "geostrata:redstone_bricks",
+    "geostrata:emerald_bricks",
     "geostrata:granite_iron_ore",
     "geostrata:granite_copper_ore",
     "geostrata:granite_lapis_ore",

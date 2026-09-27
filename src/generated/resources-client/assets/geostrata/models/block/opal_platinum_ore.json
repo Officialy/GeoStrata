@@ -1,6 +1,9 @@
 {
-  "parent": "geostrata:block/tinted_block",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/opal_platinum_ore"
+    "base": "geostrata:block/opal_smooth",
+    "ore": "geostrata:block/ore_overlay/platinum",
+    "particle": "geostrata:block/opal_smooth",
+    "rock": "geostrata:block/ore/opal"
   }
 }

@@ -6,11 +6,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import reika.geostrata.GeoStrata;
 
 /**
- * 1.21.5 datagen entry point for GeoStrata.
- * <p>
- * Split into Client and Server handlers (the previous {@code GatherDataEvent} was overhauled in
- * NeoForge 26.x). Client-side wires up language + model providers; server-side is left empty
- * until recipes / loot tables / tags / biome modifiers are ported against the new APIs.
+ * 26.2 client/server datagen entry point for GeoStrata's assets and survival data.
  */
 @EventBusSubscriber(modid = GeoStrata.MODID)
 public final class GeoDataProviders {
@@ -21,11 +17,14 @@ public final class GeoDataProviders {
     public static void onGatherClient(GatherDataEvent.Client event) {
         event.createProvider(output -> new GeoLang(output, "en_us"));
         event.createProvider(GeoModelProvider::new);
+        event.createProvider(GeoOreTextureProvider::new);
     }
 
     @SubscribeEvent
     public static void onGatherServer(GatherDataEvent.Server event) {
         event.createProvider(GeoBlockTagsProvider::new);
+        event.createProvider(GeoItemTagsProvider::new);
+        event.createProvider(GeoTradeTagsProvider::new);
         event.createProvider(GeoLootProvider::new);
         event.createDatapackRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
         event.createProvider(GeoBiomeModifierProvider::new);

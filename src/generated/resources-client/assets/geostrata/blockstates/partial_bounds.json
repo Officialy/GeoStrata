@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "geostrata:block/partial_bounds_empty"
+    }
+  }
+}

@@ -20,6 +20,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import reika.dragonapi.ModList;
@@ -31,6 +32,7 @@ import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.level.GeoPlacedFeatures;
 import reika.geostrata.registry.*;
 import reika.geostrata.rendering.OceanSpikeBER;
+import reika.geostrata.rendering.PartialBoundsBER;
 import reika.geostrata.rendering.OceanSpikeOutlineRenderer;
 
 import java.awt.*;
@@ -72,11 +74,13 @@ public class GeoStrata extends DragonAPIMod {
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(GeoBlockEntities::registerCapabilities);
 
         if (FMLEnvironment.getDist() == Dist.CLIENT) {
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerBlockColors);
             modEventBus.addListener(GeoEvents.BlockColorEvents::registerItemColors);
             modEventBus.addListener(this::registerEntityRenderers);
+            modEventBus.addListener(this::registerClientExtensions);
             // Exact diagonal ocean-spike hover/mining outline, ChromatiCraft-ChromaModelOutlineRenderer
             // style (see OceanSpikeOutlineRenderer) — client-only, so gated the same as the BER hook.
             NeoForge.EVENT_BUS.addListener(OceanSpikeOutlineRenderer::extract);
@@ -84,7 +88,8 @@ public class GeoStrata extends DragonAPIMod {
         // Game-bus listeners, NOT dist-gated: these run on the LOGICAL server, which also exists
         // inside a singleplayer client. Registering them only on a dedicated server meant the smoke
         // vent's suffocation grace and the crystal-spike fall multiplier never fired in singleplayer.
-        NeoForge.EVENT_BUS.addListener(GeoEvents::smokeVentAir);
+        NeoForge.EVENT_BUS.addListener(GeoEvents::specialAir);
+        NeoForge.EVENT_BUS.addListener(GeoEvents::arcticCold);
         NeoForge.EVENT_BUS.addListener(GeoEvents::spikyFall);
 
         GeoBlocks.initialise(modEventBus);
@@ -106,6 +111,8 @@ public class GeoStrata extends DragonAPIMod {
 //        LOGGER.info("Registered " + GeoBlocks.wallMapping.size() + " walls");
 
         GeoPlacedFeatures.FEATURES.register(modEventBus);
+        reika.geostrata.level.AllBiomesFeatureModifier.SERIALIZERS.register(modEventBus);
+        reika.geostrata.data.BoxRecipeCondition.SERIALIZERS.register(modEventBus);
         GeoTabs.register(modEventBus);
 
         this.basicSetup();
@@ -137,6 +144,12 @@ public class GeoStrata extends DragonAPIMod {
     // (the legacy IBlockRenderer dispatch is a no-op stub in this build). See OceanSpikeBER.
     public void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(GeoBlockEntities.OCEAN_SPIKE.get(), OceanSpikeBER::new);
+        event.registerBlockEntityRenderer(GeoBlockEntities.PARTIAL_BOUNDS.get(), PartialBoundsBER::new);
+    }
+
+    public void registerClientExtensions(final RegisterClientExtensionsEvent event) {
+        event.registerBlock(new reika.geostrata.rendering.PartialBoundsClientExtensions(),
+                GeoBlocks.PARTIAL_BOUNDS.get());
     }
 
     public void commonSetup(final FMLCommonSetupEvent event) {
@@ -247,5 +260,3 @@ public class GeoStrata extends DragonAPIMod {
     }
 
 }
-
-

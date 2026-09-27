@@ -31,6 +31,11 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 
 import reika.dragonapi.instantiable.data.blockstruct.BlockArray;
@@ -97,14 +102,20 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         }
     }
 
-    public static class TileRFCrystal extends BlockEntity implements CurvedTrajectory.TrailShape, CurvedTrajectory.InitialAngleProvider {
+    public static class TileRFCrystal extends BlockEntity implements CurvedTrajectory.TrailShape, CurvedTrajectory.InitialAngleProvider, EnergyHandler {
 
         private HashSet<BlockPos> crystalShape;
-        private boolean isActivated = false;
+        private boolean isActivated;
+        private long energy;
         private final BlockArray crystal = new BlockArray();
+        private final SnapshotJournal<Long> energyJournal = new SnapshotJournal<>() {
+            @Override protected Long createSnapshot() { return energy; }
+            @Override protected void revertToSnapshot(Long snapshot) { energy = snapshot; setChanged(); }
+        };
 
         public TileRFCrystal(BlockPos p_155229_, BlockState p_155230_) {
             super(GeoBlockEntities.RF_CRYSTAL_SEED.get(), p_155229_, p_155230_);
+            isActivated = !GeoOptions.RFACTIVATE.getState();
         }
 
         public void breakEntireCrystal(boolean skipSelf) {
@@ -132,19 +143,31 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
             if (!level.isClientSide()) {
                 if (isActivated) {
-/*
-                    int cap = this.getCapacity();
-                    if (energy.getEnergyStored() > cap)
-                        energy.setEnergy(cap);
-                    //ReikaJavaLibrary.pConsole(String.format("%.4f", energy/(float)cap)+" @ "+crystal.getSize()+" : "+energy+" / "+cap);
-                    if (energy.getEnergyStored() > cap * 4 / 5 && crystal.getSize() < 2000) {
+                    long cap = this.getCapacity();
+                    if (energy > cap) {
+                        energy = cap;
+                        setChanged();
+                    }
+                    if (energy > cap - cap / 5 && crystal.getSize() < 2000) {
                         this.growNewCrystal();
                     }
 
-                    if (energy.getEnergyStored() > 0 && level.hasNeighborSignal(getBlockPos())) {
-                        BlockEntity te = level.getBlockEntity(getBlockPos().below());
+                    if (energy > 0 && level.hasNeighborSignal(getBlockPos())) {
+                        EnergyHandler receiver = level.getCapability(Capabilities.Energy.BLOCK,
+                                getBlockPos().below(), Direction.UP);
+                        if (receiver != null) {
+                            try (Transaction tx = Transaction.openRoot()) {
+                                int offered = (int) Math.min(energy, Integer.MAX_VALUE);
+                                int accepted = receiver.insert(offered, tx);
+                                if (accepted > 0) {
+                                    energyJournal.updateSnapshots(tx);
+                                    energy -= accepted;
+                                    tx.commit();
+                                    setChanged();
+                                }
+                            }
+                        }
                     }
-*/
                 } else {
                     if (crystal.getSize() > 1) {
                         this.breakEntireCrystal(true);
@@ -173,7 +196,8 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
                 //loc.setBlock(level, GeoBlocks.RFCRYSTAL.get());
                 //crystal.addBlockCoordinate(loc.xCoord, loc.yCoord, loc.zCoord);
                 place(level, loc, this);
-                //energy.setEnergy(Math.max(energy.getEnergyStored() - this.getGrowthCost(), 0));
+                energy = Math.max(energy - this.getGrowthCost(), 0);
+                setChanged();
             }
         }
 
@@ -207,7 +231,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         protected void saveAdditional(ValueOutput output) {
             super.saveAdditional(output);
             
-            //output.putInt("energy", energy.getEnergyStored());
+            output.putLong("energy", energy);
             output.putBoolean("activated", isActivated);
             
             CompoundTag crystalTag = new CompoundTag();
@@ -219,7 +243,7 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         protected void loadAdditional(ValueInput input) {
             super.loadAdditional(input);
             
-            //energy.setEnergy(input.getIntOr("energy", 0));
+            energy = Math.max(0L, input.getLongOr("energy", 0L));
             isActivated = input.getBooleanOr("activated", false) || !GeoOptions.RFACTIVATE.getState();
             
             CompoundTag crystalTag = input.read("crystal_data", CompoundTag.CODEC).orElse(new CompoundTag());
@@ -229,13 +253,13 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
         /*
             Returns the maximum amount of energy the crystal can store.
          */
-        public int getCapacity() {
+        public long getCapacity() {
             int s = crystal.getSize();
             double sigmoid = ReikaMathLibrary.cosInterpolation(0, 200, Math.min(s, 200));
             double linear = 100000 * Math.pow(1.03125, s);//ReikaMathLibrary.roundUpToX(1000, (int)(100000*Math.pow(1.03125, s)));
             double factor = Math.min(1, 0.8 * ReikaMathLibrary.logbase(2 + s, 64));
             int round = 1000 * ReikaMathLibrary.intpow2(10, 1 + (int) (Math.log10(1 + s)));
-            return (int) (2500 + 1000000000 * sigmoid * factor + linear);
+            return (long) Math.min(Long.MAX_VALUE, 2500 + 1000000000 * sigmoid * factor + linear);
 //            return ReikaMathLibrary.roundUpToX(round, (int)(2500+1000000000*sigmoid*factor+linear));
         }
 
@@ -261,6 +285,8 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
         public void addLocation(BlockPos c) {
             crystal.addBlockCoordinate(c);
+            setChanged();
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
 
         public void removeLocation(BlockPos c) {
@@ -280,7 +306,37 @@ public class BlockRFCrystalSeed extends BlockRFCrystal {
 
         public void activate() {
             isActivated = true;
+            setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
+
+        public boolean isActivated() { return isActivated; }
+
+        @Override public long getAmountAsLong() { return energy; }
+        @Override public long getCapacityAsLong() { return getCapacity(); }
+
+        @Override
+        public int insert(int amount, TransactionContext tx) {
+            if (amount <= 0 || !isActivated) return 0;
+            int accepted = (int) Math.min(amount, Math.max(0L, getCapacity() - energy));
+            if (accepted > 0) {
+                energyJournal.updateSnapshots(tx);
+                energy += accepted;
+                setChanged();
+            }
+            return accepted;
+        }
+
+        @Override
+        public int extract(int amount, TransactionContext tx) {
+            if (amount <= 0 || !isActivated) return 0;
+            int extracted = (int) Math.min(amount, energy);
+            if (extracted > 0) {
+                energyJournal.updateSnapshots(tx);
+                energy -= extracted;
+                setChanged();
+            }
+            return extracted;
         }
 
     }

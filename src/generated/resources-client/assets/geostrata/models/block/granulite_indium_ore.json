@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/granulite_indium_ore"
+    "base": "geostrata:block/granulite_smooth",
+    "ore": "geostrata:block/ore_overlay/indium",
+    "particle": "geostrata:block/granulite_smooth",
+    "rock": "geostrata:block/ore/granulite"
   }
 }

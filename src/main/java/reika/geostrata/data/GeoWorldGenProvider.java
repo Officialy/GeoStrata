@@ -8,12 +8,18 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.TradeCost;
+import net.minecraft.world.item.trading.VillagerTrade;
+import reika.geostrata.registry.GeoBlocks;
+import reika.geostrata.registry.GeoItems;
 import reika.geostrata.GeoStrata;
 
 import java.util.List;
 
 /**
- * 26.2 world-gen registry builder for GeoStrata.
+ * 26.2 datapack registry builder for GeoStrata worldgen and village trades.
  * <p>
  * Provides a {@link RegistrySetBuilder} that registers configured features and placed features
  * with proper cross-references (string registry IDs, not inline objects).
@@ -67,6 +73,22 @@ public final class GeoWorldGenProvider {
                 PlacedFeature placed = new PlacedFeature(configuredFeatures.getOrThrow(cfKey), List.of());
                 bootstrap.register(key, placed);
             }
+        });
+
+        // 26.2 villager offers are datapack registry entries selected through profession tags.
+        // The original non-ChromatiCraft trades bought 24 void opals for 3 emeralds and one
+        // low-temperature diamond for 12 emeralds; the offers did not expire.
+        builder.add(Registries.VILLAGER_TRADE, bootstrap -> {
+            bootstrap.register(ResourceKey.create(Registries.VILLAGER_TRADE,
+                            Identifier.fromNamespaceAndPath(GeoStrata.MODID, "void_opals_emerald")),
+                    new VillagerTrade(new TradeCost(GeoBlocks.VOID_OPALS.get(), 24),
+                            new ItemStackTemplate(Items.EMERALD, 3), Integer.MAX_VALUE, 1,
+                            0F, java.util.Optional.empty(), List.of()));
+            bootstrap.register(ResourceKey.create(Registries.VILLAGER_TRADE,
+                            Identifier.fromNamespaceAndPath(GeoStrata.MODID, "lowtempdiamonds_emerald")),
+                    new VillagerTrade(new TradeCost(GeoItems.LOW_TEMP_DIAMONDS.get(), 1),
+                            new ItemStackTemplate(Items.EMERALD, 12), Integer.MAX_VALUE, 1,
+                            0F, java.util.Optional.empty(), List.of()));
         });
 
         return builder;

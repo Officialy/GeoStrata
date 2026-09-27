@@ -1,0 +1,10 @@
+{
+  "parent": "geostrata:block/vent_base",
+  "textures": {
+    "bottom": "minecraft:block/netherrack",
+    "inside": "geostrata:block/vent/pyro_inside",
+    "particle": "minecraft:block/netherrack",
+    "side": "minecraft:block/netherrack",
+    "top": "geostrata:block/vent/pyro_top"
+  }
+}

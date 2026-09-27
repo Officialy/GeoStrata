@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "geostrata:box_recipes",
+      "boxed": true
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_material": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:obsidian"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "geostrata:deco/obsidian_bricks_box"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_material"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "geostrata:deco/obsidian_bricks_box"
+    ]
+  }
+}

@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/migmatite_iridium_ore"
+    "base": "geostrata:block/migmatite_smooth",
+    "ore": "geostrata:block/ore_overlay/iridium",
+    "particle": "geostrata:block/migmatite_smooth",
+    "rock": "geostrata:block/ore/migmatite"
   }
 }

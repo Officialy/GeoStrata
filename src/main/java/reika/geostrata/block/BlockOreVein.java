@@ -26,12 +26,13 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import reika.dragonapi.instantiable.data.WeightedRandom;
 import reika.geostrata.block.entity.BlockEntityOreVein;
+import reika.geostrata.registry.GeoItems;
 
 /**
  * Ore veins: cave-wall pockets that yield a limited number of random ores when right-clicked,
  * then run dry. 1.7.10 stored the vein type as metadata and loaded loot from a Lua config file;
- * this port uses one block per type carrying the 1.7.10 default loot tables. The 1.7.10 ICE
- * loot's low-temperature diamonds item is unported, so plain diamonds stand in for it.
+ * this port uses one block per type carrying the 1.7.10 default loot tables, including the
+ * icy vein's low-temperature diamond item.
  */
 public class BlockOreVein extends Block implements EntityBlock {
 
@@ -62,7 +63,7 @@ public class BlockOreVein extends Block implements EntityBlock {
             NETHER.ores.addEntry(net.minecraft.world.item.Items.GOLD_NUGGET, 20);
             NETHER.ores.addEntry(net.minecraft.world.item.Items.BLAZE_POWDER, 5);
             ICE.ores.addEntry(Blocks.ICE, 30);
-            ICE.ores.addEntry(net.minecraft.world.item.Items.DIAMOND, 25); //stands in for low-temp diamonds
+            ICE.ores.addEntry(GeoItems.LOW_TEMP_DIAMONDS, 25);
             END.ores.addEntry(Blocks.OBSIDIAN, 25);
             END.ores.addEntry(net.minecraft.world.item.Items.ENDER_PEARL, 10);
         }
@@ -79,6 +80,13 @@ public class BlockOreVein extends Block implements EntityBlock {
 
         public ItemStack getRandomOre() {
             return ores.isEmpty() ? ItemStack.EMPTY : new ItemStack(ores.getRandomEntry());
+        }
+
+        public java.util.Map<ItemLike, Double> getPotentialYields() {
+            java.util.Map<ItemLike, Double> result = new java.util.LinkedHashMap<>();
+            for (ItemLike item : ores.getValues())
+                result.put(item, ores.getProbability(item));
+            return result;
         }
 
         public boolean glow() {

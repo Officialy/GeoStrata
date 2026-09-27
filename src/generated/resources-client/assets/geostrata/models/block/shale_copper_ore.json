@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/shale_copper_ore"
+    "base": "geostrata:block/shale_smooth",
+    "ore": "geostrata:block/ore_overlay/copper",
+    "particle": "geostrata:block/shale_smooth",
+    "rock": "geostrata:block/ore/shale"
   }
 }

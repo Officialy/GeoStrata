@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/quartz_manganese_ore"
+    "base": "geostrata:block/quartz_smooth",
+    "ore": "geostrata:block/ore_overlay/manganese",
+    "particle": "geostrata:block/quartz_smooth",
+    "rock": "geostrata:block/ore/quartz"
   }
 }

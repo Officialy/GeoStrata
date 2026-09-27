@@ -67,7 +67,8 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
             if (this.isActive()) {
                 activeTimer--;
                 setChanged();
-                level.sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 2);
+                if (activeTimer % 20 == 0)
+                    level.sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 2);
                 if (activeTimer == 0) {
                     level.sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 2);
                 }
@@ -114,6 +115,10 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
         }
     }
 
+    public void tickClient() {
+        if (activeTimer > 0) activeTimer--;
+    }
+
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
@@ -144,7 +149,7 @@ public class BlockEntityVent extends BlockEntity /*MinerBlock, */ {
     public AABB getEffectBox() {
         int i;
         for (i = 1; i < 4; i++) {
-            if (this.isBlocking(level, worldPosition.above()))
+            if (this.isBlocking(level, worldPosition.above(i)))
                 break;
         }
         return new AABB(worldPosition.above().getX(), worldPosition.above().getY(), worldPosition.above().getZ(), worldPosition.offset(1, i + 1, 1).getX(), worldPosition.offset(1, i + 1, 1).getY(), worldPosition.offset(1, i + 1, 1).getZ()); //todo test

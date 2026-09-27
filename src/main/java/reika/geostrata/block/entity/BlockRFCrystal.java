@@ -13,6 +13,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -30,6 +31,8 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 import reika.dragonapi.DragonAPI;
 import reika.dragonapi.libraries.ReikaEnchantmentHelper;
@@ -63,8 +66,23 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
     public static void place(Level world, BlockPos pos, BlockRFCrystalSeed.TileRFCrystal parent) {
         world.setBlock(pos, GeoBlocks.RF_CRYSTAL.get().defaultBlockState(), 3);
         TileRFCrystalAux te = (TileRFCrystalAux) world.getBlockEntity(pos);
-        te.controller = parent.getBlockPos();
-        te.addToParent();
+        te.attachTo(parent);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (level.isClientSide() || this != GeoBlocks.RF_CRYSTAL.get()) return;
+        if (!(level.getBlockEntity(pos) instanceof TileRFCrystalAux tile)) return;
+        for (net.minecraft.core.Direction direction : net.minecraft.core.Direction.values()) {
+            BlockEntity neighbor = level.getBlockEntity(pos.relative(direction));
+            BlockRFCrystalSeed.TileRFCrystal root = neighbor instanceof BlockRFCrystalSeed.TileRFCrystal seed
+                    ? seed : neighbor instanceof TileRFCrystalAux aux ? aux.getParent() : null;
+            if (root != null) {
+                tile.attachTo(root);
+                return;
+            }
+        }
     }
 
     @Override
@@ -110,7 +128,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
 		return currenttip;
 	}*/
 
-    public static class TileRFCrystalAux extends BlockEntity {
+    public static class TileRFCrystalAux extends BlockEntity implements EnergyHandler {
 
         private BlockPos controller;
 
@@ -118,11 +136,11 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
             super(GeoBlockEntities.RF_CRYSTAL.get(), p_155229_, p_155230_);
         }
 
-        private BlockRFCrystalSeed.TileRFCrystal getParent() {
+        public BlockRFCrystalSeed.TileRFCrystal getParent() {
             if (controller == null)
                 return null;
             BlockEntity te = level.getBlockEntity(controller);
-            return te instanceof BlockRFCrystalSeed.TileRFCrystal ? (BlockRFCrystalSeed.TileRFCrystal) te : new BlockRFCrystalSeed.TileRFCrystal(worldPosition, getBlockState()); //npe protection
+            return te instanceof BlockRFCrystalSeed.TileRFCrystal parent ? parent : null;
         }
 
         public void removeFromParent() {
@@ -130,7 +148,8 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
                 GeoStrata.LOGGER.error("RF Crystal block has no parent?!");
                 return;
             }
-            this.getParent().removeLocation(worldPosition);
+            BlockRFCrystalSeed.TileRFCrystal parent = this.getParent();
+            if (parent != null) parent.removeLocation(worldPosition);
         }
 
         public void addToParent() {
@@ -138,7 +157,14 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
                 GeoStrata.LOGGER.error("RF Crystal block has no parent?!");
                 return;
             }
-            this.getParent().addLocation(worldPosition);
+            BlockRFCrystalSeed.TileRFCrystal parent = this.getParent();
+            if (parent != null) parent.addLocation(worldPosition);
+        }
+
+        public void attachTo(BlockRFCrystalSeed.TileRFCrystal parent) {
+            controller = parent.getBlockPos();
+            setChanged();
+            addToParent();
         }
 
         @Override
@@ -151,40 +177,21 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
         @Override
         protected void loadAdditional(ValueInput input) {
             super.loadAdditional(input);
-            controller = BlockPos.of(input.getLongOr("parent", 0L));
+            controller = input.getLong("parent").map(BlockPos::of).orElse(null);
         }
 
-/*
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            return 0;
+        @Override public long getAmountAsLong() {
+            BlockRFCrystalSeed.TileRFCrystal parent = getParent();
+            return parent == null ? 0 : parent.getAmountAsLong();
         }
 
-        @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
-            return 0;
+        @Override public long getCapacityAsLong() {
+            BlockRFCrystalSeed.TileRFCrystal parent = getParent();
+            return parent == null ? 0 : parent.getCapacityAsLong();
         }
 
-        @Override
-        public int getEnergyStored() {
-            return 0;
-        }
-
-        @Override
-        public int getMaxEnergyStored() {
-            return 0;
-        }
-
-        @Override
-        public boolean canExtract() {
-            return false;
-        }
-
-        @Override
-        public boolean canReceive() {
-            return false;
-        }
-*/
+        @Override public int insert(int amount, TransactionContext tx) { return 0; }
+        @Override public int extract(int amount, TransactionContext tx) { return 0; }
     }
 
 }

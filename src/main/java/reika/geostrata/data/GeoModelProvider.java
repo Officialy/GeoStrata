@@ -7,6 +7,7 @@ import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
@@ -99,6 +100,9 @@ public class GeoModelProvider extends ModelProvider {
                     "Failed to reflectively access BlockModelGenerators sinks — vanilla shape changed?", e);
         }
 
+        modelOut.accept(geoBlockModel("ore_layered"), GeoModelProvider::oreLayeredModel);
+        modelOut.accept(geoBlockModel("vent_base"), GeoModelProvider::ventBaseModel);
+
         // Track which items are auto-generated block-items (registerSimpleBlockItem) so we don't
         // double-register them. Other BlockItems (e.g. BlockItemLavaRock variants registered via
         // registerItemOnly) get their own flat item models in the items loop below.
@@ -107,6 +111,102 @@ public class GeoModelProvider extends ModelProvider {
         // BLOCKS — every GeoStrata block gets a trivial cube_all model + single-variant blockstate.
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
+
+            if (GeoBlocks.oreMapping.containsKey(block)) {
+                var pair = GeoBlocks.oreMapping.get(block);
+                String rock = pair.getLeft().name().toLowerCase(java.util.Locale.ROOT);
+                String ore = pair.getRight().name().toLowerCase(java.util.Locale.ROOT);
+                Identifier modelId = ModelLocationUtils.getModelLocation(block);
+                modelOut.accept(modelId, () -> {
+                    com.google.gson.JsonObject model = new com.google.gson.JsonObject();
+                    model.addProperty("parent", "geostrata:block/ore_layered");
+                    com.google.gson.JsonObject textures = new com.google.gson.JsonObject();
+                    textures.addProperty("base", "geostrata:block/" + rock + "_smooth");
+                    textures.addProperty("rock", "geostrata:block/ore/" + rock);
+                    textures.addProperty("ore", "geostrata:block/ore_overlay/" + ore);
+                    textures.addProperty("particle", "geostrata:block/" + rock + "_smooth");
+                    model.add("textures", textures);
+                    return model;
+                });
+                blockStateOut.accept(MultiVariantGenerator.dispatch(block,
+                        new MultiVariant(WeightedList.of(new Variant(modelId)))));
+                Item item = block.asItem();
+                itemModelOut.accept(item, pair.getLeft() == reika.geostrata.registry.RockTypes.OPAL
+                        ? ItemModelUtils.tintedModel(modelId, new reika.geostrata.rendering.GeoItemTints.OpalItemTint())
+                        : ItemModelUtils.plainModel(modelId));
+                blockItemsHandled.add(item);
+                continue;
+            }
+
+            if (block == GeoBlocks.QUARTZ_BRICKS.get()) {
+                Identifier modelId = ModelTemplates.CUBE_ALL.create(block,
+                        TextureMapping.cube(new net.minecraft.client.resources.model.sprite.Material(
+                                Identifier.withDefaultNamespace("block/quartz_bricks"))), modelOut);
+                blockStateOut.accept(MultiVariantGenerator.dispatch(block,
+                        new MultiVariant(WeightedList.of(new Variant(modelId)))));
+                Item item = block.asItem();
+                itemModelOut.accept(item, ItemModelUtils.plainModel(modelId));
+                blockItemsHandled.add(item);
+                continue;
+            }
+
+            if (block == GeoBlocks.PARTIAL_BOUNDS.get()) {
+                Identifier empty = geoBlockModel("partial_bounds_empty");
+                modelOut.accept(empty, () -> com.google.gson.JsonParser.parseString(
+                        "{\"parent\":\"minecraft:block/block\",\"textures\":{\"particle\":\"minecraft:block/cobblestone\"}}").getAsJsonObject());
+                blockStateOut.accept(MultiVariantGenerator.dispatch(block,
+                        new MultiVariant(WeightedList.of(new Variant(empty)))));
+                Identifier itemModel = ModelTemplates.CUBE_ALL.create(
+                        ModelLocationUtils.getModelLocation(block.asItem()),
+                        TextureMapping.cube(new net.minecraft.client.resources.model.sprite.Material(
+                                Identifier.withDefaultNamespace("block/cobblestone"))), modelOut);
+                itemModelOut.accept(block.asItem(), ItemModelUtils.plainModel(itemModel));
+                blockItemsHandled.add(block.asItem());
+                continue;
+            }
+
+            if (block instanceof reika.geostrata.block.BlockVent vent) {
+                String type = vent.type.name().toLowerCase(java.util.Locale.ROOT);
+                Identifier normal = geoBlockModel("vent_" + type);
+                Identifier nether = geoBlockModel("vent_" + type + "_nether");
+                modelOut.accept(normal, () -> {
+                    com.google.gson.JsonObject json = new com.google.gson.JsonObject();
+                    json.addProperty("parent", geoBlockModel("vent_base").toString());
+                    com.google.gson.JsonObject textures = new com.google.gson.JsonObject();
+                    String host = switch (type) {
+                        case "ender" -> "minecraft:block/end_stone";
+                        case "pyro" -> "minecraft:block/netherrack";
+                        default -> "minecraft:block/stone";
+                    };
+                    textures.addProperty("particle", host);
+                    textures.addProperty("side", host);
+                    textures.addProperty("bottom", host);
+                    textures.addProperty("top", "geostrata:block/vent/" + type + "_top");
+                    textures.addProperty("inside", "geostrata:block/vent/" + (type.equals("water") ? "water_vent" : type + "_inside"));
+                    json.add("textures", textures);
+                    return json;
+                });
+                modelOut.accept(nether, () -> {
+                    com.google.gson.JsonObject json = new com.google.gson.JsonObject();
+                    json.addProperty("parent", normal.toString());
+                    com.google.gson.JsonObject textures = new com.google.gson.JsonObject();
+                    textures.addProperty("particle", "minecraft:block/netherrack");
+                    textures.addProperty("side", "minecraft:block/netherrack");
+                    textures.addProperty("bottom", "minecraft:block/netherrack");
+                    if (java.util.Set.of("steam", "smoke", "fire", "lava", "gas", "pyro").contains(type))
+                        textures.addProperty("top", "geostrata:block/vent/nether/" + type + "_top");
+                    json.add("textures", textures);
+                    return json;
+                });
+                blockStateOut.accept(MultiVariantGenerator.dispatch(block)
+                        .with(PropertyDispatch.initial(reika.geostrata.block.BlockVent.NETHER)
+                                .select(false, BlockModelGenerators.plainVariant(normal))
+                                .select(true, BlockModelGenerators.plainVariant(nether))));
+                Item asItem = block.asItem();
+                itemModelOut.accept(asItem, ItemModelUtils.plainModel(normal));
+                blockItemsHandled.add(asItem);
+                continue;
+            }
 
             // The four luminous-crystal registry blocks share the original tint-index model, but
             // each block/item carries a concrete colour identity instead of a metadata-like state.
@@ -248,6 +348,76 @@ public class GeoModelProvider extends ModelProvider {
         }
     }
 
+    private static com.google.gson.JsonObject oreLayeredModel() {
+        return com.google.gson.JsonParser.parseString("""
+                {
+                  "parent": "minecraft:block/block",
+                  "render_type": "minecraft:cutout",
+                  "elements": [
+                    {
+                      "from": [0, 0, 0], "to": [16, 16, 16],
+                      "faces": {
+                        "down": {"texture": "#base", "tintindex": 0, "cullface": "down"},
+                        "up": {"texture": "#base", "tintindex": 0, "cullface": "up"},
+                        "north": {"texture": "#base", "tintindex": 0, "cullface": "north"},
+                        "south": {"texture": "#base", "tintindex": 0, "cullface": "south"},
+                        "west": {"texture": "#base", "tintindex": 0, "cullface": "west"},
+                        "east": {"texture": "#base", "tintindex": 0, "cullface": "east"}
+                      }
+                    },
+                    {
+                      "from": [-0.01, -0.01, -0.01], "to": [16.01, 16.01, 16.01],
+                      "faces": {
+                        "down": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "down"},
+                        "up": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "up"},
+                        "north": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "north"},
+                        "south": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "south"},
+                        "west": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "west"},
+                        "east": {"uv": [0, 0, 16, 16], "texture": "#ore", "cullface": "east"}
+                      }
+                    },
+                    {
+                      "from": [-0.02, -0.02, -0.02], "to": [16.02, 16.02, 16.02],
+                      "faces": {
+                        "down": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "down"},
+                        "up": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "up"},
+                        "north": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "north"},
+                        "south": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "south"},
+                        "west": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "west"},
+                        "east": {"uv": [0, 0, 16, 16], "texture": "#rock", "tintindex": 0, "cullface": "east"}
+                      }
+                    }
+                  ]
+                }
+                """).getAsJsonObject();
+    }
+
+    private static com.google.gson.JsonObject ventBaseModel() {
+        return com.google.gson.JsonParser.parseString("""
+                {
+                  "parent": "minecraft:block/block",
+                  "render_type": "minecraft:cutout",
+                  "elements": [
+                    {
+                      "from": [0, 0, 0], "to": [16, 16, 16],
+                      "faces": {
+                        "down": {"texture": "#bottom", "cullface": "down"},
+                        "up": {"texture": "#top", "cullface": "up"},
+                        "north": {"texture": "#side", "cullface": "north"},
+                        "south": {"texture": "#side", "cullface": "south"},
+                        "west": {"texture": "#side", "cullface": "west"},
+                        "east": {"texture": "#side", "cullface": "east"}
+                      }
+                    },
+                    {
+                      "from": [0, 15.95, 0], "to": [16, 15.95, 16],
+                      "faces": {"up": {"texture": "#inside"}}
+                    }
+                  ]
+                }
+                """).getAsJsonObject();
+    }
+
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.listElements()
@@ -267,8 +437,7 @@ public class GeoModelProvider extends ModelProvider {
      * {@code geostrata:block/ocean_spike_empty}, not a {@code builtin/entity} model).
      */
     private static boolean shipsStaticBlockState(Block block) {
-        return block instanceof reika.geostrata.block.BlockVent
-                || block instanceof reika.geostrata.block.BlockLavaRock
+        return block instanceof reika.geostrata.block.BlockLavaRock
                 || block instanceof reika.geostrata.block.BlockOceanSpike
                 // Icicle is a plain Block drawn by the geostrata:icicle DynamicBlockStateModel; keep its
                 // hand-authored blockstate (custom model type) instead of the generated cube stub.

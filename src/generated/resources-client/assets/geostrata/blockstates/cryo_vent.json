@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "nether=false": {
+      "model": "geostrata:block/vent_cryo"
+    },
+    "nether=true": {
+      "model": "geostrata:block/vent_cryo_nether"
+    }
+  }
+}

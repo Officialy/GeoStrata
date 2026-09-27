@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/schist_titanium_ore"
+    "base": "geostrata:block/schist_smooth",
+    "ore": "geostrata:block/ore_overlay/titanium",
+    "particle": "geostrata:block/schist_smooth",
+    "rock": "geostrata:block/ore/schist"
   }
 }

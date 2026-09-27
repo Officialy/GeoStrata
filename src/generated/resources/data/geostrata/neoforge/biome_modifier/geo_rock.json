@@ -1,6 +1,5 @@
 {
-  "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_overworld",
+  "type": "geostrata:all_biomes_features",
   "features": "geostrata:geo_rock",
   "step": "underground_decoration"
 }

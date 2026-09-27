@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:granite_cobble",
+    "geostrata:basalt_cobble",
+    "geostrata:marble_cobble",
+    "geostrata:limestone_cobble",
+    "geostrata:shale_cobble",
+    "geostrata:sandstone_cobble",
+    "geostrata:pumice_cobble",
+    "geostrata:slate_cobble",
+    "geostrata:gneiss_cobble",
+    "geostrata:peridotite_cobble",
+    "geostrata:quartz_cobble",
+    "geostrata:granulite_cobble",
+    "geostrata:hornfel_cobble",
+    "geostrata:migmatite_cobble",
+    "geostrata:schist_cobble",
+    "geostrata:onyx_cobble",
+    "geostrata:opal_cobble"
+  ]
+}

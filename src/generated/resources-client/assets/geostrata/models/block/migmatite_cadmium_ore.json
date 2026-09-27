@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/migmatite_cadmium_ore"
+    "base": "geostrata:block/migmatite_smooth",
+    "ore": "geostrata:block/ore_overlay/cadmium",
+    "particle": "geostrata:block/migmatite_smooth",
+    "rock": "geostrata:block/ore/migmatite"
   }
 }

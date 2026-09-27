@@ -1,0 +1,9 @@
+{
+  "parent": "geostrata:block/vent_gas",
+  "textures": {
+    "bottom": "minecraft:block/netherrack",
+    "particle": "minecraft:block/netherrack",
+    "side": "minecraft:block/netherrack",
+    "top": "geostrata:block/vent/nether/gas_top"
+  }
+}

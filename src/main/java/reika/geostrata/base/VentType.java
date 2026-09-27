@@ -170,8 +170,9 @@ public enum VentType implements StringRepresentable {
                     e.clearFire();
                 }
                 break;
-                //TODO: properly set custom data tag in 1.21
-                //e.serializeNBT().putLong(BlockVent.SMOKE_VENT_TAG, e.level().getGameTime());    break;
+            case SMOKE:
+                e.getPersistentData().putLong(BlockVent.SMOKE_VENT_TAG, e.level().getGameTime());
+                break;
             case GAS:
                 e.addEffect(new MobEffectInstance(MobEffects.POISON, 20 + BlockEntityVent.rand.nextInt(200), BlockEntityVent.rand.nextInt(4) == 0 ? 1 : 0));
                 break;

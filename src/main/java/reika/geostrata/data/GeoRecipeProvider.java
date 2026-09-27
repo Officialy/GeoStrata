@@ -30,8 +30,8 @@ import reika.geostrata.registry.RockTypes;
  *
  * <p>Per rock type: the decorative shape matrix (all derived from SMOOTH and BRICK), then per shape
  * the smelt-back-to-smooth, slab, stair (both mirror layouts) and slab-to-block recipes. Deco brick
- * blocks use their 2x2 material recipe (upstream's {@code BOXRECIPES} config picks a ring layout
- * instead, but datagen output is static — the default OFF state is emitted).</p>
+ * blocks select the original 2x2 or alternate ring recipe using a datapack condition tied to
+ * {@code BOXRECIPES}.</p>
  */
 public final class GeoRecipeProvider extends RecipeProvider.Runner {
 
@@ -77,6 +77,12 @@ public final class GeoRecipeProvider extends RecipeProvider.Runner {
                 perShape(type);
             }
             decoBricks();
+            shaped(RecipeCategory.BUILDING_BLOCKS, GeoBlocks.PARTIAL_BOUNDS.get(), 24)
+                    .define('B', Blocks.IRON_BARS).define('S', net.neoforged.neoforge.common.Tags.Items.STONES)
+                    .define('P', net.minecraft.tags.ItemTags.PLANKS).define('g', net.minecraft.world.item.Items.STICK)
+                    .pattern("BSB").pattern("SPS").pattern("gSg")
+                    .unlockedBy("has_iron_bars", has(Blocks.IRON_BARS))
+                    .save(out);
         }
 
         /** Look up the CONNECTED / CONNECTED2 block for a rock type (they aren't in blockMap). */
@@ -220,10 +226,11 @@ public final class GeoRecipeProvider extends RecipeProvider.Runner {
 
         /**
          * Deco brick blocks: {@code 4 * recipeMultiplier} from a 2x2 of their source material
-         * (upstream 1.7.10 multipliers). Nether quartz bricks are unported (see SURVIVAL_TODO).
+         * (upstream 1.7.10 multipliers).
          */
         private void decoBricks() {
             deco("obsidian_bricks", GeoBlocks.OBSIDIAN_BRICKS.get(), Blocks.OBSIDIAN, 1);
+            deco("quartz_bricks", GeoBlocks.QUARTZ_BRICKS.get(), Blocks.QUARTZ_BLOCK, 2);
             deco("glowstone_bricks", GeoBlocks.GLOWSTONE_BRICKS.get(), Blocks.GLOWSTONE, 2);
             deco("redstone_bricks", GeoBlocks.REDSTONE_BRICKS.get(), Blocks.REDSTONE_BLOCK, 4);
             deco("lapis_bricks", GeoBlocks.LAPIS_BRICKS.get(), Blocks.LAPIS_BLOCK, 4);
@@ -233,7 +240,12 @@ public final class GeoRecipeProvider extends RecipeProvider.Runner {
         private void deco(String id, ItemLike result, ItemLike material, int multiplier) {
             shaped(RecipeCategory.BUILDING_BLOCKS, result, 4 * multiplier)
                     .define('B', material).pattern("BB").pattern("BB")
-                    .unlockedBy("has_material", has(material)).save(out, key("deco/" + id));
+                    .unlockedBy("has_material", has(material))
+                    .save(out.withConditions(new BoxRecipeCondition(false)), key("deco/" + id));
+            shaped(RecipeCategory.BUILDING_BLOCKS, result, 8 * multiplier)
+                    .define('B', material).pattern("BBB").pattern("B B").pattern("BBB")
+                    .unlockedBy("has_material", has(material))
+                    .save(out.withConditions(new BoxRecipeCondition(true)), key("deco/" + id + "_box"));
         }
     }
 }

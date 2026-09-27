@@ -11,7 +11,9 @@ package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -53,7 +55,7 @@ public class BlockLavaRock extends Block {
     public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
     public BlockLavaRock() {
-        super(GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14));
+        super(GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0).setValue(CONNECTED_STATE, false));
     }
 
@@ -142,7 +144,12 @@ public class BlockLavaRock extends Block {
                 }
             }
         }
-        ReikaWorldHelper.temperatureEnvironment(world, pos, this.getEffectiveTemperature(height));
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        ReikaWorldHelper.temperatureEnvironment(level, pos,
+                this.getEffectiveTemperature(state.getValue(BLOCK_HEIGHT_STATE)));
     }
 
     @Override

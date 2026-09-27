@@ -1,0 +1,10 @@
+{
+  "gives": {
+    "count": 12,
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 2.1474836E9,
+  "wants": {
+    "id": "geostrata:lowtempdiamonds"
+  }
+}

@@ -43,6 +43,10 @@ public class BlockEntityOreVein extends BlockEntity {
         return 1 - Math.max(0, harvestsUsed) / (float) type.maximumHarvestCycles;
     }
 
+    public int getRemainingHarvests(VeinType type) {
+        return isInfinite() ? -1 : Math.max(0, type.maximumHarvestCycles - harvestsUsed);
+    }
+
     public ItemStack tryHarvest(VeinType type) {
         if (harvestsUsed >= type.maximumHarvestCycles)
             return ItemStack.EMPTY;

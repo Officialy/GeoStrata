@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/hornfel_sapphire_ore"
+    "base": "geostrata:block/hornfel_smooth",
+    "ore": "geostrata:block/ore_overlay/sapphire",
+    "particle": "geostrata:block/hornfel_smooth",
+    "rock": "geostrata:block/ore/hornfel"
   }
 }

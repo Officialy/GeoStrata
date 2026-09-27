@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "geostrata:box_recipes",
+      "boxed": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "minecraft:redstone_block"
+  },
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
+  "result": {
+    "count": 32,
+    "id": "geostrata:redstone_bricks"
+  }
+}

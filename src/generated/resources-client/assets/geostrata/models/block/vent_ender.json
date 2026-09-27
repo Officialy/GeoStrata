@@ -1,0 +1,10 @@
+{
+  "parent": "geostrata:block/vent_base",
+  "textures": {
+    "bottom": "minecraft:block/end_stone",
+    "inside": "geostrata:block/vent/ender_inside",
+    "particle": "minecraft:block/end_stone",
+    "side": "minecraft:block/end_stone",
+    "top": "geostrata:block/vent/ender_top"
+  }
+}

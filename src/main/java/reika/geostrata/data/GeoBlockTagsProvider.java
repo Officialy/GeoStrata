@@ -49,6 +49,7 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
         var pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
         var stone = tag(BlockTags.NEEDS_STONE_TOOL);
         var iron = tag(BlockTags.NEEDS_IRON_TOOL);
+        var diamond = tag(BlockTags.NEEDS_DIAMOND_TOOL);
         for (var holder : GeoBlocks.BLOCKS.getEntries()) {
             Block block = holder.get();
             if (!block.defaultBlockState().requiresCorrectToolForDrops()) {
@@ -62,12 +63,26 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
                         || block == GeoBlocks.VOID_OPALS.get()
                         || block instanceof reika.geostrata.block.BlockGlowCrystal
                         || block == GeoBlocks.RF_CRYSTAL.get()
-                        || block == GeoBlocks.RF_CRYSTAL_SEED.get())
+                        || block == GeoBlocks.RF_CRYSTAL_SEED.get()
+                        || block == GeoBlocks.PARTIAL_BOUNDS.get())
                     pickaxe.add(holder.getKey());
                 continue;
             }
             pickaxe.add(holder.getKey());
             ToolMaterial t = tier.get(block);
+            if (block == GeoBlocks.OBSIDIAN_BRICKS.get()) {
+                diamond.add(holder.getKey());
+                continue;
+            }
+            if (block == GeoBlocks.QUARTZ_BRICKS.get() || block == GeoBlocks.REDSTONE_BRICKS.get()
+                    || block == GeoBlocks.EMERALD_BRICKS.get()) {
+                iron.add(holder.getKey());
+                continue;
+            }
+            if (block == GeoBlocks.LAPIS_BRICKS.get()) {
+                stone.add(holder.getKey());
+                continue;
+            }
             // WOOD (or an unmapped correct-tool block) stays pickaxe-only — a wooden pickaxe drops it.
             if (t == ToolMaterial.IRON || t == ToolMaterial.DIAMOND || t == ToolMaterial.NETHERITE)
                 iron.add(holder.getKey());

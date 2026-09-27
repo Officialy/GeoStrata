@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/onyx_lithium_ore"
+    "base": "geostrata:block/onyx_smooth",
+    "ore": "geostrata:block/ore_overlay/lithium",
+    "particle": "geostrata:block/onyx_smooth",
+    "rock": "geostrata:block/ore/onyx"
   }
 }

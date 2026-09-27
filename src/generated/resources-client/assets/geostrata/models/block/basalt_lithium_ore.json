@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/basalt_lithium_ore"
+    "base": "geostrata:block/basalt_smooth",
+    "ore": "geostrata:block/ore_overlay/lithium",
+    "particle": "geostrata:block/basalt_smooth",
+    "rock": "geostrata:block/ore/basalt"
   }
 }

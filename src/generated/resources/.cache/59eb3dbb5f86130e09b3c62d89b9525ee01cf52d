@@ -1,4 +1,4 @@
-// 26.2	2026-08-09T03:08:51.9381973	Loot Tables
+// 26.2	2026-09-24T18:29:32.3669491	Loot Tables
 d6d13b53954ebcadcc51162dde49ed0b52b21eaa data/geostrata/loot_table/blocks/basalt_aluminium_ore.json
 84188a586e35df369c57f6222fdf2c935bb30588 data/geostrata/loot_table/blocks/basalt_antimony_ore.json
 6720c143cefce40e06aa0a12a228f77b8f2acec1 data/geostrata/loot_table/blocks/basalt_arsenic_ore.json
@@ -899,6 +899,7 @@ b2b0fde0e6920a97193c5a54b23a8101d7cce876 data/geostrata/loot_table/blocks/opal_t
 1788f76b4ae97d311b7b0f4b8ac3d4475cf8aa21 data/geostrata/loot_table/blocks/opal_vanadium_ore.json
 2ceac036387210a6992cba6e8bd422fbbf290e0e data/geostrata/loot_table/blocks/opal_zinc_ore.json
 3a57331cec90e3c266be1bb818ba0a28a08f1a08 data/geostrata/loot_table/blocks/orange_luminous_crystal.json
+d9853f482cb5f376b5a97165c483ee5008913ea4 data/geostrata/loot_table/blocks/partial_bounds.json
 de5ade612897705a812718304233c2df2d07e815 data/geostrata/loot_table/blocks/peridotite_aluminium_ore.json
 14637849834a3158dcb9a59e10399f81d89d02d0 data/geostrata/loot_table/blocks/peridotite_antimony_ore.json
 47634c46a01b4e77f1c52e8f5cfc99073295cf32 data/geostrata/loot_table/blocks/peridotite_arsenic_ore.json
@@ -1082,6 +1083,7 @@ c7fb75a3058d0d8008d35ec5cb24cee9d5b7c33a data/geostrata/loot_table/blocks/quartz
 e579df93d1ae9988308c2fb182c11ef89af04f08 data/geostrata/loot_table/blocks/quartz_arsenic_ore.json
 249c9a1782f3409e7786e2dc5aaf4d2117893f3c data/geostrata/loot_table/blocks/quartz_bismuth_ore.json
 20cda33dcd039717ddbcecdaba135e12ef8b6801 data/geostrata/loot_table/blocks/quartz_brick.json
+ddbf5de1c5153a3ea658ccf6c54b2b7bb536400e data/geostrata/loot_table/blocks/quartz_bricks.json
 a7dbe91518aa88b9523c07ea59d395b9da2d59fc data/geostrata/loot_table/blocks/quartz_brick_slab.json
 ca32f501f5bb0984964901afdd6afb066ccea6c2 data/geostrata/loot_table/blocks/quartz_brick_stair.json
 4e00ea4e5651888ccd1a0b0a4b1203f7d4e1796c data/geostrata/loot_table/blocks/quartz_cadmium_ore.json

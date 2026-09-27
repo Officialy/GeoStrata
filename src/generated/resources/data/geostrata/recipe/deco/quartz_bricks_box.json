@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "geostrata:box_recipes",
+      "boxed": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "minecraft:quartz_block"
+  },
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
+  "result": {
+    "count": 16,
+    "id": "geostrata:quartz_bricks"
+  }
+}

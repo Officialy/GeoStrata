@@ -1,7 +1,7 @@
-// 26.2	2026-07-13T21:18:16.6884462	GeoStrata Biome Modifiers
+// 26.2	2026-09-24T18:32:25.9319343	GeoStrata Biome Modifiers
 14d0d108c0813e4d2591b70100ecfdab5dff8651 data/geostrata/neoforge/biome_modifier/arctic_spire.json
 5798d5e3f16636b058c96d01ea7beda0de7d0a54 data/geostrata/neoforge/biome_modifier/creepvine.json
-2391d227fc8cfe034a642e021714245e7d5a7555 data/geostrata/neoforge/biome_modifier/geo_rock.json
+6c58105735b39fba6f7c4785a03885ab4eb83485 data/geostrata/neoforge/biome_modifier/geo_rock.json
 cdfc418a891b468289b945c7c157f72e836227ea data/geostrata/neoforge/biome_modifier/glowing_vine.json
 5c87ccb853fb5ca9c1561ec2ae8101abe5f2caed data/geostrata/neoforge/biome_modifier/glow_crystal.json
 e1523c815cdf335164df0587c92fc0406ad10166 data/geostrata/neoforge/biome_modifier/lava_rock.json
@@ -11,4 +11,6 @@ b6905edefa0a42f76e6ae740ff0b982eda8d3df4 data/geostrata/neoforge/biome_modifier/
 84c45c24cea59b14313bba1922fb74d495b8e43c data/geostrata/neoforge/biome_modifier/ore_vein_nether.json
 11f830bcca2a7fd01ddf61c01691f3f97ddd8b1e data/geostrata/neoforge/biome_modifier/rf_crystal.json
 a3db87fbb106c4251123acfeda3e75085091694b data/geostrata/neoforge/biome_modifier/vent.json
+a1009dd580ee1da3e7abcb4c958637c3cb7cfb39 data/geostrata/neoforge/biome_modifier/vent_end.json
+932952c29b768e7802a273bf2daf082a8ba13b0e data/geostrata/neoforge/biome_modifier/vent_nether.json
 ad73370270adaa14ec9ef44d34b540c46456d053 data/geostrata/neoforge/biome_modifier/void_opal.json

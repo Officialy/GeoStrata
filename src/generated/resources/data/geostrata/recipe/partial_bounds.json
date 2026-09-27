@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "minecraft:iron_bars",
+    "P": "#minecraft:planks",
+    "S": "#c:stones",
+    "g": "minecraft:stick"
+  },
+  "pattern": [
+    "BSB",
+    "SPS",
+    "gSg"
+  ],
+  "result": {
+    "count": 24,
+    "id": "geostrata:partial_bounds"
+  }
+}

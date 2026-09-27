@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "geostrata:block/ore_layered",
   "textures": {
-    "all": "geostrata:block/gneiss_topaz_ore"
+    "base": "geostrata:block/gneiss_smooth",
+    "ore": "geostrata:block/ore_overlay/topaz",
+    "particle": "geostrata:block/gneiss_smooth",
+    "rock": "geostrata:block/ore/gneiss"
   }
 }

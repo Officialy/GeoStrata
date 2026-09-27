@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "geostrata:box_recipes",
+      "boxed": false
+    }
+  ],
   "parent": "minecraft:recipes/root",
   "criteria": {
     "has_material": {

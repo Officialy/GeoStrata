@@ -13,12 +13,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingBreatheEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.bus.api.Event;
 import reika.geostrata.block.BlockGlowCrystal;
 import reika.geostrata.block.BlockVent;
@@ -100,13 +103,35 @@ public class GeoEvents {
         }
     }
 
-    public static void smokeVentAir(LivingDamageEvent.Pre evt) {
-        if (evt.getSource() == evt.getEntity().damageSources().inWall()) { // todo: event source logic
-            long last = evt.getEntity().getPersistentData().getLongOr(BlockVent.SMOKE_VENT_TAG, 0L);
-            if (evt.getEntity().level().getGameTime() - last < 20) {
-                evt.setNewDamage(0); // Cancel the damage
-            }
+    /** The old DragonAPI air event's ALLOW result meant air was consumed, even on land. */
+    public static void specialAir(LivingBreatheEvent evt) {
+        var entity = evt.getEntity();
+        if (entity instanceof Player && isExposedArctic(entity.blockPosition(), entity.level(), 10)
+                && entity.getAirSupply() >= 40) {
+            evt.setCanBreathe(false);
+            evt.setConsumeAirAmount(1);
+            return;
         }
+        var data = entity.getPersistentData();
+        if (data.contains(BlockVent.SMOKE_VENT_TAG)
+                && entity.level().getGameTime() - data.getLongOr(BlockVent.SMOKE_VENT_TAG, 0L) <= 8) {
+            evt.setCanBreathe(false);
+            evt.setConsumeAirAmount(1);
+        }
+    }
+
+    public static void arcticCold(PlayerTickEvent.Pre evt) {
+        Player player = evt.getEntity();
+        if (player.level().isClientSide() || !isExposedArctic(player.blockPosition(), player.level(), 1)
+                || player.isUnderWater()) return;
+        boolean snowing = player.level().isRainingAt(player.blockPosition());
+        if (player.getAirSupply() < (snowing ? 150 : 50))
+            player.hurt(player.damageSources().freeze(), snowing ? 1 : 2);
+    }
+
+    private static boolean isExposedArctic(BlockPos pos, net.minecraft.world.level.Level level, int minSkyLight) {
+        return level.getBiome(pos).unwrapKey().map(reika.geostrata.level.GeoBiomes.ARCTIC_SPIRES::equals).orElse(false)
+                && level.getBrightness(LightLayer.SKY, pos) >= minSkyLight;
     }
 
     /**

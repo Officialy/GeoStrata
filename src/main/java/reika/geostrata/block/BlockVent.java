@@ -19,6 +19,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.item.context.BlockPlaceContext;
 
 import net.minecraft.world.level.redstone.Orientation;
 import reika.dragonapi.ModList;
@@ -32,12 +35,24 @@ import reika.geostrata.registry.GeoBlockEntities;
 
 public class BlockVent extends Block implements EntityBlock {
 
+    public static final BooleanProperty NETHER = BooleanProperty.create("nether");
     public final VentType type;
     public static final String SMOKE_VENT_TAG = "geosmoked";
 
     public BlockVent(Properties properties, VentType type) {
         super(properties.noOcclusion().randomTicks());
         this.type = type;
+        registerDefaultState(stateDefinition.any().setValue(NETHER, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(NETHER);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(NETHER, context.getLevel().dimension() == Level.NETHER);
     }
 
     @Override
@@ -47,7 +62,7 @@ public class BlockVent extends Block implements EntityBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
-        BlockEntityVent te = (BlockEntityVent) level.getBlockEntity(pos);
+        if (!(level.getBlockEntity(pos) instanceof BlockEntityVent te)) return;
         if (!level.hasNeighborSignal(pos) && te.canFire())
             te.activate();
 //        GeoStrata.LOGGER.info(te.canFire());
@@ -77,15 +92,14 @@ public class BlockVent extends Block implements EntityBlock {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
-        var te = (BlockEntityVent) level.getBlockEntity(pos);
-        var ventType = this != null ? te.getVentType() : VentType.STEAM; //Default to steam just incase ventType is null
+        if (!(level.getBlockEntity(pos) instanceof BlockEntityVent te)) return;
+        var ventType = te.getVentType();
 
 //        GeoStrata.LOGGER.info("Vent update timer: "+ te.activeTimer);
         ventParticles(te.isActive(), te, ventType, level, pos, rand);
 //        ventSounds(te.isActive(), te.activeTimer, state, te, ventType, level, pos, rand);
 //        GeoStrata.LOGGER.info(Mth.roundToward(te.activeTimer, 2));
         ventSounds(te.isActive(), te.activeTimer, state, te, ventType, level, pos, rand);
-        ventSounds(te.isActive(), Mth.roundToward(te.activeTimer, 2), state, te, ventType, level, pos, rand);
     }
 
     public void ventParticles(boolean isActive, BlockEntityVent te, VentType ventType, Level level, BlockPos pos, RandomSource rand) {
@@ -143,15 +157,16 @@ public class BlockVent extends Block implements EntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null : ((level1, pPos, pState1, pBlockEntity) -> {
-                ((BlockEntityVent) pBlockEntity).updateEntity(level1, pPos);
-        });
+        return level.isClientSide()
+                ? (level1, pPos, pState1, pBlockEntity) -> ((BlockEntityVent) pBlockEntity).tickClient()
+                : (level1, pPos, pState1, pBlockEntity) -> ((BlockEntityVent) pBlockEntity).updateEntity(level1, pPos);
     }
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, Orientation orientation, boolean bool) {
-        BlockEntityVent b = (BlockEntityVent) level.getBlockEntity(pos);
-        b.checkPlug(pos, level);
+        if (level.isClientSide() || !(level.getBlockEntity(pos) instanceof BlockEntityVent vent)) return;
+        if (block != this && level.hasNeighborSignal(pos) && vent.canFire()) vent.activate();
+        vent.checkPlug(pos, level);
     }
 
     // NOTE: no canHarvestBlock override. It used to return false, which suppressed ALL drops in

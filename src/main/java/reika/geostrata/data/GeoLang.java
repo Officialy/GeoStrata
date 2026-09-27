@@ -5,6 +5,8 @@ import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
+import reika.geostrata.registry.GeoItems;
+import reika.geostrata.base.VentType;
 
 import java.util.Locale;
 
@@ -28,6 +30,24 @@ public class GeoLang extends LanguageProvider {
         add("tab.geostrata_ores", "GeoStrata Ores");
         add("tab.geostrata_stairs", "GeoStrata Stairs");
         add("tab.geostrata_slabs", "GeoStrata Slabs");
+        add("config.jade.plugin_geostrata.survival_data", "GeoStrata Details");
+        add("jade.geostrata.rock_properties", "%sR / %sH");
+        add("jade.geostrata.depleted", "Depleted");
+        add("jade.geostrata.potential_yields", "Potential Yields:");
+        add("jade.geostrata.yield", "%s %s%%");
+        add("jade.geostrata.inexhaustible", "Inexhaustible");
+        add("jade.geostrata.remaining", "%s Items Remaining");
+        add("jade.geostrata.no_root", "[No Root Found]");
+        add("jade.geostrata.energy", "%s / %s RF");
+        add("jade.geostrata.inactive", "Inactive");
+        add("jade.geostrata.vent", "%s Vent: %s");
+        add("jade.geostrata.erupting", "Erupting");
+        add("jade.geostrata.dormant", "Dormant");
+        for (VentType type : VentType.values())
+            add("jade.geostrata.vent_type." + type.getName(), prettify(type.getName()));
+
+        for (int i = 0; i < 4; i++)
+            add("item.geostrata.lava_rock_item_" + i, "Lava Rock");
 
         GeoBlocks.BLOCKS.getEntries().forEach(holder ->
                 addBlock(holder, prettify(holder.getId().getPath())));
@@ -37,7 +57,8 @@ public class GeoLang extends LanguageProvider {
         // key addBlock already emitted — so addItem would throw on duplicate. Filter them out.
         GeoBlocks.ITEMS.getEntries().forEach(holder -> {
             if (holder.get() instanceof BlockItem) return;
-            addItem(holder, prettify(holder.getId().getPath()));
+            addItem(holder, holder.get() == GeoItems.LOW_TEMP_DIAMONDS.get()
+                    ? "Low-Temperature Diamonds" : prettify(holder.getId().getPath()));
         });
     }
 

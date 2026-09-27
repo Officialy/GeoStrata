@@ -190,7 +190,7 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
         return count;
     }
 
-    /** Hides a few icy ore veins in the spire core wall (legacy: 3-8, exactly one exposed face). */
+    /** Hides a few icy ore veins in the spire core wall (legacy: 3-9, exactly one exposed face). */
     private void placeIceVeins(WorldGenLevel world, ArcticSpire sp, int baseY, Random jrand) {
         ArrayList<BlockPos> veinAttempts = new ArrayList<>(sp.core);
         int veins = 0;
