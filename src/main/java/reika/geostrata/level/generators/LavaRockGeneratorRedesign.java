@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Fluids;
 import reika.dragonapi.instantiable.data.blockstruct.BlockArray;
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
@@ -22,12 +20,19 @@ import reika.geostrata.GeoStrata;
 import reika.geostrata.block.BlockLavaRock;
 import reika.geostrata.registry.GeoBlocks;
 
-public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration> {
+public class LavaRockGeneratorRedesign implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<LavaRockGeneratorRedesign> CODEC =
+            com.mojang.serialization.MapCodec.unit(LavaRockGeneratorRedesign::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<LavaRockGeneratorRedesign> codec() {
+        return CODEC;
+    }
 
     private SimplexNoiseGenerator lavaRockThickness;
 
     public LavaRockGeneratorRedesign() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     private void seedNoise(WorldGenLevel world) {
@@ -38,11 +43,10 @@ public class LavaRockGeneratorRedesign extends Feature<NoneFeatureConfiguration>
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
-        var world = context.level();
 
         this.seedNoise(world);
 

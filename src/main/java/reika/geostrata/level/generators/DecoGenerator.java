@@ -10,10 +10,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluids;
 import reika.dragonapi.libraries.java.ReikaRandomHelper;
@@ -24,25 +21,30 @@ import reika.geostrata.registry.GeoOptions;
 
 import java.util.List;
 
-public class DecoGenerator extends Feature<NoneFeatureConfiguration> {
+public class DecoGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<DecoGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(DecoGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<DecoGenerator> codec() {
+        return CODEC;
+    }
 
     private static final int BASE_CHANCE = (int) (1 / GeoOptions.getDecoDensity());
 
     public DecoGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
-    public static PlacedFeature placed(ConfiguredFeature<NoneFeatureConfiguration, ?> f) {
+    public static PlacedFeature placed(Feature f) {
         return new PlacedFeature(Holder.direct(f), List.of(PlacementUtils.isEmpty()));
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
-        var world = context.level();
         chunkX *= 16;
         chunkZ *= 16;
 //        GeoStrata.LOGGER.info("chunkX: " + chunkX + " chunkZ: " + chunkZ);

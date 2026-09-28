@@ -20,8 +20,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import reika.dragonapi.libraries.mathsci.ReikaMathLibrary;
 import reika.dragonapi.libraries.mathsci.ReikaPhysicsHelper;
@@ -32,17 +30,22 @@ import reika.geostrata.registry.GeoBlocks;
  * open void of the End (requires a clear air column, so they hang between the islands).
  * 1.7.10-faithful; only the ChromatiCraft end-island-bias interop is gated out (CHROMA-PORT).
  */
-public class VoidOpalGenerator extends Feature<NoneFeatureConfiguration> {
+public class VoidOpalGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<VoidOpalGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(VoidOpalGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<VoidOpalGenerator> codec() {
+        return CODEC;
+    }
 
     public VoidOpalGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var world = context.level();
-        var chunk = world.getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         int chunkX = chunk.getPos().x();
         int chunkZ = chunk.getPos().z();
 

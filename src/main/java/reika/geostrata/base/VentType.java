@@ -11,7 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -163,9 +163,9 @@ public enum VentType implements StringRepresentable {
     public void applyEntityEffect(LivingEntity e) {
         switch (this) {
             case WATER:
-                if (e instanceof EnderMan) {
+                if (e instanceof Enderman) {
                     e.hurt(e.damageSources().drown(), 1);
-                    e.randomTeleport(1, 1, 1, true);
+                    e.randomTeleport(1, 1, 1, true, state -> false);
                 } else {
                     e.clearFire();
                 }

@@ -1,0 +1,5 @@
+// 26.2	2026-09-24T18:29:32.3644498	Tags for minecraft:block mod id geostrata
+b06d0f098175d5638bcee598cf8ec4368358f320 data/minecraft/tags/block/mineable/pickaxe.json
+acc6f9f674526faecf6ffd4e8785c0e99f2c128f data/minecraft/tags/block/needs_diamond_tool.json
+8576d20a290a9e2c28df15f9056728d229ce159a data/minecraft/tags/block/needs_iron_tool.json
+75d2f6003e40dbdc233fe0371319fa0c3040f2f1 data/minecraft/tags/block/needs_stone_tool.json

@@ -38,7 +38,7 @@ public class BlockGlowCrystal extends HalfTransparentBlock {
 
     public BlockGlowCrystal(int colorIndex) {
         super(GeoBlocks.blockProperties().mapColor(mapColor(colorIndex)).strength(0.8F, 5)
-                .friction(0.98F).isViewBlocking((state, getter, pos) -> false).noOcclusion()
+                .friction(0.98F).isViewBlocking((state, getter, pos, nearPlane) -> false).noOcclusion()
                 .isValidSpawn((state, getter, pos, entityType) -> false));
         if (colorIndex < 0 || colorIndex >= HUE_RANGES.length) {
             throw new IllegalArgumentException("Invalid luminous crystal colour index " + colorIndex);

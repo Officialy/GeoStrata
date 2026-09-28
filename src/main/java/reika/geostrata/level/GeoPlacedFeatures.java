@@ -1,66 +1,40 @@
 package reika.geostrata.level;
 
-import net.minecraft.core.Holder;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import reika.geostrata.GeoStrata;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import reika.geostrata.level.generators.*;
-
-import java.util.Collections;
-import java.util.List;
 
 import static reika.geostrata.GeoStrata.MODID;
 
-@EventBusSubscriber(modid = GeoStrata.MODID)
-public class GeoPlacedFeatures {
+/** Codecs for GeoStrata's datapack feature instances. */
+public final class GeoPlacedFeatures {
 
-    public static BlockPredicate ONLY_IN_WATER_PREDICATE = BlockPredicate.matchesBlocks(Collections.singletonList(Blocks.WATER));
-    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MODID);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> OCEAN_SPIKE_FEATURE = FEATURES.register("ocean_spike", DecoGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GLOW_CRYSTAL_FEATURE = FEATURES.register("glow_crystal", GlowCrystalGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> LAVA_ROCK_FEATURE = FEATURES.register("lava_rock", LavaRockGeneratorRedesign::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> VENT_FEATURE = FEATURES.register("vent", VentGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GEO_ROCK_FEATURE = FEATURES.register("geo_rock", RockGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> RF_CRYSTAL_FEATURE = FEATURES.register("rf_crystal", RFCrystalGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GLOWING_VINE_FEATURE = FEATURES.register("glowing_vine", GlowingVineGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> VOID_OPAL_FEATURE = FEATURES.register("void_opal", VoidOpalGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ORE_VEIN_FEATURE = FEATURES.register("ore_vein", OreVeinGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ARCTIC_SPIRE_FEATURE = FEATURES.register("arctic_spire", ArcticSpiresGenerator::new);
-    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CREEPVINE_FEATURE = FEATURES.register("creepvine", CreepvineGenerator::new);
+    public static final DeferredRegister<MapCodec<? extends Feature>> FEATURES =
+            DeferredRegister.create(Registries.FEATURE_TYPE, MODID);
 
-    public static PlacedFeature OCEAN_SPIKE;
-    public static PlacedFeature GLOW_CRYSTAL;
-    public static PlacedFeature LAVA_ROCK;
-    public static PlacedFeature VENT;
-    public static PlacedFeature GEO_ROCK;
-    public static PlacedFeature RF_CRYSTAL;
-    public static PlacedFeature GLOWING_VINE;
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<DecoGenerator>> OCEAN_SPIKE_FEATURE =
+            FEATURES.register("ocean_spike", () -> DecoGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<GlowCrystalGenerator>> GLOW_CRYSTAL_FEATURE =
+            FEATURES.register("glow_crystal", () -> GlowCrystalGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<LavaRockGeneratorRedesign>> LAVA_ROCK_FEATURE =
+            FEATURES.register("lava_rock", () -> LavaRockGeneratorRedesign.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<VentGenerator>> VENT_FEATURE =
+            FEATURES.register("vent", () -> VentGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<RFCrystalGenerator>> RF_CRYSTAL_FEATURE =
+            FEATURES.register("rf_crystal", () -> RFCrystalGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<GlowingVineGenerator>> GLOWING_VINE_FEATURE =
+            FEATURES.register("glowing_vine", () -> GlowingVineGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<VoidOpalGenerator>> VOID_OPAL_FEATURE =
+            FEATURES.register("void_opal", () -> VoidOpalGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<OreVeinGenerator>> ORE_VEIN_FEATURE =
+            FEATURES.register("ore_vein", () -> OreVeinGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<ArcticSpiresGenerator>> ARCTIC_SPIRE_FEATURE =
+            FEATURES.register("arctic_spire", () -> ArcticSpiresGenerator.CODEC);
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<CreepvineGenerator>> CREEPVINE_FEATURE =
+            FEATURES.register("creepvine", () -> CreepvineGenerator.CODEC);
 
-    public static void registerConfiguredFeatures() {
-        NoneFeatureConfiguration none = new NoneFeatureConfiguration();
-
-        OCEAN_SPIKE = registerPlacedFeature("ocean_spike", new ConfiguredFeature<>(OCEAN_SPIKE_FEATURE.get(), none));
-        GLOW_CRYSTAL = registerPlacedFeature("glow_crystal", new ConfiguredFeature<>(GLOW_CRYSTAL_FEATURE.get(), none));
-        LAVA_ROCK = registerPlacedFeature("lava_rock", new ConfiguredFeature<>(LAVA_ROCK_FEATURE.get(), none));
-        VENT = registerPlacedFeature("vent", new ConfiguredFeature<>(VENT_FEATURE.get(), none));
-        GEO_ROCK = registerPlacedFeature("geo_rock", new ConfiguredFeature<>(GEO_ROCK_FEATURE.get(), none));
-        RF_CRYSTAL = registerPlacedFeature("rf_crystal", new ConfiguredFeature<>(RF_CRYSTAL_FEATURE.get(), none));
-        GLOWING_VINE = registerPlacedFeature("glowing_vine", new ConfiguredFeature<>(GLOWING_VINE_FEATURE.get(), none));
-    }
-
-    private static <C extends FeatureConfiguration, F extends Feature<C>> PlacedFeature registerPlacedFeature(String registryName, ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
-        return new PlacedFeature(Holder.direct(feature), List.copyOf(List.of(placementModifiers)));
-    }
-
+    private GeoPlacedFeatures() {}
 }

@@ -120,7 +120,7 @@ public class IcicleModel implements DynamicBlockStateModel {
             Vector3f to = new Vector3f(px + sx, py + sy, pz + sz);
             for (Direction d : Direction.values()) {
                 CuboidFace cf = new CuboidFace(d, CuboidFace.NO_TINT, "", null, Quadrant.R0);
-                b.addUnculledFace(FaceBakery.bakeQuad(baker, from, to, cf, mat, d, BlockModelRotation.IDENTITY, null, true, 0));
+                b.addUnculledFace(FaceBakery.bakeQuad(baker, from, to, cf, mat, d, BlockModelRotation.IDENTITY, null, null, 0));
             }
         }
 

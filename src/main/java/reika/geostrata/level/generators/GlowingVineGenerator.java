@@ -13,8 +13,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import reika.dragonapi.ModList;
 import reika.dragonapi.libraries.java.ReikaJavaLibrary;
@@ -28,11 +26,18 @@ import reika.geostrata.registry.GeoOptions;
 
 import java.util.HashSet;
 
-public class GlowingVineGenerator extends Feature<NoneFeatureConfiguration> {
+public class GlowingVineGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<GlowingVineGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(GlowingVineGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<GlowingVineGenerator> codec() {
+        return CODEC;
+    }
     private static final int PER_CHUNK = getVineAttemptsPerChunk(); //calls per chunk; vast majority fail
 
     public GlowingVineGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     private static int getVineAttemptsPerChunk() {
@@ -40,13 +45,11 @@ public class GlowingVineGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
 
-        var world = context.level();
         chunkX *= 16;
         chunkZ *= 16;
         boolean placed = false;

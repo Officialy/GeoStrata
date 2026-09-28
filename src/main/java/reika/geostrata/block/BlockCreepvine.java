@@ -127,7 +127,7 @@ public class BlockCreepvine extends Block {
                 level.setBlock(pos, state.setValue(PIECE, Pieces.list[p.ordinal() - 1]), 3);
                 ItemStack seeds = new ItemStack(GeoItems.CREEPVINE_SEEDS.get());
                 if (!player.getInventory().add(seeds))
-                    player.drop(seeds, false);
+                    player.drop(seeds, false, net.minecraft.util.Prediction.SERVER_ONLY);
                 level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5F, 2F);
             }
             return InteractionResult.SUCCESS;

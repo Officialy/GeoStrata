@@ -157,7 +157,6 @@ public class GeoStrata extends DragonAPIMod {
         // Block DeferredRegister has now fired — every (shape, type) lambda has populated
         // RockShapes.blockMap, so the shape→block reverse-lookup table can be built safely.
         RockShapes.initalize();
-        GeoPlacedFeatures.registerConfiguredFeatures();
         // TerraBlender region registration must happen on the main thread during common setup.
         event.enqueueWork(() -> terrablender.api.Regions.register(new reika.geostrata.level.GeoRegion()));
         DonatorController.instance.registerMod(this, DonatorController.reikaURL);

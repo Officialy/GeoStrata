@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import net.minecraft.world.level.material.MapColor;
 import reika.dragonapi.libraries.level.ReikaBlockHelper;
@@ -24,21 +22,26 @@ import reika.geostrata.registry.GeoOptions;
 
 import java.util.HashSet;
 
-public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
+public class GlowCrystalGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<GlowCrystalGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(GlowCrystalGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<GlowCrystalGenerator> codec() {
+        return CODEC;
+    }
 
     private static final int BASE_CHANCE = (int) (96 / GeoOptions.getCrystalDensity());
 
     public GlowCrystalGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
-        var world = context.level();
 
         if (/*world.getWorldInfo().getTerrainType() != LevelType.FLAT &&*/ world.getLevel().dimension() != Level.END && random.nextInt(BASE_CHANCE) == 0) {
             chunkX *= 16;
@@ -177,10 +180,10 @@ public class GlowCrystalGenerator extends Feature<NoneFeatureConfiguration> {
                 at.isReplaceableOreGen(world, pos, Blocks.DIRT) || at.isReplaceableOreGen(world, pos, Blocks.GRASS) ||
                 at.isReplaceableOreGen(world, pos, Blocks.GRAVEL) || at.isReplaceableOreGen(world, pos, Blocks.ICE) ||
                 at.isReplaceableOreGen(world, pos, Blocks.SNOW) ||*/ at.getBlock() instanceof BlockGlowCrystal ||
-                ReikaWorldHelper.softBlocks(world, new BlockPos(pos)) || ReikaBlockHelper.isLeaf(world, new BlockPos(pos)) ||
+                ReikaWorldHelper.softBlocks(world, pos) || ReikaBlockHelper.isLeaf(world, pos) ||
                 /*at.canBeReplacedByLeaves(world, pos) || */ at.getMapColor(world, pos) == MapColor.PLANT) {
 
-            world.setBlock(new BlockPos(pos), b, 3);
+            world.setBlock(pos, b, 3);
             world.sendBlockUpdated(pos, at, at, 3);
         }
     }

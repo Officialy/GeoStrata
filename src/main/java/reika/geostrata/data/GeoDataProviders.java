@@ -1,5 +1,7 @@
 package reika.geostrata.data;
 
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -25,9 +27,10 @@ public final class GeoDataProviders {
         event.createProvider(GeoBlockTagsProvider::new);
         event.createProvider(GeoItemTagsProvider::new);
         event.createProvider(GeoTradeTagsProvider::new);
-        event.createProvider(GeoLootProvider::new);
-        event.createDatapackRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
+        event.createReloadableRegistryObjects(new RegistrySetBuilder()
+                .add(GeoRecipeProvider.bootstrap())
+                .add(Registries.LOOT_TABLE, new GeoLootProvider()));
+        event.createWorldRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
         event.createProvider(GeoBiomeModifierProvider::new);
-        event.createProvider(GeoRecipeProvider::new);
     }
 }

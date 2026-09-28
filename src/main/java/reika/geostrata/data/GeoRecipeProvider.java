@@ -2,10 +2,10 @@ package reika.geostrata.data;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.core.registries.MultiRegistryBootstrap;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -33,29 +33,21 @@ import reika.geostrata.registry.RockTypes;
  * blocks select the original 2x2 or alternate ring recipe using a datapack condition tied to
  * {@code BOXRECIPES}.</p>
  */
-public final class GeoRecipeProvider extends RecipeProvider.Runner {
+public final class GeoRecipeProvider {
 
-    public GeoRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries);
-    }
+    private GeoRecipeProvider() {}
 
-    @Override
-    public String getName() {
-        return "GeoStrata Recipes";
-    }
-
-    @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput out) {
-        return new Recipes(registries, out);
+    public static MultiRegistryBootstrap bootstrap() {
+        return RecipeProvider.asBootstrap(Recipes::new);
     }
 
     private static final class Recipes extends RecipeProvider {
 
         private final RecipeOutput out;
 
-        Recipes(HolderLookup.Provider registries, RecipeOutput out) {
-            super(registries, out);
-            this.out = out;
+        Recipes(BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+            super(recipes, advancements);
+            this.out = this.output;
         }
 
         private static String key(String s) {

@@ -18,8 +18,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import reika.dragonapi.instantiable.math.noise.SimplexNoiseGenerator;
 import reika.dragonapi.libraries.level.ReikaBiomeHelper;
@@ -31,20 +29,25 @@ import reika.geostrata.block.BlockCreepvine.Pieces;
  * Fertile stalks (60%) carry a full seed core. The 1.7.10 BiomeKelpForest biome painting over
  * grove areas is unported (GEO-BIOME-PORT); the noise patches provide the same clustering.
  */
-public class CreepvineGenerator extends Feature<NoneFeatureConfiguration> {
+public class CreepvineGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<CreepvineGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(CreepvineGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<CreepvineGenerator> codec() {
+        return CODEC;
+    }
 
     private SimplexNoiseGenerator mainNoise;
     private long seed = -1;
 
     public CreepvineGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var world = context.level();
-        var chunk = world.getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         int chunkX = chunk.getPos().x() * 16;
         int chunkZ = chunk.getPos().z() * 16;
 

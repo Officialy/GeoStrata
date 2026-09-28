@@ -5,8 +5,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import reika.dragonapi.auxiliary.trackers.WorldgenProfiler;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.api.RockGenerationPatterns;
@@ -17,12 +15,20 @@ import reika.geostrata.registry.RockTypes;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class RockGenerator extends Feature<NoneFeatureConfiguration> {
+public class RockGenerator implements Feature {
+
+    public static final RockGenerator instance = new RockGenerator();
+
+    public static final com.mojang.serialization.MapCodec<RockGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(() -> instance);
+
+    @Override
+    public com.mojang.serialization.MapCodec<RockGenerator> codec() {
+        return CODEC;
+    }
 
     public static final int BASE_GEN = 24;
     public static final int VEIN_SIZE = 32;
-
-    public static final RockGenerator instance = new RockGenerator();
 
     private final int oreControl;
 
@@ -43,7 +49,6 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     public RockGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
         oreControl = GeoOptions.GEOORE.getValue();
 
         for (int i = 0; i < parents.length; i++) {
@@ -63,15 +68,15 @@ public class RockGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
         if (generators.isEmpty()) {
             return false;
         }
-        if (this.canGenInDimension(context.level().getLevel().dimension())) {
-            this.generateRock(context.level(), context.random(), chunkX, chunkZ);
+        if (this.canGenInDimension(world.getLevel().dimension())) {
+            this.generateRock(world, random, chunkX, chunkZ);
             return true;
         }
         return false;

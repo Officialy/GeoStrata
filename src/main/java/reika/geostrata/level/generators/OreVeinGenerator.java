@@ -16,8 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import reika.dragonapi.libraries.java.ReikaRandomHelper;
 import reika.geostrata.block.BlockOreVein.VeinType;
@@ -30,17 +28,22 @@ import reika.geostrata.registry.GeoBlocks;
  * Icy veins are placed by the arctic spire generator, not here (as legacy). The 1.7.10
  * ChromatiCraft end-distance interop is gated out (CHROMA-PORT).
  */
-public class OreVeinGenerator extends Feature<NoneFeatureConfiguration> {
+public class OreVeinGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<OreVeinGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(OreVeinGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<OreVeinGenerator> codec() {
+        return CODEC;
+    }
 
     public OreVeinGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var world = context.level();
-        var chunk = world.getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         //Legacy 1.7.10 added a +8 populate-phase offset here: its DecoGenerator ran via DragonAPI
         //retrogen, after the surrounding 2x2 chunk block was already built, so reaching +8..+31 blocks
         //past the chunk corner was safe. Modern per-chunk feature gen enforces a distance-1 read/write

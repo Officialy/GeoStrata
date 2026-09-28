@@ -118,7 +118,7 @@ public class BlockOreVein extends Block implements EntityBlock {
             ItemStack get = te.tryHarvest(type);
             if (!get.isEmpty()) {
                 if (!player.getInventory().add(get))
-                    player.drop(get, false);
+                    player.drop(get, false, net.minecraft.util.Prediction.SERVER_ONLY);
                 level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5F, 1F);
             }
         }

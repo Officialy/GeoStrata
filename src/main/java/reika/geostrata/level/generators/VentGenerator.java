@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import reika.dragonapi.instantiable.data.Proportionality;
 import reika.dragonapi.instantiable.data.WeightedRandom;
 import reika.dragonapi.libraries.java.ReikaRandomHelper;
@@ -21,7 +19,15 @@ import reika.geostrata.block.BlockVent;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.GeoOptions;
 
-public class VentGenerator extends Feature<NoneFeatureConfiguration> {
+public class VentGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<VentGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(VentGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<VentGenerator> codec() {
+        return CODEC;
+    }
 
     private static final int PER_CHUNK = getVentAttemptsPerChunk(); //calls per chunk; vast majority fail
 
@@ -29,7 +35,6 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
     private final WeightedRandom<VentGen> ventTypesNether = new WeightedRandom<>();
 
     public VentGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
         for (VentType v : VentType.list) {
             if (v.canGenerateInOverworld())
                 ventTypes.addDynamicEntry(new VentGen(v));
@@ -53,12 +58,10 @@ public class VentGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
-        var world = context.level();
 
 //        if (world.getWorldInfo().getTerrainType() != LevelType.FLAT) {
         chunkX *= 16;

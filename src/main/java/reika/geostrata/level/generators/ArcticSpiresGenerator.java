@@ -28,8 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import reika.dragonapi.instantiable.data.immutable.DecimalPosition;
 import reika.dragonapi.instantiable.math.LobulatedCurve;
@@ -52,7 +50,15 @@ import reika.geostrata.registry.GeoBlocks;
  * painting and the ArcticSpireGenerationEvent API hook are unported (GEO-BIOME-PORT /
  * CHROMA-PORT); 1.7.10's ice plains/mountains map to the snowy-plains family below.</p>
  */
-public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
+public class ArcticSpiresGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<ArcticSpiresGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(ArcticSpiresGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<ArcticSpiresGenerator> codec() {
+        return CODEC;
+    }
 
     private long seed = -1;
     private SimplexNoiseGenerator mainNoise;
@@ -63,7 +69,6 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
     private DecimalPosition currentClosestZone;
 
     public ArcticSpiresGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
     private static boolean isSpireBiome(WorldGenLevel world, BlockPos pos) {
@@ -78,10 +83,8 @@ public class ArcticSpiresGenerator extends Feature<NoneFeatureConfiguration> {
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var world = context.level();
-        var chunk = world.getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         int chunkX = chunk.getPos().x() * 16;
         int chunkZ = chunk.getPos().z() * 16;
         int x = chunkX + random.nextInt(16);

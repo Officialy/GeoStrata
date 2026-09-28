@@ -1,10 +1,9 @@
 package reika.geostrata.data;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -17,10 +16,9 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchBlock;
 import net.minecraft.advancements.predicates.StatePropertiesPredicate;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.OreTypes;
@@ -29,7 +27,6 @@ import reika.geostrata.registry.RockTypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * 26.1 block loot-table data provider for GeoStrata.
@@ -42,16 +39,16 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class GeoLootProvider extends LootTableProvider {
 
-    public GeoLootProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, Set.of(), List.of(
+    public GeoLootProvider() {
+        super(Set.of(), List.of(
                 new SubProviderEntry(Blocks::new, LootContextParamSets.BLOCK)
-        ), registries);
+        ));
     }
 
     private static final class Blocks extends BlockLootSubProvider {
 
-        Blocks(HolderLookup.Provider registries) {
-            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+        Blocks(LootTableSubProvider.Context context) {
+            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), context);
         }
 
         @Override
@@ -80,18 +77,18 @@ public final class GeoLootProvider extends LootTableProvider {
                     // Legacy dropped the height-variant metadata item; the port splits those into
                     // four items, so pick by the block's height state.
                     this.add(block, LootTable.lootTable()
-                            .withPool(this.applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                            .withPool(this.applyExplosionCondition(block, LootPool.lootPool().setRolls(ContextIntProviders.exactly(1))
                                     .add(lavaRockVariant(block, 0)).add(lavaRockVariant(block, 1))
                                     .add(lavaRockVariant(block, 2)).add(lavaRockVariant(block, 3)))));
                 } else if (block == GeoBlocks.RF_CRYSTAL.get()) {
                     // Legacy: redstone-ore-style drop, (1+rand(6)) x (1+rand(1+fortune)); the block
                     // has no item form upstream, so there is no silk-touch self-drop.
                     this.add(block, LootTable.lootTable()
-                            .withPool(this.applyExplosionCondition(Items.REDSTONE, LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                            .withPool(this.applyExplosionCondition(Items.REDSTONE, LootPool.lootPool().setRolls(ContextIntProviders.exactly(1))
                                     .add(LootItem.lootTableItem(Items.REDSTONE)
-                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6)))
+                                            .apply(SetItemCountFunction.setCount(ContextIntProviders.between(1, 6)))
                                             .apply(ApplyBonusCount.addUniformBonusCount(
-                                                    registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))))));
+                                                    output.lookup(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))))));
                 } else if (block instanceof DropExperienceBlock && GeoBlocks.oreMapping.containsKey(block)) {
                     // GeoStrata ores are 1.7.10 camouflage ores: mining yields the underlying resource
                     // (silk-touch drops the ore block, fortune multiplies), not the decorative block.
@@ -133,9 +130,8 @@ public final class GeoLootProvider extends LootTableProvider {
                 case 2 -> GeoBlocks.LAVAROCK_ITEM_2.get();
                 default -> GeoBlocks.LAVAROCK_ITEM_3.get();
             };
-            return LootItem.lootTableItem(item).when(LootItemBlockStatePropertyCondition
-                    .hasBlockStateProperties(block)
-                    .setProperties(StatePropertiesPredicate.Builder.properties()
+            return LootItem.lootTableItem(item).when(MatchBlock.blockMatches(output.lookup(Registries.BLOCK), block,
+                    StatePropertiesPredicate.Builder.properties()
                             .hasProperty(reika.geostrata.block.BlockLavaRock.BLOCK_HEIGHT_STATE, height)));
         }
 

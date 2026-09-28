@@ -5,18 +5,23 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
 import reika.dragonapi.libraries.level.ReikaWorldHelper;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.GeoOptions;
 
-public class RFCrystalGenerator extends Feature<NoneFeatureConfiguration> {
+public class RFCrystalGenerator implements Feature {
+
+    public static final com.mojang.serialization.MapCodec<RFCrystalGenerator> CODEC =
+            com.mojang.serialization.MapCodec.unit(RFCrystalGenerator::new);
+
+    @Override
+    public com.mojang.serialization.MapCodec<RFCrystalGenerator> codec() {
+        return CODEC;
+    }
     private static final int PER_CHUNK = getCrystalAttemptsPerChunk(); //calls per chunk; vast majority fail
 
     public RFCrystalGenerator() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
 
@@ -24,13 +29,11 @@ public class RFCrystalGenerator extends Feature<NoneFeatureConfiguration> {
         return (int)(8* GeoOptions.getRFCrystalDensity());
     }
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        var random = context.random();
-        var chunk = context.level().getChunk(context.origin());
+    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
+        var chunk = world.getChunk(origin);
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
 
-        var world = context.level();
 
         chunkX *= 16;
         chunkZ *= 16;

@@ -30,7 +30,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
@@ -94,7 +93,7 @@ public class BlockRFCrystal extends HalfTransparentBlock implements EntityBlock 
 
     @Override
     public PushReaction getPistonPushReaction(BlockState p_60584_) {
-        return PushReaction.IGNORE;
+        return PushReaction.IGNORE_ENTITY;
     }
 /*	@Override
 	public final List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
