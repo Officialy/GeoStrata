@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.GeoStrata;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.RockTypes;
+import reika.dragonapi.libraries.level.LegacyMotionTags;
 
 /**
  * Every GeoStrata rock and ore is registered with {@code requiresCorrectToolForDrops()}, so without
@@ -35,6 +36,13 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        // 26.3 made movement blocking, suffocation, fluid blocking and fluid washing tag-driven and
+        // NeoForge tags no modded blocks; give every block its 26.2 behaviour (see LegacyMotionTags).
+        var motionTag = tag(BlockTags.BLOCKS_MOTION_NO_LEAVES);
+        var leafTag = tag(BlockTags.LEAVES);
+        var washedTag = tag(BlockTags.WASHED_AWAY_BY_FLUIDS);
+        LegacyMotionTags.classifyEntries(GeoBlocks.BLOCKS.getEntries(), motionTag::add, leafTag::add, washedTag::add);
+
         // Tier every rock/ore block by its host rock type's harvest tool. All five reverse maps
         // (rocks, connected, slabs, stairs, ores) are keyed to a Pair whose left is the RockType;
         // they are populated at block registration, so they are complete by datagen time. Using them
