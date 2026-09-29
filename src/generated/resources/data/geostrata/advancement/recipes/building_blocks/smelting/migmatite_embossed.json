@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/migmatite_embossed"
+        "recipes": "geostrata:smelting/migmatite_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

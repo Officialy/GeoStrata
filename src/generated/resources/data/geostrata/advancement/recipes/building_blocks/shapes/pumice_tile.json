@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/pumice_tile"
+        "recipes": "geostrata:shapes/pumice_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

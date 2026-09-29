@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/peridotite_brick"
+        "recipes": "geostrata:shapes/peridotite_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/onyx_connected"
+        "recipes": "geostrata:shapes/onyx_connected"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:deco/redstone_bricks_box"
+        "recipes": "geostrata:deco/redstone_bricks_box"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

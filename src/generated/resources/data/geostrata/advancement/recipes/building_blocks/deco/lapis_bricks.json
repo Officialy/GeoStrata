@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:deco/lapis_bricks"
+        "recipes": "geostrata:deco/lapis_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

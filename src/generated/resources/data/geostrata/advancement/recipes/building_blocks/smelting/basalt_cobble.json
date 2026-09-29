@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/basalt_cobble"
+        "recipes": "geostrata:smelting/basalt_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

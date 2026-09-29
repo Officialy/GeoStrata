@@ -8,7 +8,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import reika.geostrata.GeoStrata;
 
 /**
- * 26.2 client/server datagen entry point for GeoStrata's assets and survival data.
+ * 26.3 client/server datagen entry point for GeoStrata's assets and survival data.
  */
 @EventBusSubscriber(modid = GeoStrata.MODID)
 public final class GeoDataProviders {

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/slate_round"
+        "recipes": "geostrata:smelting/slate_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

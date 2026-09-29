@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/hornfel_brick"
+        "recipes": "geostrata:stairs/hornfel_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

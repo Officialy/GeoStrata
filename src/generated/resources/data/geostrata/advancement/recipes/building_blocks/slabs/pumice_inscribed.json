@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/pumice_inscribed"
+        "recipes": "geostrata:slabs/pumice_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

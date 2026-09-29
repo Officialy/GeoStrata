@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/marble_tile"
+        "recipes": "geostrata:stairs/marble_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

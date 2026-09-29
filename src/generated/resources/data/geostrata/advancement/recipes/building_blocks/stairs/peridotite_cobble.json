@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/peridotite_cobble"
+        "recipes": "geostrata:stairs/peridotite_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

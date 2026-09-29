@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/peridotite_centered"
+        "recipes": "geostrata:shapes/peridotite_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

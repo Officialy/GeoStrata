@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/hornfel_centered_from_slab"
+        "recipes": "geostrata:slabs/hornfel_centered_from_slab"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

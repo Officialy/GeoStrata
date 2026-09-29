@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/sandstone_round"
+        "recipes": "geostrata:stairs/sandstone_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

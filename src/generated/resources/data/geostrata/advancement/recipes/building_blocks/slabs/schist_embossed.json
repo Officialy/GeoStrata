@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/schist_embossed"
+        "recipes": "geostrata:slabs/schist_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

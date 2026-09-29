@@ -2,66 +2,56 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "geostrata:lava_rock",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "height": "0"
-              }
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "geostrata:lava_rock",
+            "state": {
+              "height": "0"
             }
-          ],
+          },
           "name": "geostrata:lava_rock_item_0"
         },
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "geostrata:lava_rock",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "height": "1"
-              }
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "geostrata:lava_rock",
+            "state": {
+              "height": "1"
             }
-          ],
+          },
           "name": "geostrata:lava_rock_item_1"
         },
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "geostrata:lava_rock",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "height": "2"
-              }
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "geostrata:lava_rock",
+            "state": {
+              "height": "2"
             }
-          ],
+          },
           "name": "geostrata:lava_rock_item_2"
         },
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "geostrata:lava_rock",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "height": "3"
-              }
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "geostrata:lava_rock",
+            "state": {
+              "height": "3"
             }
-          ],
+          },
           "name": "geostrata:lava_rock_item_3"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "geostrata:blocks/lava_rock"

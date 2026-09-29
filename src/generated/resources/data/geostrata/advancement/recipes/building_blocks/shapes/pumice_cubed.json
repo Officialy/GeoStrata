@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/pumice_cubed"
+        "recipes": "geostrata:shapes/pumice_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

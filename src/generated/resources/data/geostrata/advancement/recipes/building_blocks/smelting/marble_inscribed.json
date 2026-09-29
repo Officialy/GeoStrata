@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/marble_inscribed"
+        "recipes": "geostrata:smelting/marble_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

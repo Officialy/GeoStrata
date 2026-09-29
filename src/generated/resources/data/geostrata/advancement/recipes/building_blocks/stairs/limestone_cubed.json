@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/limestone_cubed"
+        "recipes": "geostrata:stairs/limestone_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

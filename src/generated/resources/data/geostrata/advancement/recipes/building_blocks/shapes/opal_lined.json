@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/opal_lined"
+        "recipes": "geostrata:shapes/opal_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

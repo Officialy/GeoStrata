@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/migmatite_brick"
+        "recipes": "geostrata:slabs/migmatite_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

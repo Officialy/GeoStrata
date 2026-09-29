@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/slate_embossed"
+        "recipes": "geostrata:stairs/slate_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/granulite_fitted"
+        "recipes": "geostrata:smelting/granulite_fitted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

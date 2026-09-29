@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/sandstone_cobble"
+        "recipes": "geostrata:stairs/sandstone_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

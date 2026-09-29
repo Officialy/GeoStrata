@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/migmatite_tile"
+        "recipes": "geostrata:smelting/migmatite_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

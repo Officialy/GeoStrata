@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/migmatite_spiral"
+        "recipes": "geostrata:shapes/migmatite_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

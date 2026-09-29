@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/granulite_lined"
+        "recipes": "geostrata:shapes/granulite_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

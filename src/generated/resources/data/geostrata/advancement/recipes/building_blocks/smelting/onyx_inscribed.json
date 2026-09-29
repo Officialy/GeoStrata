@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/onyx_inscribed"
+        "recipes": "geostrata:smelting/onyx_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/quartz_tile"
+        "recipes": "geostrata:slabs/quartz_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

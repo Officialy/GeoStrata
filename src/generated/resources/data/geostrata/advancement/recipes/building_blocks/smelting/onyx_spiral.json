@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/onyx_spiral"
+        "recipes": "geostrata:smelting/onyx_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

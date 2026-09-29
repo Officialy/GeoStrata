@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/opal_inscribed"
+        "recipes": "geostrata:smelting/opal_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

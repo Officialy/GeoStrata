@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/onyx_etched"
+        "recipes": "geostrata:slabs/onyx_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

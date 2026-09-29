@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/basalt_fan"
+        "recipes": "geostrata:stairs/basalt_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

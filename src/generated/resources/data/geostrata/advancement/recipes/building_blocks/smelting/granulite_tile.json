@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/granulite_tile"
+        "recipes": "geostrata:smelting/granulite_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

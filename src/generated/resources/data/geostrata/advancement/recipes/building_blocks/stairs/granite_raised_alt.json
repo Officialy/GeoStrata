@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granite_raised_alt"
+        "recipes": "geostrata:stairs/granite_raised_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

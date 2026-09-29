@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/limestone_engraved_alt"
+        "recipes": "geostrata:shapes/limestone_engraved_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

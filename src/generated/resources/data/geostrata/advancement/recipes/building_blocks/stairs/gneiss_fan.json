@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/gneiss_fan"
+        "recipes": "geostrata:stairs/gneiss_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

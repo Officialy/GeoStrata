@@ -1,6 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
+  "cookingtime": 200,
   "ingredient": "geostrata:gneiss_pillar",
   "result": {
     "id": "geostrata:gneiss_smooth"

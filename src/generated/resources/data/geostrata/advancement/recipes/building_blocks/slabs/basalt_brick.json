@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/basalt_brick"
+        "recipes": "geostrata:slabs/basalt_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

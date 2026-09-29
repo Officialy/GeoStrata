@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/sandstone_fan"
+        "recipes": "geostrata:smelting/sandstone_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

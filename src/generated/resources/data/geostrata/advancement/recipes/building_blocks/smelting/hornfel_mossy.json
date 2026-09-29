@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/hornfel_mossy"
+        "recipes": "geostrata:smelting/hornfel_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

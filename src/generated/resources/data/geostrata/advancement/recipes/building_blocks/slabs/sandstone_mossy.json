@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/sandstone_mossy"
+        "recipes": "geostrata:slabs/sandstone_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

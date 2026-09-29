@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/shale_round"
+        "recipes": "geostrata:stairs/shale_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

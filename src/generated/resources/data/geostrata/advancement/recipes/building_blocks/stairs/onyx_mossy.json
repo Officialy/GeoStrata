@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/onyx_mossy"
+        "recipes": "geostrata:stairs/onyx_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

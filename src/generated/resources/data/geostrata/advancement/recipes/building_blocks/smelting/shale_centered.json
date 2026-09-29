@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/shale_centered"
+        "recipes": "geostrata:smelting/shale_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

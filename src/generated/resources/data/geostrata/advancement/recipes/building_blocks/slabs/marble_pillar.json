@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/marble_pillar"
+        "recipes": "geostrata:slabs/marble_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

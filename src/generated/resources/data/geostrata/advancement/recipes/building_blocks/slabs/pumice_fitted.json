@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/pumice_fitted"
+        "recipes": "geostrata:slabs/pumice_fitted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

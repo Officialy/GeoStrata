@@ -9,7 +9,7 @@ dependencies {
     implementation project(":DragonAPI")
     implementation project(":RotaryCraft")
 
-    // TerraBlender 26.3.0.0.7 (modrinth project kkmrDlKT): overworld biome injection for the
-    // Arctic Spires + Kelp Forest biomes. Runtime-required; also flows into :TestInstance runs.
-    implementation "maven.modrinth:kkmrDlKT:Z28Rt8Ne"
+    // Local 26.3 build with NeoForge's NewDatapackRegistryEvent migration.
+    // Runtime-required for Arctic Spires and Kelp Forest biome injection.
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:26.3-26.3.0.0.7-local.1"
 }

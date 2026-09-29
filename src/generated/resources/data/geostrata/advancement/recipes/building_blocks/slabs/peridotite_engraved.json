@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/peridotite_engraved"
+        "recipes": "geostrata:slabs/peridotite_engraved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

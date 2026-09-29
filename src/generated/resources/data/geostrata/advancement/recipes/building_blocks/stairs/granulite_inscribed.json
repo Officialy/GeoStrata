@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granulite_inscribed"
+        "recipes": "geostrata:stairs/granulite_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granite_brick"
+        "recipes": "geostrata:stairs/granite_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

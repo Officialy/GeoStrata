@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/migmatite_smooth"
+        "recipes": "geostrata:stairs/migmatite_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

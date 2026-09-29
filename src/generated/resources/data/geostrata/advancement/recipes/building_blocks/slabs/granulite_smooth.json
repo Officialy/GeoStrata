@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granulite_smooth"
+        "recipes": "geostrata:slabs/granulite_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

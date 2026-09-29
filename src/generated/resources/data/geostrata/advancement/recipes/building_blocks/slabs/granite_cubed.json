@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granite_cubed"
+        "recipes": "geostrata:slabs/granite_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

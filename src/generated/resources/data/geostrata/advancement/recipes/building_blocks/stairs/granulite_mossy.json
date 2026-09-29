@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granulite_mossy"
+        "recipes": "geostrata:stairs/granulite_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

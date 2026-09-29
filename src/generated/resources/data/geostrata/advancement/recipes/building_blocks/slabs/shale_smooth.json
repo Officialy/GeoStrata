@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/shale_smooth"
+        "recipes": "geostrata:slabs/shale_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

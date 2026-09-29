@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granulite_fan"
+        "recipes": "geostrata:slabs/granulite_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/quartz_pillar"
+        "recipes": "geostrata:smelting/quartz_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

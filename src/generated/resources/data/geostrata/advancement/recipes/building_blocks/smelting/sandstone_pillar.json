@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/sandstone_pillar"
+        "recipes": "geostrata:smelting/sandstone_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

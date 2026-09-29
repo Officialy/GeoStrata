@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/hornfel_pillar"
+        "recipes": "geostrata:slabs/hornfel_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

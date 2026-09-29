@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/marble_raised"
+        "recipes": "geostrata:shapes/marble_raised"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

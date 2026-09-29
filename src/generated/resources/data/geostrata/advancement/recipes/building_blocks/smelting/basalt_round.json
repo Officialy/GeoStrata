@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/basalt_round"
+        "recipes": "geostrata:smelting/basalt_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

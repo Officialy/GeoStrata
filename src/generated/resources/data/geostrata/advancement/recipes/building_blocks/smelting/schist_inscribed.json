@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/schist_inscribed"
+        "recipes": "geostrata:smelting/schist_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

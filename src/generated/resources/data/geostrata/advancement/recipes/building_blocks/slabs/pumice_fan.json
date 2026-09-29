@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/pumice_fan"
+        "recipes": "geostrata:slabs/pumice_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

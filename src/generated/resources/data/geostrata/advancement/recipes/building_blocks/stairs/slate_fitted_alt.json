@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/slate_fitted_alt"
+        "recipes": "geostrata:stairs/slate_fitted_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

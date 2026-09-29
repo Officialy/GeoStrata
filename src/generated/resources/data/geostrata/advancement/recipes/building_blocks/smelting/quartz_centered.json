@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/quartz_centered"
+        "recipes": "geostrata:smelting/quartz_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/marble_fan"
+        "recipes": "geostrata:stairs/marble_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

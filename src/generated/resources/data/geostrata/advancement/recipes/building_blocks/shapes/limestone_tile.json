@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/limestone_tile"
+        "recipes": "geostrata:shapes/limestone_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

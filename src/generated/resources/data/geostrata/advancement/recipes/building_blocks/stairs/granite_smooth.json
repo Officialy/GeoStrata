@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granite_smooth"
+        "recipes": "geostrata:stairs/granite_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

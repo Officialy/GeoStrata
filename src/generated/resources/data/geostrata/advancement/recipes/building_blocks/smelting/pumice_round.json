@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/pumice_round"
+        "recipes": "geostrata:smelting/pumice_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

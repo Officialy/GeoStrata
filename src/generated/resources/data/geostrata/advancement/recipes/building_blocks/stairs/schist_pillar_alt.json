@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/schist_pillar_alt"
+        "recipes": "geostrata:stairs/schist_pillar_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

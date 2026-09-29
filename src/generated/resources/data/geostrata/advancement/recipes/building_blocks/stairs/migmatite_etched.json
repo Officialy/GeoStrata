@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/migmatite_etched"
+        "recipes": "geostrata:stairs/migmatite_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

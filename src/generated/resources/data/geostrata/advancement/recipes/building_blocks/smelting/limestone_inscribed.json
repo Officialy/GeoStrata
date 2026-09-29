@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/limestone_inscribed"
+        "recipes": "geostrata:smelting/limestone_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

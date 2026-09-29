@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/slate_raised"
+        "recipes": "geostrata:shapes/slate_raised"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

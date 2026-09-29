@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/quartz_fan"
+        "recipes": "geostrata:smelting/quartz_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

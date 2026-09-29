@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/slate_pillar"
+        "recipes": "geostrata:smelting/slate_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

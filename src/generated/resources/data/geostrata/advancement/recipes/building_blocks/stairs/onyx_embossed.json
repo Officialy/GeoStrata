@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/onyx_embossed"
+        "recipes": "geostrata:stairs/onyx_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

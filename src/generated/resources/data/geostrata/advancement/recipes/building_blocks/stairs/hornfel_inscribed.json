@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/hornfel_inscribed"
+        "recipes": "geostrata:stairs/hornfel_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

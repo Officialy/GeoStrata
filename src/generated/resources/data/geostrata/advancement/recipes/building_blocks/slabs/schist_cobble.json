@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/schist_cobble"
+        "recipes": "geostrata:slabs/schist_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

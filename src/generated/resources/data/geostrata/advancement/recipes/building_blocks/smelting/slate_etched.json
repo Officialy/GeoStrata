@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/slate_etched"
+        "recipes": "geostrata:smelting/slate_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

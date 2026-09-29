@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/quartz_embossed"
+        "recipes": "geostrata:stairs/quartz_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

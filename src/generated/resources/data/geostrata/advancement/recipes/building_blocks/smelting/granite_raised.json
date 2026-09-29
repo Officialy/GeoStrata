@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/granite_raised"
+        "recipes": "geostrata:smelting/granite_raised"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

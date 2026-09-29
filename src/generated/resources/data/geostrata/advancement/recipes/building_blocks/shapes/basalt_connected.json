@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/basalt_connected"
+        "recipes": "geostrata:shapes/basalt_connected"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

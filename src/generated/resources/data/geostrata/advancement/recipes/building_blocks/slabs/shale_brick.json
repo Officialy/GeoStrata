@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/shale_brick"
+        "recipes": "geostrata:slabs/shale_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

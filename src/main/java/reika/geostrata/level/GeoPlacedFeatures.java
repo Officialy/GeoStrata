@@ -15,6 +15,8 @@ public final class GeoPlacedFeatures {
     public static final DeferredRegister<MapCodec<? extends Feature>> FEATURES =
             DeferredRegister.create(Registries.FEATURE_TYPE, MODID);
 
+    public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<RockGenerator>> GEO_ROCK_FEATURE =
+            FEATURES.register("geo_rock", () -> RockGenerator.CODEC);
     public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<DecoGenerator>> OCEAN_SPIKE_FEATURE =
             FEATURES.register("ocean_spike", () -> DecoGenerator.CODEC);
     public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<GlowCrystalGenerator>> GLOW_CRYSTAL_FEATURE =

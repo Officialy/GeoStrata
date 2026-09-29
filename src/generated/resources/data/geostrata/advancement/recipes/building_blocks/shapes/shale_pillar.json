@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/shale_pillar"
+        "recipes": "geostrata:shapes/shale_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

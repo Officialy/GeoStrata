@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/limestone_etched"
+        "recipes": "geostrata:shapes/limestone_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

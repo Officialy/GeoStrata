@@ -19,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:deco/obsidian_bricks"
+        "recipes": "geostrata:deco/obsidian_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

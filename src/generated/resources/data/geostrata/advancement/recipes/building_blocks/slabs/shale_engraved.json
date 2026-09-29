@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/shale_engraved"
+        "recipes": "geostrata:slabs/shale_engraved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/slate_fan"
+        "recipes": "geostrata:shapes/slate_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

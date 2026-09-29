@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granulite_cubed"
+        "recipes": "geostrata:slabs/granulite_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/shale_tile"
+        "recipes": "geostrata:smelting/shale_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

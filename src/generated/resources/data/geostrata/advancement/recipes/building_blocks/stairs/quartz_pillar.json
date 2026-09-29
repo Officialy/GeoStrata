@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/quartz_pillar"
+        "recipes": "geostrata:stairs/quartz_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/granulite_spiral"
+        "recipes": "geostrata:smelting/granulite_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

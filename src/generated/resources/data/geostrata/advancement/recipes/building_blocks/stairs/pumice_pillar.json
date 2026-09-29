@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/pumice_pillar"
+        "recipes": "geostrata:stairs/pumice_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/hornfel_engraved"
+        "recipes": "geostrata:shapes/hornfel_engraved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

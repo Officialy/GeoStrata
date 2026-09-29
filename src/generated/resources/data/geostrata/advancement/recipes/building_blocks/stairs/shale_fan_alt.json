@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/shale_fan_alt"
+        "recipes": "geostrata:stairs/shale_fan_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

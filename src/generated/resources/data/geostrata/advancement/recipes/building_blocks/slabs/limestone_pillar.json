@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/limestone_pillar"
+        "recipes": "geostrata:slabs/limestone_pillar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

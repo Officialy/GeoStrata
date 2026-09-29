@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/migmatite_tile"
+        "recipes": "geostrata:shapes/migmatite_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

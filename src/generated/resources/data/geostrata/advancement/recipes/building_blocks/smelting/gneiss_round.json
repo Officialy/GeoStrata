@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/gneiss_round"
+        "recipes": "geostrata:smelting/gneiss_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

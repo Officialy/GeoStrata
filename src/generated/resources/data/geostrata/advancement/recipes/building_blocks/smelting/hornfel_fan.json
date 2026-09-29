@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/hornfel_fan"
+        "recipes": "geostrata:smelting/hornfel_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

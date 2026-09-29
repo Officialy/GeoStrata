@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/marble_spiral"
+        "recipes": "geostrata:smelting/marble_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

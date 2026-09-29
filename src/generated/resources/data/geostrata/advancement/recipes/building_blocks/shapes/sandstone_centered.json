@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/sandstone_centered"
+        "recipes": "geostrata:shapes/sandstone_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

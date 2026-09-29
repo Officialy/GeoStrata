@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/shale_fan"
+        "recipes": "geostrata:shapes/shale_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

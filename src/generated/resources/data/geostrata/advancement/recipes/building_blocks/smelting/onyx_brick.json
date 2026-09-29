@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/onyx_brick"
+        "recipes": "geostrata:smelting/onyx_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

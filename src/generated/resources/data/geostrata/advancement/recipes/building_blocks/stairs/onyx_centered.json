@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/onyx_centered"
+        "recipes": "geostrata:stairs/onyx_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

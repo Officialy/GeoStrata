@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/peridotite_fan"
+        "recipes": "geostrata:shapes/peridotite_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

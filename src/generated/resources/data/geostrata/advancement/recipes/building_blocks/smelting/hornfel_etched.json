@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/hornfel_etched"
+        "recipes": "geostrata:smelting/hornfel_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

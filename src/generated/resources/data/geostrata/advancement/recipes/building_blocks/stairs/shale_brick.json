@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/shale_brick"
+        "recipes": "geostrata:stairs/shale_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/slate_spiral"
+        "recipes": "geostrata:stairs/slate_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

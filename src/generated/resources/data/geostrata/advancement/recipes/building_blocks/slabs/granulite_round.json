@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granulite_round"
+        "recipes": "geostrata:slabs/granulite_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

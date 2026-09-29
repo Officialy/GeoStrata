@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/gneiss_brick"
+        "recipes": "geostrata:slabs/gneiss_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

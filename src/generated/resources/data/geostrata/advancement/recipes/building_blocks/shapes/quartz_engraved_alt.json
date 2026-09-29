@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/quartz_engraved_alt"
+        "recipes": "geostrata:shapes/quartz_engraved_alt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

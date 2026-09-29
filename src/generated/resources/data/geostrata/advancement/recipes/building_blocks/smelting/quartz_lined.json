@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/quartz_lined"
+        "recipes": "geostrata:smelting/quartz_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

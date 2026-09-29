@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/granite_centered"
+        "recipes": "geostrata:smelting/granite_centered"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

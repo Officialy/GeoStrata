@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/schist_tile"
+        "recipes": "geostrata:slabs/schist_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

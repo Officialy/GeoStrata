@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/hornfel_cubed"
+        "recipes": "geostrata:smelting/hornfel_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

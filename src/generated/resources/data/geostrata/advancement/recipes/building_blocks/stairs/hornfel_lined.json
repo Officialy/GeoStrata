@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/hornfel_lined"
+        "recipes": "geostrata:stairs/hornfel_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

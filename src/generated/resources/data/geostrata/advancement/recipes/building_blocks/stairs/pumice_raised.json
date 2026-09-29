@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/pumice_raised"
+        "recipes": "geostrata:stairs/pumice_raised"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

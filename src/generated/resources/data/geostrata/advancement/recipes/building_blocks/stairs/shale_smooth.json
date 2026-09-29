@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/shale_smooth"
+        "recipes": "geostrata:stairs/shale_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

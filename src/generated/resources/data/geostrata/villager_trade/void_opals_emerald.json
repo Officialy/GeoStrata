@@ -3,9 +3,9 @@
     "count": 3,
     "id": "minecraft:emerald"
   },
-  "max_uses": 2.1474836E9,
+  "max_uses": 2147483647,
   "wants": {
-    "count": 24.0,
+    "count": 24,
     "id": "geostrata:void_opals"
   }
 }

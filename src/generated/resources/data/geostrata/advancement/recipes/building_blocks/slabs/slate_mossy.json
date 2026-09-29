@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/slate_mossy"
+        "recipes": "geostrata:slabs/slate_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/opal_engraved"
+        "recipes": "geostrata:slabs/opal_engraved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

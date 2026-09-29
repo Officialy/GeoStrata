@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/migmatite_round"
+        "recipes": "geostrata:shapes/migmatite_round"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/limestone_fitted"
+        "recipes": "geostrata:smelting/limestone_fitted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

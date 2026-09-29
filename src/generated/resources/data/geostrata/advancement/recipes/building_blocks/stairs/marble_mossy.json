@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/marble_mossy"
+        "recipes": "geostrata:stairs/marble_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

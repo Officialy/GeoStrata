@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/peridotite_brick"
+        "recipes": "geostrata:smelting/peridotite_brick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

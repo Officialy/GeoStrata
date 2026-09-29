@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/hornfel_mossy"
+        "recipes": "geostrata:slabs/hornfel_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

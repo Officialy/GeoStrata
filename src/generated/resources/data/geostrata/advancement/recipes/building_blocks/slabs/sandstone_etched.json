@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/sandstone_etched"
+        "recipes": "geostrata:slabs/sandstone_etched"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

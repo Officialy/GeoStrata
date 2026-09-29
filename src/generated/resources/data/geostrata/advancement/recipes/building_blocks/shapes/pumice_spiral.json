@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/pumice_spiral"
+        "recipes": "geostrata:shapes/pumice_spiral"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

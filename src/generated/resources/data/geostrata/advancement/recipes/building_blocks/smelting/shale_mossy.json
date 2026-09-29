@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/shale_mossy"
+        "recipes": "geostrata:smelting/shale_mossy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

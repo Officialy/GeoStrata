@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/migmatite_lined"
+        "recipes": "geostrata:smelting/migmatite_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

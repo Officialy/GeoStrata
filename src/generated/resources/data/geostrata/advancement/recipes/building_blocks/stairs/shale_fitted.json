@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/shale_fitted"
+        "recipes": "geostrata:stairs/shale_fitted"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

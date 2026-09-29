@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/onyx_fan"
+        "recipes": "geostrata:shapes/onyx_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/gneiss_cobble"
+        "recipes": "geostrata:smelting/gneiss_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/marble_inscribed"
+        "recipes": "geostrata:stairs/marble_inscribed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

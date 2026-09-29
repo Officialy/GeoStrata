@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/peridotite_smooth"
+        "recipes": "geostrata:slabs/peridotite_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/gneiss_cubed"
+        "recipes": "geostrata:shapes/gneiss_cubed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

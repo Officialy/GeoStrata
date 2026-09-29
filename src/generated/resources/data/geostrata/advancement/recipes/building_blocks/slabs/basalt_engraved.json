@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/basalt_engraved"
+        "recipes": "geostrata:slabs/basalt_engraved"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:stairs/granite_fan"
+        "recipes": "geostrata:stairs/granite_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

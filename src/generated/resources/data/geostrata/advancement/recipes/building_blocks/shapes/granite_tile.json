@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/granite_tile"
+        "recipes": "geostrata:shapes/granite_tile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

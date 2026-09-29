@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/granite_embossed"
+        "recipes": "geostrata:slabs/granite_embossed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

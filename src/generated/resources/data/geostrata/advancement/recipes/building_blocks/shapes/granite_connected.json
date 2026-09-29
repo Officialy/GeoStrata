@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/granite_connected"
+        "recipes": "geostrata:shapes/granite_connected"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

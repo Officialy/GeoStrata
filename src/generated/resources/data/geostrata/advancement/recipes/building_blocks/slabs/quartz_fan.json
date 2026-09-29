@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/quartz_fan"
+        "recipes": "geostrata:slabs/quartz_fan"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:smelting/shale_cobble"
+        "recipes": "geostrata:smelting/shale_cobble"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

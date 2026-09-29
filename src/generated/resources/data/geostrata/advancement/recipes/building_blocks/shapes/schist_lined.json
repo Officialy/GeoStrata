@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:shapes/schist_lined"
+        "recipes": "geostrata:shapes/schist_lined"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

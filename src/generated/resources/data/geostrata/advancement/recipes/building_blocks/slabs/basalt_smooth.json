@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "geostrata:slabs/basalt_smooth"
+        "recipes": "geostrata:slabs/basalt_smooth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
