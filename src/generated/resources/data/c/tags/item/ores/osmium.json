@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:opal_osmium_ore",
+    "geostrata:quartz_osmium_ore",
+    "geostrata:granite_osmium_ore",
+    "geostrata:gneiss_osmium_ore",
+    "geostrata:basalt_osmium_ore",
+    "geostrata:pumice_osmium_ore",
+    "geostrata:hornfel_osmium_ore",
+    "geostrata:granulite_osmium_ore",
+    "geostrata:sandstone_osmium_ore",
+    "geostrata:slate_osmium_ore",
+    "geostrata:onyx_osmium_ore",
+    "geostrata:limestone_osmium_ore",
+    "geostrata:shale_osmium_ore",
+    "geostrata:marble_osmium_ore",
+    "geostrata:schist_osmium_ore",
+    "geostrata:migmatite_osmium_ore",
+    "geostrata:peridotite_osmium_ore"
+  ]
+}

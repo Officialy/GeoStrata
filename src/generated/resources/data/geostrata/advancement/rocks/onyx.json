@@ -1,0 +1,35 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "geostrata:onyx_smooth",
+              "geostrata:onyx_cobble"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.rocks/onyx.description"
+    },
+    "icon": {
+      "id": "geostrata:onyx_cobble"
+    },
+    "title": {
+      "translate": "advancements.geostrata.rocks/onyx.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

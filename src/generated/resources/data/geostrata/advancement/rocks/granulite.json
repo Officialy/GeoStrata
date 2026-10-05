@@ -1,0 +1,35 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "geostrata:granulite_smooth",
+              "geostrata:granulite_cobble"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.rocks/granulite.description"
+    },
+    "icon": {
+      "id": "geostrata:granulite_cobble"
+    },
+    "title": {
+      "translate": "advancements.geostrata.rocks/granulite.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

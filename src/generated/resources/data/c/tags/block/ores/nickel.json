@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:pumice_nickel_ore",
+    "geostrata:onyx_nickel_ore",
+    "geostrata:shale_nickel_ore",
+    "geostrata:granulite_nickel_ore",
+    "geostrata:basalt_nickel_ore",
+    "geostrata:marble_nickel_ore",
+    "geostrata:sandstone_nickel_ore",
+    "geostrata:limestone_nickel_ore",
+    "geostrata:schist_nickel_ore",
+    "geostrata:granite_nickel_ore",
+    "geostrata:migmatite_nickel_ore",
+    "geostrata:peridotite_nickel_ore",
+    "geostrata:slate_nickel_ore",
+    "geostrata:gneiss_nickel_ore",
+    "geostrata:opal_nickel_ore",
+    "geostrata:hornfel_nickel_ore",
+    "geostrata:quartz_nickel_ore"
+  ]
+}

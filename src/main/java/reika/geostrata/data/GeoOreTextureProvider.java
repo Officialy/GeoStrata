@@ -43,7 +43,7 @@ public final class GeoOreTextureProvider implements DataProvider {
             try {
                 Path jarPath;
                 try (var jars = Files.list(artifactDirectory)) {
-                    jarPath = jars.filter(path -> path.getFileName().toString().matches("minecraft-patched-26\\.2\\..*\\.jar"))
+                    jarPath = jars.filter(path -> path.getFileName().toString().matches("minecraft-patched-26\\.3\\..*\\.jar"))
                             .filter(path -> !path.getFileName().toString().contains("-merged"))
                             .filter(path -> !path.getFileName().toString().contains("-sources"))
                             .max((a, b) -> {

@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:schist_diamond_ore",
+    "geostrata:granulite_diamond_ore",
+    "geostrata:gneiss_diamond_ore",
+    "geostrata:peridotite_diamond_ore",
+    "geostrata:hornfel_diamond_ore",
+    "geostrata:sandstone_diamond_ore",
+    "geostrata:onyx_diamond_ore",
+    "geostrata:marble_diamond_ore",
+    "geostrata:migmatite_diamond_ore",
+    "geostrata:slate_diamond_ore",
+    "geostrata:quartz_diamond_ore",
+    "geostrata:basalt_diamond_ore",
+    "geostrata:pumice_diamond_ore",
+    "geostrata:shale_diamond_ore",
+    "geostrata:granite_diamond_ore",
+    "geostrata:opal_diamond_ore",
+    "geostrata:limestone_diamond_ore"
+  ]
+}

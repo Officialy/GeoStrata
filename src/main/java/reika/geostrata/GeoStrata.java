@@ -111,6 +111,7 @@ public class GeoStrata extends DragonAPIMod {
 //        LOGGER.info("Registered " + GeoBlocks.wallMapping.size() + " walls");
 
         GeoPlacedFeatures.FEATURES.register(modEventBus);
+        reika.geostrata.level.GeoPostPopulation.TICKETS.register(modEventBus);
         reika.geostrata.level.AllBiomesFeatureModifier.SERIALIZERS.register(modEventBus);
         reika.geostrata.data.BoxRecipeCondition.SERIALIZERS.register(modEventBus);
         GeoTabs.register(modEventBus);
@@ -158,7 +159,8 @@ public class GeoStrata extends DragonAPIMod {
         // RockShapes.blockMap, so the shape→block reverse-lookup table can be built safely.
         RockShapes.initalize();
         // TerraBlender region registration must happen on the main thread during common setup.
-        event.enqueueWork(() -> terrablender.api.Regions.register(new reika.geostrata.level.GeoRegion()));
+        // The original biomes are painted around successful groves/spires after population.
+        // Independent TerraBlender replacements did not follow those generated footprints.
         DonatorController.instance.registerMod(this, DonatorController.reikaURL);
 
         //		if (ModList.THERMALEXPANSION.isLoaded()) {

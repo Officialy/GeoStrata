@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:marble_iron_ore",
+    "geostrata:pumice_iron_ore",
+    "geostrata:migmatite_iron_ore",
+    "geostrata:opal_iron_ore",
+    "geostrata:hornfel_iron_ore",
+    "geostrata:gneiss_iron_ore",
+    "geostrata:limestone_iron_ore",
+    "geostrata:sandstone_iron_ore",
+    "geostrata:peridotite_iron_ore",
+    "geostrata:schist_iron_ore",
+    "geostrata:slate_iron_ore",
+    "geostrata:granite_iron_ore",
+    "geostrata:granulite_iron_ore",
+    "geostrata:shale_iron_ore",
+    "geostrata:quartz_iron_ore",
+    "geostrata:basalt_iron_ore",
+    "geostrata:onyx_iron_ore"
+  ]
+}

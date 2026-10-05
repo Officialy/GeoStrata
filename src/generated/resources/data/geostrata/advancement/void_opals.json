@@ -1,0 +1,33 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:void_opals"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.void_opals.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "geostrata:void_opals"
+    },
+    "title": {
+      "translate": "advancements.geostrata.void_opals.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

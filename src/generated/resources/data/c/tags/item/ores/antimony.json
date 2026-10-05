@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:hornfel_antimony_ore",
+    "geostrata:gneiss_antimony_ore",
+    "geostrata:schist_antimony_ore",
+    "geostrata:migmatite_antimony_ore",
+    "geostrata:onyx_antimony_ore",
+    "geostrata:shale_antimony_ore",
+    "geostrata:granulite_antimony_ore",
+    "geostrata:granite_antimony_ore",
+    "geostrata:limestone_antimony_ore",
+    "geostrata:sandstone_antimony_ore",
+    "geostrata:quartz_antimony_ore",
+    "geostrata:slate_antimony_ore",
+    "geostrata:peridotite_antimony_ore",
+    "geostrata:opal_antimony_ore",
+    "geostrata:basalt_antimony_ore",
+    "geostrata:pumice_antimony_ore",
+    "geostrata:marble_antimony_ore"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:slate_sapphire_ore",
+    "geostrata:granulite_sapphire_ore",
+    "geostrata:peridotite_sapphire_ore",
+    "geostrata:hornfel_sapphire_ore",
+    "geostrata:shale_sapphire_ore",
+    "geostrata:schist_sapphire_ore",
+    "geostrata:quartz_sapphire_ore",
+    "geostrata:pumice_sapphire_ore",
+    "geostrata:basalt_sapphire_ore",
+    "geostrata:migmatite_sapphire_ore",
+    "geostrata:limestone_sapphire_ore",
+    "geostrata:onyx_sapphire_ore",
+    "geostrata:sandstone_sapphire_ore",
+    "geostrata:opal_sapphire_ore",
+    "geostrata:granite_sapphire_ore",
+    "geostrata:marble_sapphire_ore",
+    "geostrata:gneiss_sapphire_ore"
+  ]
+}

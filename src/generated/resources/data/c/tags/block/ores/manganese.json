@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:opal_manganese_ore",
+    "geostrata:marble_manganese_ore",
+    "geostrata:schist_manganese_ore",
+    "geostrata:pumice_manganese_ore",
+    "geostrata:granite_manganese_ore",
+    "geostrata:limestone_manganese_ore",
+    "geostrata:shale_manganese_ore",
+    "geostrata:migmatite_manganese_ore",
+    "geostrata:basalt_manganese_ore",
+    "geostrata:quartz_manganese_ore",
+    "geostrata:gneiss_manganese_ore",
+    "geostrata:slate_manganese_ore",
+    "geostrata:sandstone_manganese_ore",
+    "geostrata:peridotite_manganese_ore",
+    "geostrata:granulite_manganese_ore",
+    "geostrata:onyx_manganese_ore",
+    "geostrata:hornfel_manganese_ore"
+  ]
+}

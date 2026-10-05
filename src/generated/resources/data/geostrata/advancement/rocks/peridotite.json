@@ -1,0 +1,35 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "geostrata:peridotite_smooth",
+              "geostrata:peridotite_cobble"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.rocks/peridotite.description"
+    },
+    "icon": {
+      "id": "geostrata:peridotite_cobble"
+    },
+    "title": {
+      "translate": "advancements.geostrata.rocks/peridotite.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

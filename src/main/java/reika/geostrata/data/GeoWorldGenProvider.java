@@ -32,7 +32,10 @@ public final class GeoWorldGenProvider {
     record Entry(String id, Supplier<? extends Feature> factory) {}
     static final List<Entry> ENTRIES = List.of(
             new Entry("geo_rock", () -> RockGenerator.instance),
-            new Entry("glow_crystal", GlowCrystalGenerator::new),
+            new Entry("glow_crystal", () -> new GlowCrystalGenerator(List.of(
+                    new GlowCrystalGenerator.TreeDensity(GeoGenerationBiomeTags.DENSE,10,true),
+                    new GlowCrystalGenerator.TreeDensity(GeoGenerationBiomeTags.SPARSE,2,false),
+                    new GlowCrystalGenerator.TreeDensity(GeoGenerationBiomeTags.FOREST_NAME,0,true)))),
             new Entry("glowing_vine", GlowingVineGenerator::new),
             new Entry("lava_rock", LavaRockGeneratorRedesign::new),
             new Entry("ocean_spike", DecoGenerator::new),

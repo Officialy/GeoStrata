@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:opal_lithium_ore",
+    "geostrata:granite_lithium_ore",
+    "geostrata:schist_lithium_ore",
+    "geostrata:marble_lithium_ore",
+    "geostrata:pumice_lithium_ore",
+    "geostrata:limestone_lithium_ore",
+    "geostrata:quartz_lithium_ore",
+    "geostrata:hornfel_lithium_ore",
+    "geostrata:shale_lithium_ore",
+    "geostrata:sandstone_lithium_ore",
+    "geostrata:gneiss_lithium_ore",
+    "geostrata:slate_lithium_ore",
+    "geostrata:migmatite_lithium_ore",
+    "geostrata:basalt_lithium_ore",
+    "geostrata:granulite_lithium_ore",
+    "geostrata:peridotite_lithium_ore",
+    "geostrata:onyx_lithium_ore"
+  ]
+}

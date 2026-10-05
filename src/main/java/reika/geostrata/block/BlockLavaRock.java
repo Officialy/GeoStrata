@@ -70,10 +70,10 @@ public class BlockLavaRock extends Block {
         if (getter.getBlockState(pos.above()).isSolid()) {
             return AABB3;
         } else return switch (state.getValue(BLOCK_HEIGHT_STATE)) {
-            default -> AABB;
             case 1 -> AABB1;
             case 2 -> AABB2;
             case 3 -> AABB3;
+            default -> AABB;
         };
     }
     @Override

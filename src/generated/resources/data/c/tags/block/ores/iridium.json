@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:quartz_iridium_ore",
+    "geostrata:granite_iridium_ore",
+    "geostrata:shale_iridium_ore",
+    "geostrata:hornfel_iridium_ore",
+    "geostrata:basalt_iridium_ore",
+    "geostrata:sandstone_iridium_ore",
+    "geostrata:pumice_iridium_ore",
+    "geostrata:gneiss_iridium_ore",
+    "geostrata:marble_iridium_ore",
+    "geostrata:onyx_iridium_ore",
+    "geostrata:migmatite_iridium_ore",
+    "geostrata:granulite_iridium_ore",
+    "geostrata:limestone_iridium_ore",
+    "geostrata:slate_iridium_ore",
+    "geostrata:opal_iridium_ore",
+    "geostrata:schist_iridium_ore",
+    "geostrata:peridotite_iridium_ore"
+  ]
+}

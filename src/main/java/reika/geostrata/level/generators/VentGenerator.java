@@ -31,24 +31,11 @@ public class VentGenerator implements Feature {
 
     private static final int PER_CHUNK = getVentAttemptsPerChunk(); //calls per chunk; vast majority fail
 
-    private final WeightedRandom<VentGen> ventTypes = new WeightedRandom<>();
-    private final WeightedRandom<VentGen> ventTypesNether = new WeightedRandom<>();
-
-    public VentGenerator() {
-        for (VentType v : VentType.list) {
-            if (v.canGenerateInOverworld())
-                ventTypes.addDynamicEntry(new VentGen(v));
-            if (v.canGenerateInNether())
-                ventTypesNether.addDynamicEntry(new VentGen(v));
-        }
-    }
-
     private String getRatiosAt(int y, boolean nether) {
-        WeightedRandom<VentGen> wr = nether ? ventTypesNether : ventTypes;
         Proportionality<VentType> p = new Proportionality<>();
-        for (VentGen gr : wr.getValues()) {
-            double w = gr.type.getSpawnWeight(y, nether);
-            p.addValue(gr.type, w);
+        for (VentType type : VentType.list) {
+            if (nether ? type.canGenerateInNether() : type.canGenerateInOverworld())
+                p.addValue(type, type.getSpawnWeight(y, nether));
         }
         return p.toString();
     }
@@ -77,6 +64,8 @@ public class VentGenerator implements Feature {
             }
             if (canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
                 VentType v = this.getVentTypeFor(world, posX, posY, posZ, random);
+                if (v == null)
+                    continue; // No vent is eligible at this normalized height.
                 BlockState id = GeoBlocks.getVentBlock(v).defaultBlockState()
                         .setValue(BlockVent.NETHER, world.getLevel().dimension() == Level.NETHER);
                 world.setBlock(new BlockPos(posX, posY, posZ), id, 3);
@@ -91,13 +80,29 @@ public class VentGenerator implements Feature {
             return VentType.ENDER;
         }
 
-        WeightedRandom<VentGen> wr = world.getLevel().dimension() == Level.NETHER ? ventTypesNether : ventTypes;
-        wr.setRNG(random);
-        for (VentGen gr : wr.getValues()) {
-            gr.calcWeight(world, posX, posY, posZ);
-        }
+        boolean nether = world.getLevel().dimension() == Level.NETHER;
+        float f = Math.clamp(world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, posX, posZ) / 64F, 0.25F, 1);
+        int height = (int) (posY / f);
+        boolean snow = !nether && VentType.CRYO.getSpawnWeight(height, false) > 0
+                && ReikaBiomeHelper.isSnowBiome(world.getBiome(new BlockPos(posX, posY, posZ)).unwrapKey().get());
+        return selectVentType(height, nether, snow, random);
+    }
 
-        return wr.getRandomEntry().type;
+    static VentType selectVentType(int height, boolean nether, boolean snow, RandomSource random) {
+        // Features can be shared by concurrent chunk-generation workers. Keep both the RNG
+        // and the weight snapshot local so another placement cannot change them mid-roll.
+        WeightedRandom<VentType> types = new WeightedRandom<>();
+        types.setRNG(random);
+        for (VentType type : VentType.list) {
+            if (!(nether ? type.canGenerateInNether() : type.canGenerateInOverworld()))
+                continue;
+            if (type == VentType.CRYO && !snow)
+                continue;
+            double weight = type.getSpawnWeight(height, nether);
+            if (weight > 0)
+                types.addEntry(type, weight);
+        }
+        return types.isEmpty() ? null : types.getRandomEntry();
     }
 
     public static boolean canGenerateAt(WorldGenLevel world, BlockPos pos) {
@@ -126,28 +131,4 @@ public class VentGenerator implements Feature {
         return false;//id.isReplaceableOreGen(world, pos, Blocks.STONE);
     }
 
-    private static class VentGen implements WeightedRandom.DynamicWeight {
-
-        private final VentType type;
-
-        private double weight;
-
-        private VentGen(VentType v) {
-            type = v;
-        }
-
-        private void calcWeight(WorldGenLevel world, int x, int y, int z) {
-            float f = Math.clamp(world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) / 64F, 0.25F, 1);
-            weight = type.getSpawnWeight((int) (y / f), world.getLevel().dimension() == Level.NETHER);
-            if (type == VentType.CRYO && !ReikaBiomeHelper.isSnowBiome(world.getBiome(new BlockPos(x, y, z)).unwrapKey().get())) {
-                weight = 0;
-            }
-        }
-
-        @Override
-        public double getWeight() {
-            return weight;
-        }
-
-    }
 }

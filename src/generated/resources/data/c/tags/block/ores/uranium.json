@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:limestone_uranium_ore",
+    "geostrata:gneiss_uranium_ore",
+    "geostrata:slate_uranium_ore",
+    "geostrata:onyx_uranium_ore",
+    "geostrata:shale_uranium_ore",
+    "geostrata:peridotite_uranium_ore",
+    "geostrata:migmatite_uranium_ore",
+    "geostrata:granite_uranium_ore",
+    "geostrata:schist_uranium_ore",
+    "geostrata:granulite_uranium_ore",
+    "geostrata:basalt_uranium_ore",
+    "geostrata:sandstone_uranium_ore",
+    "geostrata:marble_uranium_ore",
+    "geostrata:pumice_uranium_ore",
+    "geostrata:quartz_uranium_ore",
+    "geostrata:hornfel_uranium_ore",
+    "geostrata:opal_uranium_ore"
+  ]
+}

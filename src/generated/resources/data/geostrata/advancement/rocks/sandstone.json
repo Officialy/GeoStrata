@@ -1,0 +1,35 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "geostrata:sandstone_smooth",
+              "geostrata:sandstone_cobble"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.rocks/sandstone.description"
+    },
+    "icon": {
+      "id": "geostrata:sandstone_cobble"
+    },
+    "title": {
+      "translate": "advancements.geostrata.rocks/sandstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

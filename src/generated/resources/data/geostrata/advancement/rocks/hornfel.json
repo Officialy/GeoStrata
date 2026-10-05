@@ -1,0 +1,35 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "geostrata:hornfel_smooth",
+              "geostrata:hornfel_cobble"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.rocks/hornfel.description"
+    },
+    "icon": {
+      "id": "geostrata:hornfel_cobble"
+    },
+    "title": {
+      "translate": "advancements.geostrata.rocks/hornfel.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

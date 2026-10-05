@@ -1,0 +1,208 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "basalt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:basalt_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "gneiss": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:gneiss_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "granite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:granite_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "granulite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:granulite_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hornfel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:hornfel_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "limestone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:limestone_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "marble": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:marble_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "migmatite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:migmatite_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "onyx": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:onyx_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "opal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:opal_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "peridotite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:peridotite_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "pumice": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:pumice_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "quartz": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:quartz_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "sandstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:sandstone_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "schist": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:schist_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "shale": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:shale_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "slate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:slate_pillar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.masonry/pillar.description"
+    },
+    "icon": {
+      "id": "geostrata:granite_pillar"
+    },
+    "title": {
+      "translate": "advancements.geostrata.masonry/pillar.title"
+    }
+  },
+  "requirements": [
+    [
+      "granite",
+      "basalt",
+      "marble",
+      "limestone",
+      "shale",
+      "sandstone",
+      "pumice",
+      "slate",
+      "gneiss",
+      "peridotite",
+      "quartz",
+      "granulite",
+      "hornfel",
+      "migmatite",
+      "schist",
+      "onyx",
+      "opal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

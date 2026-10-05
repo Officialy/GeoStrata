@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:quartz_titanium_ore",
+    "geostrata:schist_titanium_ore",
+    "geostrata:basalt_titanium_ore",
+    "geostrata:gneiss_titanium_ore",
+    "geostrata:sandstone_titanium_ore",
+    "geostrata:peridotite_titanium_ore",
+    "geostrata:slate_titanium_ore",
+    "geostrata:granulite_titanium_ore",
+    "geostrata:migmatite_titanium_ore",
+    "geostrata:shale_titanium_ore",
+    "geostrata:limestone_titanium_ore",
+    "geostrata:pumice_titanium_ore",
+    "geostrata:opal_titanium_ore",
+    "geostrata:granite_titanium_ore",
+    "geostrata:hornfel_titanium_ore",
+    "geostrata:onyx_titanium_ore",
+    "geostrata:marble_titanium_ore"
+  ]
+}

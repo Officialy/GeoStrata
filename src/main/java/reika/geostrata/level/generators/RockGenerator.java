@@ -30,7 +30,6 @@ public class RockGenerator implements Feature {
     public static final int BASE_GEN = 24;
     public static final int VEIN_SIZE = 32;
 
-    private final int oreControl;
 
     private static final Comparator<RockGenerationPatterns.RockGenerationPattern> genSorter = new RockGenComparator();
 
@@ -49,7 +48,6 @@ public class RockGenerator implements Feature {
     }
 
     public RockGenerator() {
-        oreControl = GeoOptions.GEOORE.getValue();
 
         for (int i = 0; i < parents.length; i++) {
             parents[i] = new RockParent(RockTypes.rockList[i]);
@@ -77,6 +75,8 @@ public class RockGenerator implements Feature {
         }
         if (this.canGenInDimension(world.getLevel().dimension())) {
             this.generateRock(world, random, chunkX, chunkZ);
+            if(postConvertOres()) reika.geostrata.level.GeoPostPopulation.get(world.getLevel()).enqueue(
+                    reika.geostrata.level.GeoPostPopulation.Kind.ORE_CONVERSION,chunk.getPos(),0,0,0);
             return true;
         }
         return false;
@@ -114,15 +114,15 @@ public class RockGenerator implements Feature {
     }
 
     public final boolean postConvertOres() {
-        return oreControl == 2;
+        return GeoOptions.GEOORE.getValue() == 2;
     }
 
     public final boolean generateOres() {
-        return oreControl >= 1;
+        return GeoOptions.GEOORE.getValue() >= 1;
     }
 
     public final boolean destroyOres() {
-        return oreControl == -1;
+        return GeoOptions.GEOORE.getValue() == -1;
     }
 
     public final String getIDString() {

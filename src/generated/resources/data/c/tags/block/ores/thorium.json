@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:slate_thorium_ore",
+    "geostrata:peridotite_thorium_ore",
+    "geostrata:granulite_thorium_ore",
+    "geostrata:onyx_thorium_ore",
+    "geostrata:quartz_thorium_ore",
+    "geostrata:shale_thorium_ore",
+    "geostrata:marble_thorium_ore",
+    "geostrata:sandstone_thorium_ore",
+    "geostrata:schist_thorium_ore",
+    "geostrata:opal_thorium_ore",
+    "geostrata:pumice_thorium_ore",
+    "geostrata:basalt_thorium_ore",
+    "geostrata:gneiss_thorium_ore",
+    "geostrata:hornfel_thorium_ore",
+    "geostrata:migmatite_thorium_ore",
+    "geostrata:limestone_thorium_ore",
+    "geostrata:granite_thorium_ore"
+  ]
+}

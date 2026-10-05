@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:schist_zinc_ore",
+    "geostrata:sandstone_zinc_ore",
+    "geostrata:migmatite_zinc_ore",
+    "geostrata:hornfel_zinc_ore",
+    "geostrata:opal_zinc_ore",
+    "geostrata:slate_zinc_ore",
+    "geostrata:marble_zinc_ore",
+    "geostrata:quartz_zinc_ore",
+    "geostrata:pumice_zinc_ore",
+    "geostrata:granulite_zinc_ore",
+    "geostrata:granite_zinc_ore",
+    "geostrata:peridotite_zinc_ore",
+    "geostrata:limestone_zinc_ore",
+    "geostrata:onyx_zinc_ore",
+    "geostrata:gneiss_zinc_ore",
+    "geostrata:basalt_zinc_ore",
+    "geostrata:shale_zinc_ore"
+  ]
+}

@@ -72,12 +72,9 @@ public class WorldGenGeoRock {
                                             count++;
                                         }
                                     }
-                                  /*  else if (RockGenerator.instance.generateOres() && ReikaBlockHelper.isOre(b, meta)) {
-                                        BlockEntityGeoOre te = new BlockEntityGeoOre();
-                                        te.initialize(rock, b);
-                                        world.setBlock(dx, dy, dz, GeoBlocks.ORE.get());
-                                        world.setBlockEntity(dx, dy, dz, te);
-                                    }*/
+                                    else if (reika.geostrata.level.GeoOreConversion.convert(world,new BlockPos(dx,dy,dz),rock)) {
+                                        count++;
+                                    }
                                 }
                             }
                         }
@@ -94,7 +91,7 @@ public class WorldGenGeoRock {
             return false;
         if (!GeoOptions.OVERGEN.getState() && b instanceof GeoBlock)
             return false;
-        return b == overwrite.get(0) || b == overwrite.get(1);
+        return b == overwrite.get(0) || b == overwrite.get(1) || (GeoOptions.OVERGEN.getState() && b instanceof GeoBlock);
     }
 
 }

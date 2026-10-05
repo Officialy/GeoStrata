@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:marble_copper_ore",
+    "geostrata:peridotite_copper_ore",
+    "geostrata:basalt_copper_ore",
+    "geostrata:pumice_copper_ore",
+    "geostrata:quartz_copper_ore",
+    "geostrata:sandstone_copper_ore",
+    "geostrata:shale_copper_ore",
+    "geostrata:granulite_copper_ore",
+    "geostrata:migmatite_copper_ore",
+    "geostrata:granite_copper_ore",
+    "geostrata:slate_copper_ore",
+    "geostrata:hornfel_copper_ore",
+    "geostrata:onyx_copper_ore",
+    "geostrata:gneiss_copper_ore",
+    "geostrata:opal_copper_ore",
+    "geostrata:limestone_copper_ore",
+    "geostrata:schist_copper_ore"
+  ]
+}

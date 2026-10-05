@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:limestone_indium_ore",
+    "geostrata:onyx_indium_ore",
+    "geostrata:marble_indium_ore",
+    "geostrata:sandstone_indium_ore",
+    "geostrata:gneiss_indium_ore",
+    "geostrata:quartz_indium_ore",
+    "geostrata:shale_indium_ore",
+    "geostrata:opal_indium_ore",
+    "geostrata:granulite_indium_ore",
+    "geostrata:migmatite_indium_ore",
+    "geostrata:peridotite_indium_ore",
+    "geostrata:hornfel_indium_ore",
+    "geostrata:pumice_indium_ore",
+    "geostrata:schist_indium_ore",
+    "geostrata:granite_indium_ore",
+    "geostrata:basalt_indium_ore",
+    "geostrata:slate_indium_ore"
+  ]
+}

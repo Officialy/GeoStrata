@@ -1,0 +1,24 @@
+{
+  "values": [
+    "minecraft:forest",
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest",
+    "minecraft:dark_forest",
+    "minecraft:taiga",
+    "minecraft:snowy_taiga",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "minecraft:jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:wooded_badlands",
+    "minecraft:grove",
+    {
+      "id": "chromaticraft:rainbow_forest",
+      "required": false
+    },
+    {
+      "id": "chromaticraft:ender_forest",
+      "required": false
+    }
+  ]
+}

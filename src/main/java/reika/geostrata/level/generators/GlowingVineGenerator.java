@@ -68,24 +68,24 @@ public class GlowingVineGenerator implements Feature {
     }
 
     public static boolean canGenerateAt(WorldGenLevel world, int x, int y, int z) {
-        return isValidBiome(world, x, z) && world.getBlockState(new BlockPos(x, y, z)).isAir();//todo && ReikaWorldHelper.checkForAdjSolidBlock(world, x, y, z);
+        BlockPos pos=new BlockPos(x,y,z);
+        if(!isValidBiome(world,x,z) || !world.getBlockState(pos).isAir()) return false;
+        for(var direction:net.minecraft.core.Direction.values()) {
+            BlockPos support=pos.relative(direction);
+            if(world.getBlockState(support).isFaceSturdy(world,support,direction.getOpposite())) return true;
+        }
+        return false;
     }
 
-    private static boolean isValidBiome(WorldGenLevel world, int x, int z) {
-//        if (world.dimensionId == TwilightForestHandler.getInstance().dimensionID)
-//            return true;
-        var b = world.getBiome(new BlockPos(x, world.getMaxY(), z)).unwrapKey().orElse(Biomes.PLAINS); //PLAINS in case its null
-        var biomeHolder = world.getBiome(new BlockPos(x, world.getMaxY(), z)); //PLAINS in case its null
-
-//        if (ModList.CHROMATICRAFT.isLoaded()) {
-//            return isGlowingCliffs(b);
-//        }
-        return b == Biomes.FOREST || b == Biomes.TAIGA || b == Biomes.JUNGLE || biomeHolder.is(BiomeTags.IS_FOREST) || biomeHolder.is(BiomeTags.IS_JUNGLE);
+    private static boolean isValidBiome(WorldGenLevel world,int x,int z) {
+        var biome=world.getBiome(new BlockPos(x,world.getSeaLevel(),z));
+        if(reika.dragonapi.ModList.CHROMATICRAFT.isLoaded()) {
+            return biome.is(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.BIOME,
+                    net.minecraft.resources.Identifier.fromNamespaceAndPath("chromaticraft","luminous_cliffs")))
+                    || biome.is(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.BIOME,
+                    net.minecraft.resources.Identifier.fromNamespaceAndPath("chromaticraft","luminous_cliffs_shores")));
+        }
+        return biome.is(Biomes.FOREST) || biome.is(Biomes.TAIGA) || biome.is(Biomes.JUNGLE)
+                || biome.is(BiomeTags.IS_FOREST) || biome.is(BiomeTags.IS_JUNGLE) || biome.is(BiomeTags.IS_TAIGA);
     }
-
-//    @ModDependent(ModList.CHROMATICRAFT)
-//    private static boolean isGlowingCliffs(Biome b) {
-//        return BiomeGlowingCliffs.isGlowingCliffs(b);
-//    }
-
 }

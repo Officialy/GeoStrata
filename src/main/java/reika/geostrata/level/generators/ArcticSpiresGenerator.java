@@ -44,11 +44,8 @@ import reika.geostrata.registry.GeoBlocks;
  * "zones" so they appear in regional patches. Spire cores hide icy ore veins; the lip drips
  * icicles.
  *
- * <p>26.2 port notes: legacy retrogen could write ±64 blocks from the chunk, but a WorldGenRegion
- * cannot — so each chunk in a zone now attempts its own spires (the zone noise preserves the
- * clustering and the per-zone density comes out the same). The custom BiomeArcticSpires biome
- * painting and the ArcticSpireGenerationEvent API hook are unported (GEO-BIOME-PORT /
- * CHROMA-PORT); 1.7.10's ice plains/mountains map to the snowy-plains family below.</p>
+ * <p>The full +/-64 cluster and biome-painting footprint runs after population on FULL
+ * chunks. Feature admission only enqueues saved fresh-generation work.</p>
  */
 public class ArcticSpiresGenerator implements Feature {
 
@@ -83,26 +80,26 @@ public class ArcticSpiresGenerator implements Feature {
     }
 
     @Override
-    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
-        var chunk = world.getChunk(origin);
-        int chunkX = chunk.getPos().x() * 16;
-        int chunkZ = chunk.getPos().z() * 16;
-        int x = chunkX + random.nextInt(16);
-        int z = chunkZ + random.nextInt(16);
+    public boolean place(WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, RandomSource random, BlockPos origin) {
+        int x=origin.getX()+random.nextInt(16),z=origin.getZ()+random.nextInt(16);
+        if(!isSpireBiome(world,new BlockPos(x,64,z))) return false;
+        var planner=new ArcticSpiresGenerator();
+        planner.setSeed(world);
+        if(!planner.isGennableZone(x,z)) return false;
+        reika.geostrata.level.GeoPostPopulation.get(world.getLevel()).enqueue(
+                reika.geostrata.level.GeoPostPopulation.Kind.ARCTIC,net.minecraft.world.level.ChunkPos.containing(origin),x,z,random.nextLong());
+        return true;
+    }
 
-        if (!isSpireBiome(world, new BlockPos(x, 64, z)))
-            return false;
-        this.setSeed(world);
-        //The dedicated Arctic Spires biome (TerraBlender) IS a spire zone; vanilla snowy biomes
-        //stay gated to the legacy Voronoi zones.
-        if (!isDedicatedBiome(world, new BlockPos(x, 64, z)) && !this.isGennableZone(x, z))
-            return false;
-        return this.generateCluster(world, chunkX, chunkZ, random, 2) > 0;
+    public int generateAfterPopulation(net.minecraft.server.level.ServerLevel world,int x,int z,reika.dragonapi.instantiable.math.JavaRandomSource random) {
+        setSeed(world);
+        currentClosestZone=zoneNoise.getClosestRoot(x,64,z);
+        return generateCluster(world,x,z,random,2);
     }
 
     private boolean isGennableZone(int x, int z) {
         currentClosestZone = zoneNoise.getClosestRoot(x, 64, z);
-        return currentClosestZone != null && currentClosestZone.getDistanceTo(x, currentClosestZone.yCoord, z) <= 120;
+        return currentClosestZone != null && currentClosestZone.getDistanceTo(x, currentClosestZone.yCoord(), z) <= 120;
     }
 
     public void setSeed(WorldGenLevel world) {
@@ -117,37 +114,31 @@ public class ArcticSpiresGenerator implements Feature {
         }
     }
 
-    private int generateCluster(WorldGenLevel world, int chunkX, int chunkZ, RandomSource random, int amt) {
-        //In the dedicated biome the zone check is skipped, so the closest zone may be unset;
-        //fall back to a zone lookup purely for the shared cluster tilt.
-        if (currentClosestZone == null)
-            currentClosestZone = zoneNoise.getClosestRoot(chunkX, 64, chunkZ);
-        double baseTilt = currentClosestZone == null ? (chunkX * 2387.183) % 360D : (currentClosestZone.hashCode() * 2387.183) % 360D;
-        Random jrand = new Random(random.nextLong());
-        int count = 0;
-        HashSet<BlockPos> genned = new HashSet<>();
-        for (int i = 0; i < amt; i++) {
-            //Center in the middle 8x8 of the chunk: spire radius (<=18) always fits the writable region.
-            int x = chunkX + 4 + random.nextInt(8);
-            int z = chunkZ + 4 + random.nextInt(8);
-            if (!isSpireBiome(world, new BlockPos(x, 64, z)))
-                continue;
-            boolean tooClose = false;
-            for (BlockPos c : genned) {
-                if (Math.abs(c.getX() - x) + Math.abs(c.getZ() - z) < 24) {
-                    tooClose = true;
-                    break;
-                }
+    private int generateCluster(net.minecraft.server.level.ServerLevel world, int chunkX, int chunkZ,
+                                reika.dragonapi.instantiable.math.JavaRandomSource random, int amt) {
+        double baseTilt=currentClosestZone.hashCode()*2387.183%360D;
+        Random jrand=random;
+        int count=0;
+        HashSet<BlockPos> genned=new HashSet<>();
+        for(int i=0;i<amt;i++) {
+            // Verify that a site exists before rejection sampling, preventing impossible loops
+            // when an earlier structure or biome paint has removed the eligible area.
+            boolean available=false;
+            for(int dx=-64;dx<=64 && !available;dx++) for(int dz=-64;dz<=64;dz++) {
+                int ax=chunkX+dx,az=chunkZ+dz;
+                if(isSpireBiome(world,new BlockPos(ax,64,az)) && separated(genned,ax,az)) { available=true;break; }
             }
-            if (tooClose)
-                continue;
-            int y = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
+            if(!available) break;
+            int x,z;
+            do { x=chunkX+random.nextInt(129)-64;z=chunkZ+random.nextInt(129)-64; }
+            while(!isSpireBiome(world,new BlockPos(x,64,z)) || !separated(genned,x,z));
+            int y = world.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
             double tilt = baseTilt + (jrand.nextDouble() * 30 - 15);
             ArcticSpire sp = new ArcticSpire();
             if (sp.generate(world, x, y, z, tilt, jrand)) {
                 genned.add(new BlockPos(x, y, z));
                 count++;
-                //GEO-BIOME-PORT: legacy painted the BiomeArcticSpires biome over the cluster area here.
+                paintBiome(world,x,z,jrand);
                 HashSet<BlockPos> snowCover = new HashSet<>();
                 this.placeIceVeins(world, sp, y, jrand);
                 for (Entry<BlockPos, Integer> e : sp.columns.entrySet()) {
@@ -187,10 +178,29 @@ public class ArcticSpiresGenerator implements Feature {
                         }
                     }
                 }
-                //CHROMA-PORT: legacy fired ArcticSpireGenerationEvent here for interop.
+                net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
+                        new reika.geostrata.api.ArcticSpireGenerationEvent(world,x,y,z,random,sp.core,snowCover));
             }
         }
         return count;
+    }
+
+    public static boolean separated(java.util.Set<BlockPos> generated,int x,int z) {
+        return generated.stream().noneMatch(p -> Math.abs(p.getX()-x)+Math.abs(p.getZ()-z)<24);
+    }
+
+    public static void paintBiome(net.minecraft.server.level.ServerLevel world,int x,int z,Random random) {
+        LobulatedCurve curve=LobulatedCurve.fromMinMaxRadii(32,80,6,true).generate(random);
+        var cells=new java.util.HashSet<Long>();
+        for(double angle=0;angle<360;angle+=.33) {
+            double radius=curve.getRadius(angle),radians=Math.toRadians(angle);
+            for(double r=0;r<=radius;r+=.5) {
+                int dx=Mth.floor(x+r*Math.cos(radians)),dz=Mth.floor(z+r*Math.sin(radians));
+                if(isSpireBiome(world,new BlockPos(dx,64,dz)) && !isDedicatedBiome(world,new BlockPos(dx,64,dz)))
+                    cells.add(reika.geostrata.level.GeoBiomePainter.cell(dx,dz));
+            }
+        }
+        reika.geostrata.level.GeoBiomePainter.paint(world,cells,reika.geostrata.level.GeoBiomes.ARCTIC_SPIRES);
     }
 
     /** Hides a few icy ore veins in the spire core wall (legacy: 3-9, exactly one exposed face). */
@@ -274,7 +284,7 @@ public class ArcticSpiresGenerator implements Feature {
                 for (int k = -r; k <= r; k++) {
                     int dx = x + i;
                     int dz = z + k;
-                    int y = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, dx, dz) - 1;
+                    int y = world.getHeight(Heightmap.Types.WORLD_SURFACE, dx, dz) - 1;
                     while (y > world.getMinY() && (ReikaWorldHelper.softBlocks(world, new BlockPos(dx, y, dz))
                             || world.getBlockState(new BlockPos(dx, y, dz)).is(BlockTags.LOGS)
                             || world.getBlockState(new BlockPos(dx, y, dz)).is(BlockTags.LEAVES)))
@@ -363,8 +373,8 @@ public class ArcticSpiresGenerator implements Feature {
                             rL -= 0.875;
                         if (d <= rL) {
                             //Tilt drift clamped to ±8 (legacy could drift ~38 blocks; a WorldGenRegion cannot).
-                            int ox = Mth.floor(Mth.clamp(tiltX * j, -8, 8));
-                            int oz = Mth.floor(Mth.clamp(tiltZ * j, -8, 8));
+                            int ox = Mth.floor(tiltX*j);
+                            int oz = Mth.floor(tiltZ*j);
                             this.setBlock(world, dx + ox, dy + j, dz + oz, Blocks.PACKED_ICE);
                         }
                     }

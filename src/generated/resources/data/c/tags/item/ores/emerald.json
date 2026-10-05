@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:granite_emerald_ore",
+    "geostrata:peridotite_emerald_ore",
+    "geostrata:opal_emerald_ore",
+    "geostrata:migmatite_emerald_ore",
+    "geostrata:limestone_emerald_ore",
+    "geostrata:onyx_emerald_ore",
+    "geostrata:slate_emerald_ore",
+    "geostrata:quartz_emerald_ore",
+    "geostrata:schist_emerald_ore",
+    "geostrata:pumice_emerald_ore",
+    "geostrata:gneiss_emerald_ore",
+    "geostrata:shale_emerald_ore",
+    "geostrata:sandstone_emerald_ore",
+    "geostrata:hornfel_emerald_ore",
+    "geostrata:basalt_emerald_ore",
+    "geostrata:granulite_emerald_ore",
+    "geostrata:marble_emerald_ore"
+  ]
+}

@@ -27,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
 public final class GeoBiomeModifierProvider implements DataProvider {
 
     /** One JSON per {@code id}; {@code feature} is the placed feature it points at (default: same as id). */
-    private static final record Entry(String id, String feature, GenerationStep.Decoration step, String biomes) {
+    private record Entry(String id, String feature, GenerationStep.Decoration step, String biomes) {
         Entry(String id, GenerationStep.Decoration step) {
             this(id, id, step, "#minecraft:is_overworld");
         }

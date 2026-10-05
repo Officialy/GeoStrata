@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:peridotite_bismuth_ore",
+    "geostrata:shale_bismuth_ore",
+    "geostrata:basalt_bismuth_ore",
+    "geostrata:hornfel_bismuth_ore",
+    "geostrata:opal_bismuth_ore",
+    "geostrata:limestone_bismuth_ore",
+    "geostrata:granite_bismuth_ore",
+    "geostrata:gneiss_bismuth_ore",
+    "geostrata:pumice_bismuth_ore",
+    "geostrata:sandstone_bismuth_ore",
+    "geostrata:slate_bismuth_ore",
+    "geostrata:marble_bismuth_ore",
+    "geostrata:migmatite_bismuth_ore",
+    "geostrata:onyx_bismuth_ore",
+    "geostrata:granulite_bismuth_ore",
+    "geostrata:schist_bismuth_ore",
+    "geostrata:quartz_bismuth_ore"
+  ]
+}

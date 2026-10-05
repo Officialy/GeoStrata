@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:gneiss_gold_ore",
+    "geostrata:granulite_gold_ore",
+    "geostrata:shale_gold_ore",
+    "geostrata:limestone_gold_ore",
+    "geostrata:basalt_gold_ore",
+    "geostrata:pumice_gold_ore",
+    "geostrata:peridotite_gold_ore",
+    "geostrata:quartz_gold_ore",
+    "geostrata:opal_gold_ore",
+    "geostrata:sandstone_gold_ore",
+    "geostrata:migmatite_gold_ore",
+    "geostrata:hornfel_gold_ore",
+    "geostrata:onyx_gold_ore",
+    "geostrata:granite_gold_ore",
+    "geostrata:slate_gold_ore",
+    "geostrata:marble_gold_ore",
+    "geostrata:schist_gold_ore"
+  ]
+}

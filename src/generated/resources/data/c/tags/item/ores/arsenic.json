@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:migmatite_arsenic_ore",
+    "geostrata:opal_arsenic_ore",
+    "geostrata:gneiss_arsenic_ore",
+    "geostrata:schist_arsenic_ore",
+    "geostrata:basalt_arsenic_ore",
+    "geostrata:shale_arsenic_ore",
+    "geostrata:granite_arsenic_ore",
+    "geostrata:quartz_arsenic_ore",
+    "geostrata:peridotite_arsenic_ore",
+    "geostrata:marble_arsenic_ore",
+    "geostrata:slate_arsenic_ore",
+    "geostrata:onyx_arsenic_ore",
+    "geostrata:limestone_arsenic_ore",
+    "geostrata:granulite_arsenic_ore",
+    "geostrata:pumice_arsenic_ore",
+    "geostrata:hornfel_arsenic_ore",
+    "geostrata:sandstone_arsenic_ore"
+  ]
+}

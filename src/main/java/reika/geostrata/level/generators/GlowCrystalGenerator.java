@@ -24,17 +24,25 @@ import java.util.HashSet;
 
 public class GlowCrystalGenerator implements Feature {
 
-    public static final com.mojang.serialization.MapCodec<GlowCrystalGenerator> CODEC =
-            com.mojang.serialization.MapCodec.unit(GlowCrystalGenerator::new);
-
-    @Override
-    public com.mojang.serialization.MapCodec<GlowCrystalGenerator> codec() {
-        return CODEC;
+    public record TreeDensity(net.minecraft.tags.TagKey<Biome> biomes,int trees,boolean forestName) {
+        public static final com.mojang.serialization.Codec<TreeDensity> CODEC=com.mojang.serialization.codecs.RecordCodecBuilder.create(i -> i.group(
+                net.minecraft.tags.TagKey.hashedCodec(net.minecraft.core.registries.Registries.BIOME).fieldOf("biomes").forGetter(TreeDensity::biomes),
+                com.mojang.serialization.Codec.INT.fieldOf("trees").forGetter(TreeDensity::trees),
+                com.mojang.serialization.Codec.BOOL.fieldOf("forest_name").forGetter(TreeDensity::forestName)
+        ).apply(i,TreeDensity::new));
     }
+    public static final com.mojang.serialization.MapCodec<GlowCrystalGenerator> CODEC=
+            TreeDensity.CODEC.listOf().fieldOf("tree_densities").xmap(GlowCrystalGenerator::new,g -> g.treeDensities);
+    private final java.util.List<TreeDensity> treeDensities;
+    public GlowCrystalGenerator(java.util.List<TreeDensity> treeDensities) { this.treeDensities=java.util.List.copyOf(treeDensities); }
+    @Override public com.mojang.serialization.MapCodec<GlowCrystalGenerator> codec() { return CODEC; }
 
-    private static final int BASE_CHANCE = (int) (96 / GeoOptions.getCrystalDensity());
-
-    public GlowCrystalGenerator() {
+    public static boolean admitted(int trees,boolean forestName,RandomSource random) {
+        if(trees>0 || forestName) {
+            // Source's <=2 branch followed <=4 and was unreachable: keep its actual 1/3 rejection.
+            return trees>4 || random.nextInt(3)!=0;
+        }
+        return random.nextInt(3)==0;
     }
 
     @Override
@@ -43,19 +51,15 @@ public class GlowCrystalGenerator implements Feature {
         var chunkX = chunk.getPos().x();
         var chunkZ = chunk.getPos().z();
 
-        if (/*world.getWorldInfo().getTerrainType() != LevelType.FLAT &&*/ world.getLevel().dimension() != Level.END && random.nextInt(BASE_CHANCE) == 0) {
+        if (!(generator instanceof net.minecraft.world.level.levelgen.FlatLevelSource) && world.getLevel().dimension() != Level.END && random.nextInt(Math.max(1,(int)(96/GeoOptions.getCrystalDensity()))) == 0) {
             chunkX *= 16;
             chunkZ *= 16;
             int x = chunkX + random.nextInt(16);
             int z = chunkZ + random.nextInt(16);
-            // Legacy biased generation toward treed biomes (dense forest: no rejection; sparse
-            // trees: 1/3 rejected; treeless: 2/3 rejected). Tree density per biome is gone in
-            // modern MC, so approximate with the forest/jungle/taiga tags.
-            var biomeHolder = world.getBiome(new BlockPos(x, 100, z));
-            if (!biomeHolder.is(BiomeTags.IS_FOREST) && !biomeHolder.is(BiomeTags.IS_JUNGLE) && !biomeHolder.is(BiomeTags.IS_TAIGA)) {
-                if (random.nextInt(3) > 0)
-                    return false;
-            }
+            var biomeHolder=world.getBiome(new BlockPos(x,100,z));
+            int trees=0;boolean namedForest=false;
+            for(var rule:treeDensities) if(biomeHolder.is(rule.biomes())) { trees=rule.trees();namedForest=rule.forestName();break; }
+            if(!admitted(trees,namedForest,random)) return false;
 			/*
 			int maxy = 60;
 			Biome b = world.getBiomeGenForCoords(x, z);
@@ -174,7 +178,7 @@ public class GlowCrystalGenerator implements Feature {
         }
     }
 
-    private void setBlock(Level world, BlockPos pos, BlockState b) {
+    private void setBlock(WorldGenLevel world, BlockPos pos, BlockState b) {
         BlockState at = world.getBlockState(pos);
         if (ReikaBlockHelper.isGroundType(world, pos) || /*at.isReplaceableOreGen(world, pos, Blocks.COBBLESTONE) ||
                 at.isReplaceableOreGen(world, pos, Blocks.DIRT) || at.isReplaceableOreGen(world, pos, Blocks.GRASS) ||
@@ -184,7 +188,7 @@ public class GlowCrystalGenerator implements Feature {
                 /*at.canBeReplacedByLeaves(world, pos) || */ at.getMapColor(world, pos) == MapColor.PLANT) {
 
             world.setBlock(pos, b, 3);
-            world.sendBlockUpdated(pos, at, at, 3);
+
         }
     }
 

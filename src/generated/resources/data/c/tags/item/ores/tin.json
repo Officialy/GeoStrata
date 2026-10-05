@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:pumice_tin_ore",
+    "geostrata:migmatite_tin_ore",
+    "geostrata:marble_tin_ore",
+    "geostrata:granulite_tin_ore",
+    "geostrata:onyx_tin_ore",
+    "geostrata:shale_tin_ore",
+    "geostrata:slate_tin_ore",
+    "geostrata:peridotite_tin_ore",
+    "geostrata:gneiss_tin_ore",
+    "geostrata:hornfel_tin_ore",
+    "geostrata:opal_tin_ore",
+    "geostrata:basalt_tin_ore",
+    "geostrata:sandstone_tin_ore",
+    "geostrata:granite_tin_ore",
+    "geostrata:quartz_tin_ore",
+    "geostrata:schist_tin_ore",
+    "geostrata:limestone_tin_ore"
+  ]
+}

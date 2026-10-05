@@ -25,11 +25,8 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
     }
 
     private RockEntry initData(LevelAccessor world, RockTypes geo) {
-        RockEntry gen = data[geo.ordinal()];
-        if (gen != null) {
-            ((ServerLevel)world).getSeed();
-        }
-        gen = new RockEntry(world, geo);
+        RockEntry gen=data[geo.ordinal()];
+        if(gen==null) data[geo.ordinal()]=gen=new RockEntry(world,geo);
         return gen;
     }
 
@@ -46,12 +43,9 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
                             if (this.canGenerateIn(world, x, y, z, b)) {
                                 world.setBlock(new BlockPos(x, y, z), gen.blockID, 3);
                             }
-                            /*todo else if (RockGenerator.instance.generateOres() && ReikaBlockHelper.isOre(b, meta)) {
-                                BlockEntityGeoOre te = new BlockEntityGeoOre();
-                                te.initialize(geo, b, meta);
-                                world.setBlock(x, y, z, GeoBlocks.ORETILE.get());
-                                world.setBlockEntity(x, y, z, te);
-                            }*/
+                            else {
+                                reika.geostrata.level.GeoOreConversion.convert(world,new BlockPos(x,y,z),geo);
+                            }
                         }
                     }
                 }
@@ -64,7 +58,7 @@ public class SimplexRockGenerator implements RockGenerationPatterns.RockGenerati
             return false;
         if (!GeoOptions.OVERGEN.getState() && b instanceof GeoBlock)
             return false;
-        return world.getBlockState(new BlockPos(x,y,z)).getBlock() == Blocks.STONE || world.getBlockState(new BlockPos(x,y,z)).getBlock() == Blocks.DEEPSLATE;//todo b.isReplaceableOreGen(world, x, y, z, Blocks.STONE);
+        return b==Blocks.STONE || b==Blocks.DEEPSLATE || (GeoOptions.OVERGEN.getState() && b instanceof GeoBlock);
     }
 
     @Override

@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:limestone_peridot_ore",
+    "geostrata:onyx_peridot_ore",
+    "geostrata:peridotite_peridot_ore",
+    "geostrata:granite_peridot_ore",
+    "geostrata:schist_peridot_ore",
+    "geostrata:basalt_peridot_ore",
+    "geostrata:shale_peridot_ore",
+    "geostrata:hornfel_peridot_ore",
+    "geostrata:sandstone_peridot_ore",
+    "geostrata:granulite_peridot_ore",
+    "geostrata:gneiss_peridot_ore",
+    "geostrata:marble_peridot_ore",
+    "geostrata:pumice_peridot_ore",
+    "geostrata:opal_peridot_ore",
+    "geostrata:migmatite_peridot_ore",
+    "geostrata:quartz_peridot_ore",
+    "geostrata:slate_peridot_ore"
+  ]
+}

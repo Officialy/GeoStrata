@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:schist_platinum_ore",
+    "geostrata:gneiss_platinum_ore",
+    "geostrata:granulite_platinum_ore",
+    "geostrata:opal_platinum_ore",
+    "geostrata:hornfel_platinum_ore",
+    "geostrata:migmatite_platinum_ore",
+    "geostrata:onyx_platinum_ore",
+    "geostrata:pumice_platinum_ore",
+    "geostrata:shale_platinum_ore",
+    "geostrata:marble_platinum_ore",
+    "geostrata:peridotite_platinum_ore",
+    "geostrata:sandstone_platinum_ore",
+    "geostrata:basalt_platinum_ore",
+    "geostrata:granite_platinum_ore",
+    "geostrata:slate_platinum_ore",
+    "geostrata:limestone_platinum_ore",
+    "geostrata:quartz_platinum_ore"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:lowtempdiamonds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.low_temp_diamonds.description"
+    },
+    "icon": {
+      "id": "geostrata:lowtempdiamonds"
+    },
+    "title": {
+      "translate": "advancements.geostrata.low_temp_diamonds.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

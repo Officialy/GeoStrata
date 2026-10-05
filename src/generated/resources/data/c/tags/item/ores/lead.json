@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:hornfel_lead_ore",
+    "geostrata:onyx_lead_ore",
+    "geostrata:limestone_lead_ore",
+    "geostrata:granulite_lead_ore",
+    "geostrata:pumice_lead_ore",
+    "geostrata:basalt_lead_ore",
+    "geostrata:gneiss_lead_ore",
+    "geostrata:sandstone_lead_ore",
+    "geostrata:opal_lead_ore",
+    "geostrata:quartz_lead_ore",
+    "geostrata:granite_lead_ore",
+    "geostrata:shale_lead_ore",
+    "geostrata:peridotite_lead_ore",
+    "geostrata:marble_lead_ore",
+    "geostrata:schist_lead_ore",
+    "geostrata:migmatite_lead_ore",
+    "geostrata:slate_lead_ore"
+  ]
+}

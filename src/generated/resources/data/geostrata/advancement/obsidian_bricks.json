@@ -1,0 +1,32 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:obsidian_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.obsidian_bricks.description"
+    },
+    "icon": {
+      "id": "geostrata:obsidian_bricks"
+    },
+    "title": {
+      "translate": "advancements.geostrata.obsidian_bricks.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -36,6 +36,13 @@ public class GeoBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        for(var entry:reika.geostrata.registry.GeoBlocks.oreMapping.entrySet()) {
+            String material=reika.geostrata.level.GeoOreConversion.material(entry.getValue().getRight());
+            var mineral=net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.BLOCK,net.minecraft.resources.Identifier.fromNamespaceAndPath("c","ores/"+material));
+            tag(mineral).add(entry.getKey().builtInRegistryHolder().key());
+            tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.BLOCK,net.minecraft.resources.Identifier.fromNamespaceAndPath("c","ores"))).addTag(mineral);
+        }
+
         // 26.3 made movement blocking, suffocation, fluid blocking and fluid washing tag-driven and
         // NeoForge tags no modded blocks; give every block its 26.2 behaviour (see LegacyMotionTags).
         var motionTag = tag(BlockTags.BLOCKS_MOTION_NO_LEAVES);

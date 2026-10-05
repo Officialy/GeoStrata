@@ -26,8 +26,8 @@ import reika.geostrata.block.BlockCreepvine.Pieces;
 
 /**
  * Creepvine worldgen: dense glowing kelp groves in noise-selected patches of deep ocean.
- * Fertile stalks (60%) carry a full seed core. The 1.7.10 BiomeKelpForest biome painting over
- * grove areas is unported (GEO-BIOME-PORT); the noise patches provide the same clustering.
+ * Fertile stalks (60%) carry a full seed core. Saved post-population work paints
+ * the original lobulated Kelp Forest footprint around successful stalks.
  */
 public class CreepvineGenerator implements Feature {
 
@@ -46,35 +46,49 @@ public class CreepvineGenerator implements Feature {
     }
 
     @Override
-    public boolean place(net.minecraft.world.level.WorldGenLevel world, net.minecraft.world.level.chunk.ChunkGenerator generator, net.minecraft.util.RandomSource random, net.minecraft.core.BlockPos origin) {
-        var chunk = world.getChunk(origin);
-        int chunkX = chunk.getPos().x() * 16;
-        int chunkZ = chunk.getPos().z() * 16;
+    public boolean place(WorldGenLevel world,net.minecraft.world.level.chunk.ChunkGenerator generator,RandomSource random,BlockPos origin) {
+        var chunk=net.minecraft.world.level.ChunkPos.containing(origin);
+        setSeed(world);
+        boolean eligible=false;
+        for(int x=0;x<16 && !eligible;x++) for(int z=0;z<16 && !eligible;z++)
+            eligible=isValidLocation(world,chunk.getMinBlockX()+x,chunk.getMinBlockZ()+z);
+        if(!eligible) return false;
+        reika.geostrata.level.GeoPostPopulation.get(world.getLevel()).enqueue(
+                reika.geostrata.level.GeoPostPopulation.Kind.CREEPVINE,chunk,origin.getX(),origin.getZ(),random.nextLong());
+        return true;
+    }
 
-        this.setSeed(world);
-        boolean placed = false;
-        for (int i = 0; i < 64; i++) {
-            int x = chunkX + random.nextInt(16);
-            int z = chunkZ + random.nextInt(16);
-            int y = world.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z);
-            if (this.isValidLocation(world, x, z)) {
-                if (generate(world, x, y, z, random, 6, 12, 0.6F, true)) {
-                    placed = true;
-                    //GEO-BIOME-PORT: legacy painted BiomeKelpForest over a lobulated area around the stalk.
-                }
+    public boolean generateAfterPopulation(net.minecraft.server.level.ServerLevel world,net.minecraft.world.level.ChunkPos chunk,
+                                           reika.dragonapi.instantiable.math.JavaRandomSource random) {
+        setSeed(world);
+        boolean placed=false;
+        for(int i=0;i<64;i++) {
+            int x=chunk.getMinBlockX()+random.nextInt(16),z=chunk.getMinBlockZ()+random.nextInt(16);
+            int y=world.getHeight(Heightmap.Types.OCEAN_FLOOR,x,z);
+            if(isValidLocation(world,x,z) && generate(world,x,y,z,random,6,12,.6F,true)) {
+                placed=true;
+                paintBiome(world,x,z,random);
             }
         }
         return placed;
+    }
+
+    public void paintBiome(net.minecraft.server.level.ServerLevel world,int x,int z,java.util.Random random) {
+        setSeed(world);
+        var curve=reika.dragonapi.instantiable.math.LobulatedCurve.fromMinMaxRadii(3,7,5,true).generate(random);
+        var cells=new java.util.HashSet<Long>();
+        for(int a=-7;a<=7;a++) for(int b=-7;b<=7;b++) {
+            int dx=x+a,dz=z+b;
+            if(isValidLocation(world,dx,dz) && Math.hypot(a,b)<=curve.getRadius(Math.toDegrees(Math.atan2(b,a))))
+                cells.add(reika.geostrata.level.GeoBiomePainter.cell(dx,dz));
+        }
+        reika.geostrata.level.GeoBiomePainter.paint(world,cells,reika.geostrata.level.GeoBiomes.KELP_FOREST);
     }
 
     private boolean isValidLocation(WorldGenLevel world, int x, int z) {
         ResourceKey<Biome> b = world.getBiome(new BlockPos(x, 64, z)).unwrapKey().orElse(null);
         if (b == null)
             return false;
-        //The dedicated Kelp Forest biome (TerraBlender) is always a grove; other oceans stay
-        //gated to the legacy noise patches.
-        if (b == reika.geostrata.level.GeoBiomes.KELP_FOREST)
-            return true;
         return ReikaBiomeHelper.isOcean(world, b) && mainNoise.getValue(x, z) > 0.55;
     }
 

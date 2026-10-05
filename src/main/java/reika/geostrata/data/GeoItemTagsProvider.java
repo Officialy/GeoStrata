@@ -18,6 +18,13 @@ public final class GeoItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        for(var entry:reika.geostrata.registry.GeoBlocks.oreMapping.entrySet()) {
+            String material=reika.geostrata.level.GeoOreConversion.material(entry.getValue().getRight());
+            var mineral=net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM,net.minecraft.resources.Identifier.fromNamespaceAndPath("c","ores/"+material));
+            tag(mineral).add(entry.getKey().asItem().builtInRegistryHolder().key());
+            tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM,net.minecraft.resources.Identifier.fromNamespaceAndPath("c","ores"))).addTag(mineral);
+        }
+
         for (RockTypes rock : RockTypes.rockList) {
             var smooth = rock.getID(RockShapes.SMOOTH).asItem().builtInRegistryHolder().key();
             var cobble = rock.getID(RockShapes.COBBLE).asItem().builtInRegistryHolder().key();

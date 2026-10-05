@@ -1,0 +1,32 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:rf_crystal_seed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.flux_seed.description"
+    },
+    "icon": {
+      "id": "geostrata:rf_crystal_seed"
+    },
+    "title": {
+      "translate": "advancements.geostrata.flux_seed.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

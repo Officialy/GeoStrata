@@ -13,3 +13,14 @@ dependencies {
     // Runtime-required for Arctic Spires and Kelp Forest biome injection.
     implementation "com.github.glitchfiend:TerraBlender-neoforge:26.3-26.3.0.0.7-local.1"
 }
+
+neoForge {
+    unitTest {
+        enable()
+        testedMod = mods.named(project.mod_id).get()
+    }
+}
+
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+}

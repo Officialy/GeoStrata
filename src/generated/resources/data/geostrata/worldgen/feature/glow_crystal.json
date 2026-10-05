@@ -1,3 +1,20 @@
 {
-  "type": "geostrata:glow_crystal"
+  "type": "geostrata:glow_crystal",
+  "tree_densities": [
+    {
+      "biomes": "#geostrata:glow_crystal/dense_trees",
+      "forest_name": true,
+      "trees": 10
+    },
+    {
+      "biomes": "#geostrata:glow_crystal/sparse_trees",
+      "forest_name": false,
+      "trees": 2
+    },
+    {
+      "biomes": "#geostrata:glow_crystal/forest_name",
+      "forest_name": true,
+      "trees": 0
+    }
+  ]
 }

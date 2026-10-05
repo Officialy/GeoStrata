@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:marble_topaz_ore",
+    "geostrata:gneiss_topaz_ore",
+    "geostrata:granite_topaz_ore",
+    "geostrata:schist_topaz_ore",
+    "geostrata:slate_topaz_ore",
+    "geostrata:basalt_topaz_ore",
+    "geostrata:peridotite_topaz_ore",
+    "geostrata:granulite_topaz_ore",
+    "geostrata:onyx_topaz_ore",
+    "geostrata:migmatite_topaz_ore",
+    "geostrata:limestone_topaz_ore",
+    "geostrata:opal_topaz_ore",
+    "geostrata:quartz_topaz_ore",
+    "geostrata:sandstone_topaz_ore",
+    "geostrata:pumice_topaz_ore",
+    "geostrata:shale_topaz_ore",
+    "geostrata:hornfel_topaz_ore"
+  ]
+}

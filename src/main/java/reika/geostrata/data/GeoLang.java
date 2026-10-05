@@ -26,6 +26,7 @@ public class GeoLang extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add("tab.geostrata", "GeoStrata");
+        GeoAdvancementProvider.addTranslations(this::add);
         add("tab.geostrata_stone", "GeoStrata Stones");
         add("tab.geostrata_ores", "GeoStrata Ores");
         add("tab.geostrata_stairs", "GeoStrata Stairs");

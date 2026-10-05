@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:quartz_silver_ore",
+    "geostrata:granulite_silver_ore",
+    "geostrata:peridotite_silver_ore",
+    "geostrata:gneiss_silver_ore",
+    "geostrata:granite_silver_ore",
+    "geostrata:schist_silver_ore",
+    "geostrata:hornfel_silver_ore",
+    "geostrata:opal_silver_ore",
+    "geostrata:limestone_silver_ore",
+    "geostrata:basalt_silver_ore",
+    "geostrata:shale_silver_ore",
+    "geostrata:migmatite_silver_ore",
+    "geostrata:pumice_silver_ore",
+    "geostrata:onyx_silver_ore",
+    "geostrata:slate_silver_ore",
+    "geostrata:marble_silver_ore",
+    "geostrata:sandstone_silver_ore"
+  ]
+}

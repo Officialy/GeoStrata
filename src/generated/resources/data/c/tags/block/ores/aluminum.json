@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:sandstone_aluminium_ore",
+    "geostrata:onyx_aluminium_ore",
+    "geostrata:shale_aluminium_ore",
+    "geostrata:peridotite_aluminium_ore",
+    "geostrata:marble_aluminium_ore",
+    "geostrata:quartz_aluminium_ore",
+    "geostrata:pumice_aluminium_ore",
+    "geostrata:opal_aluminium_ore",
+    "geostrata:granulite_aluminium_ore",
+    "geostrata:hornfel_aluminium_ore",
+    "geostrata:limestone_aluminium_ore",
+    "geostrata:basalt_aluminium_ore",
+    "geostrata:granite_aluminium_ore",
+    "geostrata:schist_aluminium_ore",
+    "geostrata:slate_aluminium_ore",
+    "geostrata:gneiss_aluminium_ore",
+    "geostrata:migmatite_aluminium_ore"
+  ]
+}

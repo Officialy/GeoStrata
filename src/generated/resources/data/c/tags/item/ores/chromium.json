@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:marble_chromium_ore",
+    "geostrata:shale_chromium_ore",
+    "geostrata:sandstone_chromium_ore",
+    "geostrata:opal_chromium_ore",
+    "geostrata:quartz_chromium_ore",
+    "geostrata:limestone_chromium_ore",
+    "geostrata:schist_chromium_ore",
+    "geostrata:basalt_chromium_ore",
+    "geostrata:hornfel_chromium_ore",
+    "geostrata:granulite_chromium_ore",
+    "geostrata:pumice_chromium_ore",
+    "geostrata:peridotite_chromium_ore",
+    "geostrata:slate_chromium_ore",
+    "geostrata:migmatite_chromium_ore",
+    "geostrata:gneiss_chromium_ore",
+    "geostrata:onyx_chromium_ore",
+    "geostrata:granite_chromium_ore"
+  ]
+}

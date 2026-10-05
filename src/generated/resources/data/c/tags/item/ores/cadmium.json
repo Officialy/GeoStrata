@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:pumice_cadmium_ore",
+    "geostrata:marble_cadmium_ore",
+    "geostrata:limestone_cadmium_ore",
+    "geostrata:granite_cadmium_ore",
+    "geostrata:sandstone_cadmium_ore",
+    "geostrata:opal_cadmium_ore",
+    "geostrata:slate_cadmium_ore",
+    "geostrata:hornfel_cadmium_ore",
+    "geostrata:granulite_cadmium_ore",
+    "geostrata:schist_cadmium_ore",
+    "geostrata:shale_cadmium_ore",
+    "geostrata:migmatite_cadmium_ore",
+    "geostrata:gneiss_cadmium_ore",
+    "geostrata:peridotite_cadmium_ore",
+    "geostrata:quartz_cadmium_ore",
+    "geostrata:onyx_cadmium_ore",
+    "geostrata:basalt_cadmium_ore"
+  ]
+}

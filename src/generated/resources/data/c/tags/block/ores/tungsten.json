@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:slate_tungsten_ore",
+    "geostrata:gneiss_tungsten_ore",
+    "geostrata:granulite_tungsten_ore",
+    "geostrata:sandstone_tungsten_ore",
+    "geostrata:schist_tungsten_ore",
+    "geostrata:granite_tungsten_ore",
+    "geostrata:basalt_tungsten_ore",
+    "geostrata:limestone_tungsten_ore",
+    "geostrata:quartz_tungsten_ore",
+    "geostrata:pumice_tungsten_ore",
+    "geostrata:opal_tungsten_ore",
+    "geostrata:migmatite_tungsten_ore",
+    "geostrata:marble_tungsten_ore",
+    "geostrata:onyx_tungsten_ore",
+    "geostrata:shale_tungsten_ore",
+    "geostrata:peridotite_tungsten_ore",
+    "geostrata:hornfel_tungsten_ore"
+  ]
+}

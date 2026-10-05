@@ -1,0 +1,21 @@
+{
+  "values": [
+    "geostrata:peridotite_vanadium_ore",
+    "geostrata:shale_vanadium_ore",
+    "geostrata:granulite_vanadium_ore",
+    "geostrata:gneiss_vanadium_ore",
+    "geostrata:migmatite_vanadium_ore",
+    "geostrata:schist_vanadium_ore",
+    "geostrata:sandstone_vanadium_ore",
+    "geostrata:opal_vanadium_ore",
+    "geostrata:quartz_vanadium_ore",
+    "geostrata:limestone_vanadium_ore",
+    "geostrata:basalt_vanadium_ore",
+    "geostrata:pumice_vanadium_ore",
+    "geostrata:granite_vanadium_ore",
+    "geostrata:onyx_vanadium_ore",
+    "geostrata:marble_vanadium_ore",
+    "geostrata:slate_vanadium_ore",
+    "geostrata:hornfel_vanadium_ore"
+  ]
+}

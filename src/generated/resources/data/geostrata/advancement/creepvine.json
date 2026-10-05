@@ -1,0 +1,32 @@
+{
+  "parent": "geostrata:root",
+  "criteria": {
+    "trigger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "geostrata:creepvine_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.geostrata.creepvine.description"
+    },
+    "icon": {
+      "id": "geostrata:creepvine_seeds"
+    },
+    "title": {
+      "translate": "advancements.geostrata.creepvine.title"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
