@@ -115,21 +115,23 @@ public final class GeoLootProvider extends LootTableProvider {
         }
 
         /**
-         * Vanilla-faithful ore drop for a GeoStrata camouflage ore. The six vanilla-equivalent ores
-         * mirror their vanilla ore tables (raw metals + fortune, copper/lapis counts). The ~11 modded
-         * metals (silver, tin, platinum, uranium, lead, nickel, aluminium, zinc, iridium, osmium,
-         * cadmium) have no ported resource item yet — they drop the ore block itself as an interim so
+         * Vanilla-faithful ore drop for a GeoStrata camouflage ore. Legacy BlockOreTile delegated
+         * every drop to its underlying ore block, and silk touch yielded that underlying block
+         * (te.getOreBlock()), not the GeoStrata tile. So the six vanilla-equivalent ores get the
+         * vanilla ore's exact table, built against the vanilla block so silk touch gives e.g.
+         * minecraft:iron_ore (which smelts) rather than an unsmeltable rock-variant ore. The modded
+         * metals have no ported resource item yet — they drop the ore block itself as an interim so
          * they stay obtainable, pending the material-progression backlog.
          */
         private net.minecraft.world.level.storage.loot.LootTable.Builder oreDrop(DropExperienceBlock block, Pair<RockTypes, OreTypes> map) {
             OreTypes ore = map.getRight();
             return switch (ore) {
-                case IRON -> createOreDrop(block, Items.RAW_IRON);
-                case GOLD -> createOreDrop(block, Items.RAW_GOLD);
-                case COPPER -> createCopperOreDrops(block);
-                case LAPIS -> createLapisOreDrops(block);
-                case DIAMOND -> createOreDrop(block, Items.DIAMOND);
-                case EMERALD -> createOreDrop(block, Items.EMERALD);
+                case IRON -> createOreDrop(net.minecraft.world.level.block.Blocks.IRON_ORE, Items.RAW_IRON);
+                case GOLD -> createOreDrop(net.minecraft.world.level.block.Blocks.GOLD_ORE, Items.RAW_GOLD);
+                case COPPER -> createCopperOreDrops(net.minecraft.world.level.block.Blocks.COPPER_ORE);
+                case LAPIS -> createLapisOreDrops(net.minecraft.world.level.block.Blocks.LAPIS_ORE);
+                case DIAMOND -> createOreDrop(net.minecraft.world.level.block.Blocks.DIAMOND_ORE, Items.DIAMOND);
+                case EMERALD -> createOreDrop(net.minecraft.world.level.block.Blocks.EMERALD_ORE, Items.EMERALD);
                 default -> createSingleItemTable(block); // modded metal: drop-self interim
             };
         }

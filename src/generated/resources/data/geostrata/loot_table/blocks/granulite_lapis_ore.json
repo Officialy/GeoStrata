@@ -9,7 +9,7 @@
             {
               "type": "minecraft:item",
               "condition": "minecraft:tool/can_silk_touch",
-              "name": "geostrata:granulite_lapis_ore"
+              "name": "minecraft:lapis_ore"
             },
             {
               "type": "minecraft:item",

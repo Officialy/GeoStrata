@@ -9,7 +9,7 @@
             {
               "type": "minecraft:item",
               "condition": "minecraft:tool/can_silk_touch",
-              "name": "geostrata:granulite_diamond_ore"
+              "name": "minecraft:diamond_ore"
             },
             {
               "type": "minecraft:item",

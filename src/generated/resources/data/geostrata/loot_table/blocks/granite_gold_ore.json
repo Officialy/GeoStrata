@@ -9,7 +9,7 @@
             {
               "type": "minecraft:item",
               "condition": "minecraft:tool/can_silk_touch",
-              "name": "geostrata:granite_gold_ore"
+              "name": "minecraft:gold_ore"
             },
             {
               "type": "minecraft:item",

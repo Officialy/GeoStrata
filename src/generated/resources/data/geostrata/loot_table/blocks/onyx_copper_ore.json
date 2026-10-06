@@ -9,7 +9,7 @@
             {
               "type": "minecraft:item",
               "condition": "minecraft:tool/can_silk_touch",
-              "name": "geostrata:onyx_copper_ore"
+              "name": "minecraft:copper_ore"
             },
             {
               "type": "minecraft:item",

@@ -9,7 +9,7 @@
             {
               "type": "minecraft:item",
               "condition": "minecraft:tool/can_silk_touch",
-              "name": "geostrata:opal_emerald_ore"
+              "name": "minecraft:emerald_ore"
             },
             {
               "type": "minecraft:item",
