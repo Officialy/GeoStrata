@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntPr
 import org.apache.commons.lang3.tuple.Pair;
 import reika.geostrata.registry.GeoBlocks;
 import reika.geostrata.registry.OreTypes;
+import reika.geostrata.registry.RockShapes;
 import reika.geostrata.registry.RockTypes;
 
 import java.util.ArrayList;
@@ -93,6 +95,16 @@ public final class GeoLootProvider extends LootTableProvider {
                     // GeoStrata ores are 1.7.10 camouflage ores: mining yields the underlying resource
                     // (silk-touch drops the ore block, fortune multiplies), not the decorative block.
                     this.add(block, oreDrop((DropExperienceBlock) block, GeoBlocks.oreMapping.get(block)));
+                } else if (GeoBlocks.blockMapping.containsKey(block)
+                        && GeoBlocks.blockMapping.get(block).getRight() == RockShapes.SMOOTH) {
+                    // Legacy BlockSmooth.getItemDropped: smooth rock breaks into its own type's cobble,
+                    // like vanilla stone; RockBlock.canSilkHarvest = true, so silk touch keeps it smooth.
+                    RockTypes rock = GeoBlocks.blockMapping.get(block).getLeft();
+                    this.add(block, this.createSingleItemTableWithSilkTouch(block, RockShapes.COBBLE.getBlock(rock)));
+                } else if (block instanceof SlabBlock && GeoBlocks.slabMapping.containsKey(block)) {
+                    // Legacy BlockGeoSlab was single-only; the port's slabs can double, so a double slab
+                    // must yield both halves rather than one.
+                    this.add(block, this.createSlabItemTable(block));
                 } else if (block.asItem() == Items.AIR) {
                     // Item-less block (vents, crystal stages without a BlockItem) — drop nothing.
                     this.add(block, noDrop());

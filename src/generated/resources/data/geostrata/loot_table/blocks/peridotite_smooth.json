@@ -2,13 +2,23 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "condition": {
-        "type": "minecraft:survives_explosion"
-      },
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "geostrata:peridotite_smooth"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": "minecraft:tool/can_silk_touch",
+              "name": "geostrata:peridotite_smooth"
+            },
+            {
+              "type": "minecraft:item",
+              "condition": {
+                "type": "minecraft:survives_explosion"
+              },
+              "name": "geostrata:peridotite_cobble"
+            }
+          ]
         }
       ],
       "rolls": 1
