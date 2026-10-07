@@ -55,7 +55,10 @@ public class BlockLavaRock extends Block {
     public static final VoxelShape AABB3 = Block.box(0, 0, 0, 16, 16, 16);
 
     public BlockLavaRock() {
-        super(GeoBlocks.blockProperties().mapColor(MapColor.STONE).lightLevel((p_50886_) -> 14).randomTicks());
+        // Legacy: Material.rock (pickaxe to drop), stone's hardness and a third of its stored
+        // resistance (30/3 = 10, i.e. 1.7.10's ×3 storage of setResistance; 6 in modern units).
+        super(GeoBlocks.blockProperties().mapColor(MapColor.STONE).strength(1.5F, 6.0F)
+                .requiresCorrectToolForDrops().lightLevel((p_50886_) -> 14).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(BLOCK_HEIGHT_STATE, 0).setValue(CONNECTED_STATE, false));
     }
 

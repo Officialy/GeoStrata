@@ -11,22 +11,24 @@ package reika.geostrata.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-//import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
+import reika.rotarycraft.api.interfaces.EnvironmentalHeatSource;
 
-public class BlockLavaRockRoC extends BlockLavaRock /*implements EnvironmentalHeatSource*/ {
+/** Lava rock heats RotaryCraft machines above it (RotaryAux.isNextToLava/isNextToFire look 1-2 blocks down). */
+public class BlockLavaRockRoC extends BlockLavaRock implements EnvironmentalHeatSource {
 
     public BlockLavaRockRoC() {
         super();
     }
 
-/*    @Override
+    /** Legacy: the molten variant (height 0) is lava; the three crusted ones are fire. */
+    @Override
     public SourceType getSourceType(BlockGetter getter, BlockPos pos) {
-        return SourceType.LAVA;
+        return getter.getBlockState(pos).getValue(BLOCK_HEIGHT_STATE) == 0 ? SourceType.LAVA : SourceType.FIRE;
     }
 
     @Override
     public boolean isActive(BlockGetter getter, BlockPos pos) {
         return true;
-    }*/
+    }
 
 }

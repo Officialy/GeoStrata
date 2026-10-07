@@ -1,4 +1,4 @@
-// 26.3	2026-09-28T15:33:37.7408891	Model Definitions - geostrata
+// 26.3	2026-10-07T01:06:18.9827572	Model Definitions - geostrata
 d5fadd2d43c315fce4bc68819be9d740a0df1e14 assets/geostrata/blockstates/basalt_aluminium_ore.json
 32beb0c118e8a954edf3e8e0d646fd697902fd7b assets/geostrata/blockstates/basalt_antimony_ore.json
 7101ddb338a6f16ac60ba2ad435b4f9313baf7f5 assets/geostrata/blockstates/basalt_arsenic_ore.json
@@ -1944,7 +1944,7 @@ f91cc28b90d472163eab56f8ff060df407d827c8 assets/geostrata/items/lapis_bricks.jso
 1c1938b58653d98d886dc9ea670910c0b85b6127 assets/geostrata/items/lava_rock_item_0.json
 6c42611cfeabc3f58860a386101b13fb176228c6 assets/geostrata/items/lava_rock_item_1.json
 ed73a89aa433d68e70feb21cb9e04b70f024130b assets/geostrata/items/lava_rock_item_2.json
-fd4ad1a8875e4bf7fd8de3daa53d101e824142ce assets/geostrata/items/lava_rock_item_3.json
+d00de1f7dead32458a6b33944e1efde1a2825f33 assets/geostrata/items/lava_rock_item_3.json
 caa3a951a18ecea688dc9eacd626bedc2239bb0a assets/geostrata/items/lava_vent.json
 38906b2a6f0958e2783653e61a454d9daaba3b28 assets/geostrata/items/limestone_aluminium_ore.json
 bb700a56cbae94d839b2f6dea7de64846c20a721 assets/geostrata/items/limestone_antimony_ore.json
@@ -5444,7 +5444,6 @@ a05fd25a85f309234822a64876b7161a8b417604 assets/geostrata/models/item/granulite_
 07c887eb4a84f234da1cb30038d1c6e3de84b2fc assets/geostrata/models/item/hornfel_connected2_connected.json
 07c887eb4a84f234da1cb30038d1c6e3de84b2fc assets/geostrata/models/item/hornfel_connected_connected.json
 6e97041047ac2e5b7d2606a9175172427dc6d80d assets/geostrata/models/item/icicle.json
-6e97041047ac2e5b7d2606a9175172427dc6d80d assets/geostrata/models/item/lava_rock_item_3.json
 ecce150c7e65a07c0a468afb719f39e930458a60 assets/geostrata/models/item/limestone_connected2_connected.json
 ecce150c7e65a07c0a468afb719f39e930458a60 assets/geostrata/models/item/limestone_connected_connected.json
 630dfa077063f8fd1647b9f9d62e143a2adff30f assets/geostrata/models/item/lowtempdiamonds.json

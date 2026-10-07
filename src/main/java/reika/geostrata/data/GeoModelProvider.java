@@ -471,6 +471,11 @@ public class GeoModelProvider extends ModelProvider {
      * of their signature texture. Returns the model Identifier registered for the item.
      */
     private static Identifier staticBlockItemModel(Block block, Item item, BiConsumer<Identifier, ModelInstance> modelOut) {
+        // Lava rock has four items on one block, and block.asItem() is the last registered
+        // (lava_rock_item_3); it must keep its variant model, not fall through to the icicle default.
+        Identifier variant = variantBlockModel(item);
+        if (variant != null)
+            return variant;
         Identifier itemLoc = ModelLocationUtils.getModelLocation(item);
         if (block instanceof reika.geostrata.block.BlockVent vent) {
             // Hand-authored vent models are named block/vent_<type> (block registry name is <type>_vent).
