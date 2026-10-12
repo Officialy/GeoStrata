@@ -68,13 +68,17 @@ public class OreVeinGenerator implements Feature {
             minY = 8;
             maxY = 64;
         }
+        else {
+            minY = reika.dragonapi.libraries.level.WorldgenHeight.caveFloor(world);
+        }
         boolean placed = false;
         for (int i = 0; i < amt; i++) {
-            int dy = ReikaRandomHelper.getRandomBetween(minY, maxY, random);
+            int dy = reika.dragonapi.libraries.level.WorldgenHeight.randomBetween(world, random, minY, maxY);
             int dx = x + random.nextInt(17) - 8;
             int dz = z + random.nextInt(17) - 8;
             BlockPos p = new BlockPos(dx, dy, dz);
-            if (world.getBlockState(p).getBlock() == vein.getTemplate()) { //exact block since texture match
+            if (world.getBlockState(p).getBlock() == vein.getTemplate()
+                    || vein == VeinType.STONE && world.getBlockState(p).is(net.minecraft.world.level.block.Blocks.DEEPSLATE)) {
                 int adj = countAdjacentAir(world, p);
                 if (adj > 0 && adj < 3) {
                     world.setBlock(p, GeoBlocks.getOreVeinBlock(vein).defaultBlockState(), 3);

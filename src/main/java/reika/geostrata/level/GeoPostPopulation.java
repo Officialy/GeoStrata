@@ -17,19 +17,21 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import reika.dragonapi.auxiliary.trackers.BoundedPopulation;
 
 /** Fresh-generation work admitted by features. Never reprocesses previously completed chunks. */
 @EventBusSubscriber(modid="geostrata")
 public final class GeoPostPopulation extends SavedData {
     public enum Kind { ARCTIC, CREEPVINE, ORE_CONVERSION }
     public static final DeferredRegister<TicketType> TICKETS=DeferredRegister.create(BuiltInRegistries.TICKET_TYPE,"geostrata");
-    private static final net.neoforged.neoforge.registries.DeferredHolder<TicketType,TicketType> TICKET=TICKETS.register("post_population",() -> new TicketType(80,TicketType.FLAG_LOADING));
+    private static final net.neoforged.neoforge.registries.DeferredHolder<TicketType,TicketType> TICKET=TICKETS.register("post_population",() -> new TicketType(80,TicketType.FLAG_LOADING | TicketType.FLAG_KEEP_DIMENSION_ACTIVE));
     private static final Map<ServerLevel,GeoPostPopulation> CACHE=new ConcurrentHashMap<>();
     private static final SavedDataType<GeoPostPopulation> TYPE=new SavedDataType<>(net.minecraft.resources.Identifier.fromNamespaceAndPath("geostrata","post_population"),GeoPostPopulation::new,
             CompoundTag.CODEC.xmap(GeoPostPopulation::new,GeoPostPopulation::save),net.minecraft.util.datafix.DataFixTypes.SAVED_DATA_MAP_DATA);
     private final Map<String,Job> jobs=new TreeMap<>();
     private final Map<String,Job> pending=new TreeMap<>();
     private Job active;
+    private final reika.dragonapi.instantiable.worldgen.PopulationChunkLoader loading = new reika.dragonapi.instantiable.worldgen.PopulationChunkLoader();
     private static final class Job {
         Kind kind;ChunkPos origin;int x,z;long seed;boolean finished;
         String id() { return kind+"/"+origin.x()+"/"+origin.z(); }
@@ -49,7 +51,14 @@ public final class GeoPostPopulation extends SavedData {
             Job job=Job.load(record);jobs.put(job.id(),job);if(!job.finished) pending.put(job.id(),job);
         }
     }
-    public static GeoPostPopulation get(ServerLevel level) { return CACHE.computeIfAbsent(level,l -> l.getDataStorage().computeIfAbsent(TYPE)); }
+    public static GeoPostPopulation get(ServerLevel level) {
+        var data = CACHE.computeIfAbsent(level,l -> l.getDataStorage().computeIfAbsent(TYPE));
+        BoundedPopulation.get(level).registerQueue("geostrata", data::pendingIn);
+        return data;
+    }
+    private synchronized long pendingIn(java.util.function.Predicate<ChunkPos> origins) {
+        return pending.values().stream().filter(job -> origins.test(job.origin)).count();
+    }
     private synchronized CompoundTag save() {
         CompoundTag tag=new CompoundTag();ListTag list=new ListTag();for(Job job:jobs.values()) list.add(job.save());tag.put("Jobs",list);return tag;
     }
@@ -59,6 +68,7 @@ public final class GeoPostPopulation extends SavedData {
     }
     public synchronized boolean finished(Kind kind,ChunkPos origin) { var job=jobs.get(kind+"/"+origin.x()+"/"+origin.z());return job!=null && job.finished; }
     private boolean admitted(ServerLevel level,Job job) {
+        if (BoundedPopulation.get(level).admits(job.origin)) return true;
         if(level.getChunkSource().getForceLoadedChunks().contains(job.origin.pack())) return true;
         int range=level.getServer().getPlayerList().getViewDistance();
         return level.players().stream().anyMatch(p -> {
@@ -68,13 +78,12 @@ public final class GeoPostPopulation extends SavedData {
     }
     private synchronized void tick(ServerLevel level) {
         if(active!=null && !admitted(level,active)) release(level);
-        if(active==null) for(Job job:pending.values()) if(admitted(level,job) && level.getChunkSource().getChunkNow(job.origin.x(),job.origin.z())!=null) {
+        if(active==null) for(Job job:pending.values()) if(admitted(level,job)
+                && (BoundedPopulation.get(level).admits(job.origin) || level.getChunkSource().getChunkNow(job.origin.x(),job.origin.z())!=null)) {
             active=job;break;
         }
         if(active==null) return;
-        level.getChunkSource().addTicketWithRadius(TICKET.get(),active.origin,active.radius());
-        for(int x=-active.radius();x<=active.radius();x++) for(int z=-active.radius();z<=active.radius();z++)
-            if(level.getChunkSource().getChunkNow(active.origin.x()+x,active.origin.z()+z)==null) return;
+        if (!loading.ready(level,TICKET.get(),active.origin,active.radius())) return;
         var random=new reika.dragonapi.instantiable.math.JavaRandomSource(active.seed);
         switch(active.kind) {
             case ARCTIC -> new reika.geostrata.level.generators.ArcticSpiresGenerator().generateAfterPopulation(level,active.x,active.z,random);
@@ -84,7 +93,7 @@ public final class GeoPostPopulation extends SavedData {
         active.finished=true;pending.remove(active.id());setDirty();release(level);
     }
     private void release(ServerLevel level) {
-        if(active!=null) level.getChunkSource().removeTicketWithRadius(TICKET.get(),active.origin,active.radius());
+        loading.release(level,TICKET.get());
         active=null;
     }
     @SubscribeEvent public static void tick(LevelTickEvent.Post event) {

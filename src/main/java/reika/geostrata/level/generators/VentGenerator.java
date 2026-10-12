@@ -62,6 +62,8 @@ public class VentGenerator implements Feature {
             if (random.nextBoolean()) {
                 posY = (int) (posY * random.nextFloat());
             }
+            if (world.getLevel().dimension() != Level.NETHER && world.getLevel().dimension() != Level.END)
+                posY = reika.dragonapi.libraries.level.WorldgenHeight.undergroundY(world, posY);
             if (canGenerateAt(world, new BlockPos(posX, posY, posZ))) {
                 VentType v = this.getVentTypeFor(world, posX, posY, posZ, random);
                 if (v == null)
@@ -81,8 +83,10 @@ public class VentGenerator implements Feature {
         }
 
         boolean nether = world.getLevel().dimension() == Level.NETHER;
-        float f = Math.clamp(world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, posX, posZ) / 64F, 0.25F, 1);
-        int height = (int) (posY / f);
+        int floor = nether ? 0 : world.getMinY();
+        float span = 64F - floor;
+        float f = Math.clamp((world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, posX, posZ) - floor) / span, 0.25F, 1);
+        int height = (int) ((posY - floor) * 64F / span / f);
         boolean snow = !nether && VentType.CRYO.getSpawnWeight(height, false) > 0
                 && ReikaBiomeHelper.isSnowBiome(world.getBiome(new BlockPos(posX, posY, posZ)).unwrapKey().get());
         return selectVentType(height, nether, snow, random);

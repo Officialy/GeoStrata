@@ -56,8 +56,8 @@ public class GlowingVineGenerator implements Feature {
         for (int i = 0; i < PER_CHUNK; i++) {
             int posX = chunkX + random.nextInt(16);
             int posZ = chunkZ + random.nextInt(16);
-            int maxy = 100; //was originally 60
-            int posY = -44 + random.nextInt(maxy); //minimum y was originally 4
+            int posY = reika.dragonapi.libraries.level.WorldgenHeight.randomBetween(world, random,
+                    reika.dragonapi.libraries.level.WorldgenHeight.caveFloor(world), 63);
             if (canGenerateAt(world, posX, posY, posZ)) {
                 if (BlockGlowingVines.place(world, new BlockPos(posX, posY, posZ), null)) {
                     placed = true; //legacy kept attempting the full per-chunk count
