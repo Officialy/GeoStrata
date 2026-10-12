@@ -156,7 +156,7 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
                             if (world.getBlockState(new BlockPos(dx, dy, dz)).isAir() && isAcceptableNeighbour(world, new BlockPos(dx, dy, dz).relative(dir), surface)) {
                                 place(world, new BlockPos(dx, dy, dz), surface);
                                 ReikaSoundHelper.playBreakSound(world, pos.getX(), pos.getY(), pos.getZ(), this, 1, 1);
-                                ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.ordinal(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
+                                ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.wireId(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
                                 return;
                             }
                         }
@@ -174,7 +174,7 @@ public class BlockGlowingVines extends VineBlock implements IShearable, Shearabl
                 if (fill != null) {
 //                    this.addVine(world, pos, fill);
                     ReikaSoundHelper.playBreakSound(world, pos.getX(), pos.getY(), pos.getZ(), this, 1, 1);
-                    ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.ordinal(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
+                    ReikaPacketHelper.sendDataPacketWithRadius(DragonAPI.packetChannel, APIPacketHandler.PacketIDs.BREAKPARTICLES.wireId(), world, pos, 32, Block.getId(this.defaultBlockState()), 0);
                 }
             }
         }
