@@ -28,11 +28,11 @@ public final class GeoDataProviders {
         event.createProvider(GeoGenerationBiomeTags::new);
         event.createProvider(GeoItemTagsProvider::new);
         event.createProvider(GeoTradeTagsProvider::new);
-        event.createReloadableRegistryObjects(new RegistrySetBuilder()
+        event.getDefaultPackGenerator().createReloadableRegistryObjects(new RegistrySetBuilder()
                 .add(GeoRecipeProvider.bootstrap())
                 .add(Registries.LOOT_TABLE, new GeoLootProvider())
                 .add(Registries.ADVANCEMENT, new GeoAdvancementProvider()));
-        event.createWorldRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
+        event.getDefaultPackGenerator().createWorldRegistryObjects(GeoWorldGenProvider.buildRegistrySet());
         event.createProvider(GeoBiomeModifierProvider::new);
     }
 }
