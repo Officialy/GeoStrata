@@ -23,13 +23,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import reika.dragonapi.instantiable.rendering.RotatedQuad;
 import reika.geostrata.block.entity.BlockEntityOceanSpike;
-import reika.geostrata.rendering.OceanSpikeRenderer;
+import reika.geostrata.auxiliary.OceanSpikeGeometry;
 
 public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     // Minecraft 26.2 collision and block ray-clipping consume VoxelShape, whose final operations are
     // unions of axis-aligned AABBs — arbitrary rotated-quad polygons cannot be given to them directly.
-    // The spike's visible silhouette (OceanSpikeRenderer.computeCorners) is a pure function of
+    // The spike's visible silhouette (OceanSpikeGeometry.computeCorners) is a pure function of
     // (x mod TABLE_SIZE, y mod TABLE_SIZE, z mod TABLE_SIZE) plus the two same-block neighbour
     // booleans (splay/pinch), so the full key space is small and fully enumerable: precompute every
     // combination once at class-load into a bounded static table (identical in spirit to
@@ -37,7 +37,7 @@ public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, En
     // the position alone, so it produces the exact same VoxelShape on the client and on a dedicated
     // server, and the lookup itself is a handful of array indexes — safe to call every tick from
     // collision/targeting on both sides.
-    private static final int TABLE_SIZE = OceanSpikeRenderer.TABLE_SIZE;
+    private static final int TABLE_SIZE = OceanSpikeGeometry.TABLE_SIZE;
     private static final int TAPER_STEPS = 8;
     private static final VoxelShape[][][][][] SHAPES = buildShapes();
 
@@ -46,11 +46,11 @@ public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, En
         for (int i = 0; i < TABLE_SIZE; i++) {
             for (int j = 0; j < TABLE_SIZE; j++) {
                 for (int k = 0; k < TABLE_SIZE; k++) {
-                    RotatedQuad r1 = OceanSpikeRenderer.getCrystalShape(i, j, k);
-                    RotatedQuad r2 = OceanSpikeRenderer.getCrystalShape(i, j + 1, k);
+                    RotatedQuad r1 = OceanSpikeGeometry.getCrystalShape(i, j, k);
+                    RotatedQuad r2 = OceanSpikeGeometry.getCrystalShape(i, j + 1, k);
                     for (int above = 0; above < 2; above++) {
                         for (int below = 0; below < 2; below++) {
-                            OceanSpikeRenderer.SpikeCorners c = OceanSpikeRenderer.computeCorners(r1, r2, above != 0, below != 0);
+                            OceanSpikeGeometry.SpikeCorners c = OceanSpikeGeometry.computeCorners(r1, r2, above != 0, below != 0);
                             shapes[i][j][k][above][below] = buildTaperedShape(c);
                         }
                     }
@@ -67,7 +67,7 @@ public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, En
      * volume in that slice (never clips through the rendered mesh) while staying much tighter than the
      * inherited full cube.
      */
-    private static VoxelShape buildTaperedShape(OceanSpikeRenderer.SpikeCorners c) {
+    private static VoxelShape buildTaperedShape(OceanSpikeGeometry.SpikeCorners c) {
         double bMinX = min4(c.bottomX), bMaxX = max4(c.bottomX);
         double bMinZ = min4(c.bottomZ), bMaxZ = max4(c.bottomZ);
         double tMinX = min4(c.topX), tMaxX = max4(c.topX);
@@ -103,8 +103,7 @@ public class BlockOceanSpike extends Block implements SimpleWaterloggedBlock, En
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
-    // The spike geometry is generated per-position at render time, so it is drawn by OceanSpikeBER,
-    // not a baked model. The block entity is the renderer's attachment point.
+    // Preserve the registered empty block entity for existing worlds; section geometry is rendered independently.
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new BlockEntityOceanSpike(pos, state);

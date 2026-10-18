@@ -1,5 +1,7 @@
 package reika.geostrata.rendering;
 
+import reika.geostrata.auxiliary.OceanSpikeGeometry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,9 @@ import reika.geostrata.block.BlockOceanSpike;
  * ChromatiCraft's {@code ChromaModelOutlineRenderer} (a NeoForge 26.2 {@link CustomBlockOutlineRenderer}
  * hooked off {@link ExtractBlockOutlineRenderStateEvent}). Ocean Spike has no baked model to pull
  * {@code BakedQuad}s from — it is drawn straight from {@link reika.dragonapi.instantiable.rendering.RotatedQuad}
- * corners by {@link OceanSpikeBER} — so instead of extracting quads this reuses
- * {@link OceanSpikeRenderer#computeCorners(net.minecraft.world.level.BlockGetter, BlockPos, net.minecraft.world.level.block.Block)},
- * the exact same per-position geometry function the BER and the collision shape
+ * corners by {@link OceanSpikeRenderer} — so instead of extracting quads this reuses
+ * {@link OceanSpikeGeometry#computeCorners(net.minecraft.world.level.BlockGetter, BlockPos, net.minecraft.world.level.block.Block)},
+ * the exact same per-position geometry function the terrain renderer and the collision shape
  * ({@link BlockOceanSpike}) already consume, and turns its eight corners into the twelve wireframe
  * edges of the tapered box. All three (visible mesh, collision box, outline) therefore always agree.
  *
@@ -54,14 +56,14 @@ public final class OceanSpikeOutlineRenderer implements CustomBlockOutlineRender
     public static void extract(ExtractBlockOutlineRenderStateEvent event) {
         if (!(event.getBlockState().getBlock() instanceof BlockOceanSpike spike))
             return;
-        OceanSpikeRenderer.SpikeCorners c = OceanSpikeRenderer.computeCorners(event.getLevel(), event.getBlockPos(), spike);
+        OceanSpikeGeometry.SpikeCorners c = OceanSpikeGeometry.computeCorners(event.getLevel(), event.getBlockPos(), spike);
         List<Line> lines = buildLines(c);
         if (!lines.isEmpty())
             event.addCustomRenderer(new OceanSpikeOutlineRenderer(event.getBlockPos(), lines));
     }
 
     /** The twelve edges of the tapered box: the bottom quad loop, the top quad loop, and the four verticals. */
-    private static List<Line> buildLines(OceanSpikeRenderer.SpikeCorners c) {
+    private static List<Line> buildLines(OceanSpikeGeometry.SpikeCorners c) {
         List<Line> lines = new ArrayList<>(12);
         for (int i = 0; i < 4; i++) {
             int next = (i + 1) % 4;

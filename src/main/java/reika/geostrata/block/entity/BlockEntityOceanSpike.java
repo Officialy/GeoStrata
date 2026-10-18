@@ -7,10 +7,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import reika.geostrata.registry.GeoBlockEntities;
 
 /**
- * Trivial block entity for the ocean spike. It stores no data; its sole purpose is to give the block
- * a {@link net.minecraft.client.renderer.blockentity.BlockEntityRenderer} attachment point, since the
- * spike's geometry is generated per-position at render time (random crystal shape, height-based taper
- * and colour) and so cannot be a static baked model. See {@code OceanSpikeBER}.
+ * Empty compatibility block entity retained for existing worlds. Spike geometry is now captured by
+ * the native section renderer, independently of block-entity submission.
  */
 public class BlockEntityOceanSpike extends BlockEntity {
 

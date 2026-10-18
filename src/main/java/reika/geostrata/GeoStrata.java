@@ -31,7 +31,6 @@ import reika.dragonapi.libraries.java.ReikaJavaLibrary;
 import reika.geostrata.compat.GeoChisel;
 import reika.geostrata.level.GeoPlacedFeatures;
 import reika.geostrata.registry.*;
-import reika.geostrata.rendering.OceanSpikeBER;
 import reika.geostrata.rendering.PartialBoundsBER;
 import reika.geostrata.rendering.OceanSpikeOutlineRenderer;
 
@@ -135,16 +134,15 @@ public class GeoStrata extends DragonAPIMod {
     }
 
     public void clientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> ReikaRenderDispatcher.registerBlockRenderer(GeoBlocks.OCEAN_SPIKE.get(), new reika.geostrata.rendering.OceanSpikeRenderer()));
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.GLOWING_VINES.get(), RenderType.cutout());
 //        ItemBlockRenderTypes.setRenderLayer(GeoBlocks.OCEAN_SPIKE.get(), RenderType.cutout());
         // Connected rocks: no runtime renderer registration any more — they render through DragonAPI's
         // dragonapi:connected_overlay blockstate model (static JSONs under assets/geostrata/blockstates).
     }
 
-    // The ocean spike's geometry is per-position dynamic, so it is drawn by a BlockEntityRenderer
-    // (the legacy IBlockRenderer dispatch is a no-op stub in this build). See OceanSpikeBER.
+    // Ocean spikes use the additive terrain dispatcher; only partial bounds need a BER here.
     public void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(GeoBlockEntities.OCEAN_SPIKE.get(), OceanSpikeBER::new);
         event.registerBlockEntityRenderer(GeoBlockEntities.PARTIAL_BOUNDS.get(), PartialBoundsBER::new);
     }
 

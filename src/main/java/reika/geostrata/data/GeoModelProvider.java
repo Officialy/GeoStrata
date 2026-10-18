@@ -433,7 +433,7 @@ public class GeoModelProvider extends ModelProvider {
      * True for blocks whose in-world blockstate + models are hand-authored under
      * {@code src/main/resources} and must not be overwritten by the generated cube_all stubs:
      * vents (multi-texture, sub-folder textures), lava rock (height/connected variants) and the
-     * ocean spike (drawn by {@code OceanSpikeBER}; its model must stay the geometry-free
+     * ocean spike (drawn by the additive terrain dispatcher; its model must stay the geometry-free
      * {@code geostrata:block/ocean_spike_empty}, not a {@code builtin/entity} model).
      */
     private static boolean shipsStaticBlockState(Block block) {
